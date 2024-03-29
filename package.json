@@ -1,0 +1,25 @@
+{
+  "name": "@hexlet/code",
+  "version": "0.0.1",
+  "description": "Чат для общения построенный на платформе PaaS",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "start-server -s ./frontend/build",
+    "build": "npm run build --prefix frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VolkovDani/fullstack-javascript-project-12.git"
+  },
+  "proxy": "http://localhost:4000",
+  "author": "Danil Volkov (volchara287@gmail.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VolkovDani/fullstack-javascript-project-12/issues"
+  },
+  "homepage": "https://github.com/VolkovDani/fullstack-javascript-project-12#readme",
+  "dependencies": {
+    "@hexlet/chat-server": "^2.0.3"
+  }
+}
