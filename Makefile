@@ -9,3 +9,7 @@ install:
 
 start:
 	npm start
+
+testbuild:
+	rm frontend/build -rf
+	npm run build
