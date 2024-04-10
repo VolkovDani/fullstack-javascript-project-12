@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { users } from './routes';
 
 
 const loginSchema = yup.object().shape({
@@ -31,12 +32,13 @@ export default function Login() {
           console.log(values);
           axios({
             method: 'post',
-            url: '/api/v1/login',
+            url: users.login(),
             data: {
               username: values.username,
               password: values.password,
             }
           }).then((res) => {
+            console.log(res.headers);
             localStorage.setItem('user', JSON.stringify(res.data));
           }).then(() => {
             // редирект на главную страницу
