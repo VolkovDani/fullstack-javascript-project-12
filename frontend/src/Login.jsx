@@ -1,9 +1,11 @@
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
-import { users } from './routes';
+import { users as usersRoutes } from './routes';
+import { actions as authActions } from './slices/auth';
 
 const loginSchema = yup.object().shape({
   username: yup
@@ -19,6 +21,7 @@ const loginSchema = yup.object().shape({
 });
 
 export default function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errorState, setErrorState] = useState('');
   return (
@@ -31,7 +34,7 @@ export default function Login() {
           console.log(values);
           axios({
             method: 'post',
-            url: users.login(),
+            url: usersRoutes.login(),
             data: {
               username: values.username,
               password: values.password,
@@ -39,6 +42,7 @@ export default function Login() {
           }).then((res) => {
             console.log(res.headers);
             localStorage.setItem('user', JSON.stringify(res.data));
+            dispatch(authActions.addUser({ id: values.username }));
           }).then(() => {
             // редирект на главную страницу
             navigate('/');
