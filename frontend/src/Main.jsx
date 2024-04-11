@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { channels as channelsRoute } from './routes';
+import { actions as channelsActions } from './slices/channels';
 
 export default function Main() {
+  const dispatch = useDispatch();
   const navigator = useNavigate();
   useEffect(() => {
     const userAuthInfo = JSON.parse(localStorage.getItem('user'));
@@ -14,7 +17,11 @@ export default function Main() {
           Authorization: `Bearer ${userAuthInfo.token}`,
         },
       }).then((res) => {
-        console.log(res.data);
+        dispatch(channelsActions.setChannels({
+          id: userAuthInfo.username,
+          channels: res.data,
+        }));
+        // console.log(res.data);
       })
         .catch(console.error);
     }
