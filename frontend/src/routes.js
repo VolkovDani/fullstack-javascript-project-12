@@ -8,11 +8,11 @@ export const channels = {
   post: () => '/api/v1/channels',
   patch: (channelId) => `/api/v1/channels/${channelId}`,
   delete: (channelId) => `/api/v1/channels/${channelId}`,
-}
+};
 
 export const messages = {
   getAll: () => '/api/v1/messages',
   post: () => '/api/v1/messages',
   patch: (messageId) => `/api/v1/messages/${messageId}`,
   delete: (messageId) => `/api/v1/messages/${messageId}`,
-}
+};

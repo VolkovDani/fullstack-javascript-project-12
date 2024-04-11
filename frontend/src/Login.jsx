@@ -2,9 +2,8 @@ import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { users } from './routes';
-
 
 const loginSchema = yup.object().shape({
   username: yup
@@ -16,8 +15,8 @@ const loginSchema = yup.object().shape({
     .string()
     .min(5, 'Минимальное количество символов - 5')
     .max(30, 'Максимальное количество символов - 30')
-    .required('Обязательное поле')
-})
+    .required('Обязательное поле'),
+});
 
 export default function Login() {
   const navigate = useNavigate();
@@ -36,7 +35,7 @@ export default function Login() {
             data: {
               username: values.username,
               password: values.password,
-            }
+            },
           }).then((res) => {
             console.log(res.headers);
             localStorage.setItem('user', JSON.stringify(res.data));
@@ -47,7 +46,7 @@ export default function Login() {
             .catch((err) => {
               console.error(err);
               setErrorState(err.message);
-            })
+            });
         }}
       >
         {({ errors: validationErrors, touched }) => (
@@ -82,5 +81,5 @@ export default function Login() {
         )}
       </Formik>
     </>
-  )
+  );
 }
