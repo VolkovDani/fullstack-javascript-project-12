@@ -4,10 +4,11 @@ import { Provider } from 'react-redux';
 import Main from './Main.jsx';
 import Error from './Error.jsx';
 import Login from './Login.jsx';
+import store from './slices/index';
 
 function App() {
   return (
-    <Provider>
+    <Provider store={store}>
       <BrowserRouter>
         <h1>Hello world</h1>
         <Routes>
