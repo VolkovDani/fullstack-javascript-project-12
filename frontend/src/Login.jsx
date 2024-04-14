@@ -1,32 +1,18 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
-import * as yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { users as usersRoutes } from './routes';
 import { actions as authActions } from './slices/auth';
+import loginSchema from './validation/loginSchema';
 
-const loginSchema = yup.object().shape({
-  username: yup
-    .string()
-    .min(5, 'Минимальное количество символов - 5')
-    .max(30, 'Максимальное количество символов - 30')
-    .required('Обязательное поле'),
-  password: yup
-    .string()
-    .min(5, 'Минимальное количество символов - 5')
-    .max(30, 'Максимальное количество символов - 30')
-    .required('Обязательное поле'),
-});
-
-export default function Login() {
+const LoginForm = function LoginForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errorState, setErrorState] = useState('');
   return (
     <>
-      <h1>Hello from LOGIN</h1>
       <Formik
         initialValues={{ username: '', password: '' }}
         validationSchema={loginSchema}
