@@ -26,9 +26,9 @@ const LoginForm = function LoginForm() {
               password: values.password,
             },
           }).then((res) => {
-            console.log(res.headers);
-            localStorage.setItem('user', JSON.stringify(res.data));
-            dispatch(authActions.addUser({ id: values.username }));
+            const token = JSON.stringify(res.data);
+            localStorage.setItem('user', token);
+            dispatch(authActions.setAuth(res.data));
           }).then(() => {
             // редирект на главную страницу
             navigate('/');
@@ -40,36 +40,52 @@ const LoginForm = function LoginForm() {
         }}
       >
         {({ errors: validationErrors, touched }) => (
-          <Form>
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <Field
-                type="username"
-                name="username"
-                className="form-control"
-              />
-              {validationErrors.username && touched.username ? (
-                <div>{validationErrors.username}</div>
-              ) : null}
+          <div className="col-12 col-md-8 col-xxl-6">
+            <div className='card shadow-sm'>
+              <div className='card-body row p-5 '>
+                <Form>
+                  <h1>Войти</h1>
+                  <div className="form-group">
+                    <label htmlFor="username">Username</label>
+                    <Field
+                      type="username"
+                      name="username"
+                      className="form-control"
+                    />
+                    {validationErrors.username && touched.username ? (
+                      <div>{validationErrors.username}</div>
+                    ) : null}
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="password">Password</label>
+                    <Field
+                      type="password"
+                      name="password"
+                      className="form-control"
+                    />
+                    {validationErrors.password && touched.password ? (
+                      <div>{validationErrors.password}</div>
+                    ) : null}
+                  </div>
+                  {errorState
+                    ? (<div>{errorState}</div>)
+                    : null}
+                  <button type="submit">Оправить</button>
+                </Form>
+              </div>
             </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <Field
-                type="password"
-                name="password"
-                className="form-control"
-              />
-              {validationErrors.password && touched.password ? (
-                <div>{validationErrors.password}</div>
-              ) : null}
-            </div>
-            {errorState
-              ? (<div>{errorState}</div>)
-              : null}
-            <button type="submit">Оправить</button>
-          </Form>
+          </div>
         )}
       </Formik>
+    </>
+  );
+};
+
+export default function Login() {
+  return (
+    <>
+      <h1>Hello from LOGIN</h1>
+      <LoginForm />
     </>
   );
 }
