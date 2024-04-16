@@ -7,10 +7,7 @@ const authSlice = createSlice({
     token: '',
   },
   reducers: {
-    setAuth: (state, payload) => {
-      console.log(payload);
-      return state;
-    },
+    setAuth: (state, { payload }) => Object.assign(state, payload),
     removeAuth: (state) => state,
   },
 });
