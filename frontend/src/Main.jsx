@@ -22,10 +22,7 @@ export default function Main() {
           Authorization: `Bearer ${userAuthInfo.token}`,
         },
       }).then((res) => {
-        dispatch(channelsActions.setChannels({
-          id: userAuthInfo.username,
-          channels: res.data,
-        }));
+        dispatch(channelsActions.setChannels(res.data));
       }).catch(console.error);
     }
   });
