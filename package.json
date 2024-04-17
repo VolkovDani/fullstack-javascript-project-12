@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/VolkovDani/fullstack-javascript-project-12.git"
   },
-  "proxy": "http://localhost:4000",
+  "proxy": "http://localhost:3000",
   "author": "Danil Volkov (volchara287@gmail.com)",
   "license": "ISC",
   "bugs": {
