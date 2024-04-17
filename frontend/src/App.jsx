@@ -11,7 +11,6 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <h1>Hello world</h1>
         <Routes>
           <Route path="login" element={<Login />} />
           <Route path="/" element={<Main />} />
