@@ -20,5 +20,7 @@ develop:
 	make start-backend & make start-frontend
 
 build:
+	make install
+	make -C frontend install
 	rm -rf frontend/build
 	npm run build
