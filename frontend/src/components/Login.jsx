@@ -110,10 +110,7 @@ const LoginForm = () => {
 };
 
 const Login = () => (
-  <>
-    <h1>Hello from LOGIN</h1>
-    <LoginForm />
-  </>
+  <LoginForm />
 );
 
 export default Login;
