@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -67,6 +67,8 @@ const PasswordInput = () => (
 );
 
 const LoginForm = () => {
+  const [errorState, setError] = useState(null);
+  // setError('Kr9');
   const navigator = useNavigate();
   return (
     <Formik
@@ -88,7 +90,7 @@ const LoginForm = () => {
           // редирект на главную страницу
           navigator('/');
         })
-          .catch(console.error);
+          .catch(setError);
       }}
     >
       {() => (
@@ -99,6 +101,9 @@ const LoginForm = () => {
                 <h1>Войти</h1>
                 <UsernameInput />
                 <PasswordInput />
+                {errorState
+                  ? <div className="error">{errorState.message}</div>
+                  : null}
                 <button type="submit">Оправить</button>
               </Form>
             </div>
