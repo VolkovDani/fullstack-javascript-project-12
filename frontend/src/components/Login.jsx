@@ -85,7 +85,6 @@ const LoginForm = () => {
         }).then((res) => {
           const token = JSON.stringify(res.data);
           localStorage.setItem('user', token);
-          console.log('Login');
         }).then(() => {
           // редирект на главную страницу
           navigator('/');
