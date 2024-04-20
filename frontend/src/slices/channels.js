@@ -62,6 +62,21 @@ export const deleteChannel = createAsyncThunk(
   },
 );
 
+export const fetchChannels = createAsyncThunk(
+  'channels/fetchChannels',
+  async (token) => {
+    console.log(token);
+    const response = await axios
+      .get(channelsRoute.getAll(), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch(console.error);
+    return response.data;
+  },
+);
+
 const initialState = channelsAdapter.getInitialState();
 
 const channelsSlice = createSlice({
@@ -83,6 +98,17 @@ const channelsSlice = createSlice({
         .setAll(state, payload))
       .addCase(deleteChannel.fulfilled, (state, { payload }) => channelsAdapter
         .removeOne(state, payload.id));
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchChannels.fulfilled, (state, { payload }) => {
+        console.log('action', payload);
+        uiActions.setCurrentChannel(payload[0]);
+        return Object.assign(state, { entities: payload });
+      })
+      .addCase(fetchChannels.rejected, (state, { payload }) => {
+        console.log(payload);
+      });
   },
 });
 
