@@ -17,7 +17,7 @@ start:
 	make start-backend
 
 develop:
-	make start-backend & make start-frontend & npx react-devtools
+	make start-backend & make start-frontend
 
 build:
 	rm -rf frontend/build
