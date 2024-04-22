@@ -11,17 +11,17 @@ const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    setCurrentChannel: (state, { payload }) => {
-      console.log(payload);
-      return Object.assign(state, { idSelectedChannel: payload });
-    },
+    setCurrentChannel: (state, { payload }) => Object.assign(state, { idSelectedChannel: payload }),
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchChannels.fulfilled, (state, { payload }) => {
-        console.log('ui/extra', payload);
-        return Object.assign(state, { idSelectedChannel: payload[0].id });
-      });
+    builder.addCase(fetchChannels.fulfilled, (state, { payload }) => {
+      if (state.idSelectedChannel === null) {
+        return Object.assign(state, {
+          idSelectedChannel: payload[0].id,
+        });
+      }
+      return state;
+    });
   },
 });
 

@@ -118,11 +118,9 @@ const Chat = (props) => {
 const Main = () => {
   const navigator = useNavigate();
   const userAuthInfo = JSON.parse(localStorage.getItem('user'));
-  console.log(userAuthInfo);
   useEffect(() => {
     if (!userAuthInfo) navigator('/login');
   });
-  console.log('render main');
   if (userAuthInfo) {
     return (
       <Chat authInfo={userAuthInfo} />
