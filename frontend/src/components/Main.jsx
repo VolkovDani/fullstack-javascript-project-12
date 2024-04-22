@@ -75,13 +75,13 @@ const InputMessage = () => {
   );
 };
 
-const Chat = () => {
+const Chat = (props) => {
+  const { authInfo } = props;
   const dispatch = useDispatch();
-  const userAuthInfo = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
-    dispatch(fetchChannels(userAuthInfo.token));
-    dispatch(authActions.setAuth(userAuthInfo));
-  }, [dispatch, userAuthInfo]);
+    dispatch(authActions.setAuth(authInfo));
+    dispatch(fetchChannels(authInfo.token));
+  }, []);
   return (
     <>
       <div className="d-flex flex-column h-100">
@@ -118,12 +118,14 @@ const Chat = () => {
 const Main = () => {
   const navigator = useNavigate();
   const userAuthInfo = JSON.parse(localStorage.getItem('user'));
+  console.log(userAuthInfo);
   useEffect(() => {
     if (!userAuthInfo) navigator('/login');
   });
+  console.log('render main');
   if (userAuthInfo) {
     return (
-      <Chat />
+      <Chat authInfo={userAuthInfo} />
     );
   } return null;
 };
