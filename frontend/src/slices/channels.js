@@ -5,14 +5,13 @@ import {
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { channels as channelsRoute } from '../utils/routes';
-import { actions as uiActions } from './ui';
 
 const channelsAdapter = createEntityAdapter();
 
 export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',
   async (token) => {
-    console.log(token);
+    console.log('fetch channels', token);
     const response = await axios
       .get(channelsRoute.getAll(), {
         headers: {
@@ -36,8 +35,7 @@ const channelsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchChannels.fulfilled, (state, { payload }) => {
-        console.log('action', payload);
-        uiActions.setCurrentChannel(payload[0]);
+        console.log('channels/extra', payload);
         return Object.assign(state, { entities: payload });
       })
       .addCase(fetchChannels.rejected, (state, { payload }) => {

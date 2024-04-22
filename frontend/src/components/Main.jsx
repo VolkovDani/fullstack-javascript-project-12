@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectors as channelsSelectors, fetchChannels } from '../slices/channels';
-import { actions as uiActions } from '../slices/ui';
+import { fetchChannels } from '../slices/channels';
 import { actions as authActions } from '../slices/auth';
 
 const Navbar = () => (
@@ -33,17 +32,11 @@ const Channel = ({ name, selected }) => (
 );
 
 const ChannelsList = () => {
-  const dispatch = useDispatch();
-  const arrChannels = useSelector(channelsSelectors.selectAll);
-  // [ {id, name, removable}, {}, ... ]
-  useEffect(() => {
-    console.log(arrChannels);
-    dispatch(uiActions.setCurrentChannel(arrChannels[0]));
-  }, [dispatch, arrChannels]);
   const currentChannel = useSelector((state) => state.ui.idSelectedChannel);
+  const channels = useSelector((state) => state.channels.entities);
   return (
     <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-      {arrChannels ? arrChannels.map((entity) => {
+      {channels ? Object.values(channels).map((entity) => {
         const { name, id } = entity;
         if (Number(id) === Number(currentChannel)) return <Channel name={name} key={id} selected />;
         return <Channel name={name} key={id} />;
