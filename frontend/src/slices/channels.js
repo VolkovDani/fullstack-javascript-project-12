@@ -6,12 +6,13 @@ import {
 import axios from 'axios';
 import { channels as channelsRoute } from '../utils/routes';
 
-const channelsAdapter = createEntityAdapter();
+const channelsAdapter = createEntityAdapter({
+  errors: [],
+});
 
 export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',
   async (token) => {
-    console.log('fetch channels', token);
     const response = await axios
       .get(channelsRoute.getAll(), {
         headers: {
@@ -34,13 +35,10 @@ const channelsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchChannels.fulfilled, (state, { payload }) => {
-        console.log('channels/extra', payload);
-        return Object.assign(state, { entities: payload });
-      })
-      .addCase(fetchChannels.rejected, (state, { payload }) => {
-        console.log(payload);
-      });
+      .addCase(fetchChannels.fulfilled, (state, { payload }) => Object
+        .assign(state, { entities: payload }))
+      .addCase(fetchChannels.rejected, (state, { error }) => Object
+        .assign(state, { errors: [error] }));
   },
 });
 
