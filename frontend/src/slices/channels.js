@@ -35,8 +35,8 @@ const channelsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchChannels.fulfilled, (state, { payload }) => Object
-        .assign(state, { entities: payload }))
+      .addCase(fetchChannels.fulfilled, (state, { payload }) => channelsAdapter
+        .setAll(state, payload))
       .addCase(fetchChannels.rejected, (state, { error }) => Object
         .assign(state, { errors: [error] }));
   },
