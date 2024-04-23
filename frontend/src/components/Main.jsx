@@ -81,7 +81,7 @@ const Chat = (props) => {
   useEffect(() => {
     dispatch(authActions.setAuth(authInfo));
     dispatch(fetchChannels(authInfo.token));
-  }, []);
+  }, [dispatch, authInfo]);
   return (
     <>
       <div className="d-flex flex-column h-100">
