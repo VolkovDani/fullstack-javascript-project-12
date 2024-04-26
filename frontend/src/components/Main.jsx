@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchChannels } from '../slices/channels';
 import { actions as authActions } from '../slices/auth';
+import { actions as uiActions } from '../slices/ui';
 import {
   fetchMessages,
   selectors as messagesSelectors,
@@ -23,23 +24,31 @@ const Navbar = () => (
   </nav>
 );
 
-const Channel = ({ name, selected }) => (
-  <li className="nav-item w-100">
-    <button
-      type="button"
-      className={
-        selected
-          ? 'w-100 rounded-0 text-start btn btn-secondary'
-          : 'w-100 rounded-0 text-start btn'
-      }
-    >
-      <span className="me-1">#</span>
-      {
-        name
-      }
-    </button>
-  </li>
-);
+const Channel = ({ name, selected, channelId }) => {
+  const dispatch = useDispatch();
+  const handleChangeChannel = (e) => {
+    e.preventDefault();
+    dispatch(uiActions.setCurrentChannel(channelId));
+  };
+  return (
+    <li className="nav-item w-100">
+      <button
+        type="button"
+        onClick={handleChangeChannel}
+        className={
+          selected
+            ? 'w-100 rounded-0 text-start btn btn-secondary'
+            : 'w-100 rounded-0 text-start btn'
+        }
+      >
+        <span className="me-1">#</span>
+        {
+          name
+        }
+      </button>
+    </li>
+  );
+};
 
 const InputMessage = () => {
   const [value, setValue] = useState('');
@@ -103,8 +112,10 @@ const ChannelsList = () => {
     <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
       {channels ? Object.values(channels).map((entity) => {
         const { name, id } = entity;
-        if (Number(id) === Number(currentChannel)) return <Channel name={name} key={id} selected />;
-        return <Channel name={name} key={id} />;
+        if (Number(id) === Number(currentChannel)) {
+          return <Channel name={name} key={id} channelId={id} selected />;
+        }
+        return <Channel name={name} key={id} channelId={id} />;
       }) : null}
     </ul>
   );
