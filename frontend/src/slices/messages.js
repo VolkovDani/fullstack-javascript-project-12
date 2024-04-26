@@ -30,7 +30,8 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
-    setChannels: messagesAdapter.setAll,
+    setMessages: messagesAdapter.setAll,
+    addMessage: messagesAdapter.addOne,
   },
   extraReducers: (builder) => {
     builder
