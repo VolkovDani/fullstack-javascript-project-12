@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchChannels } from '../slices/channels';
@@ -34,9 +34,34 @@ const Channel = ({ name, selected }) => (
 
 const InputMessage = () => {
   const [value, setValue] = useState('');
+  const currentChannel = useSelector((state) => state.ui.idSelectedChannel);
+  const authData = useSelector((state) => state.auth);
+  const sendMessage = (btnEvent) => {
+    btnEvent.preventDefault();
+    if (value === '') return;
+    const message = {
+      body: value,
+      channelId: currentChannel,
+      username: authData.username,
+    };
+    axios.post(
+      messagesRoutes.post(),
+      message,
+      {
+        headers: {
+          Authorization: `Bearer ${authData.token}`,
+        },
+      },
+    ).then(() => {
+      setValue('');
+    });
+  };
   return (
     <div className="mt-auto px-5 py-3">
-      <form className="py-1 border rounded-2">
+      <form
+        className="py-1 border rounded-2"
+        onSubmit={sendMessage}
+      >
         <div className="input-group has-validation">
           <input
             name="body"
