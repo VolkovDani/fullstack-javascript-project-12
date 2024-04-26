@@ -1,4 +1,7 @@
-# [React App boilerplate](https://js-react-hexlet-chat.onrender.com/)
+### Hexlet tests and linter status:
+[![Actions Status](https://github.com/VolkovDani/fullstack-javascript-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/VolkovDani/fullstack-javascript-project-12/actions)
+
+Ссылка на проект на Render: https://fullstack-javascript-project-12.onrender.com/
 
 ## Setup
 
@@ -12,9 +15,3 @@ make install
 make develop
 ```
 On *localhost:3000*
-
-[![Hexlet Ltd. logo](https://raw.githubusercontent.com/Hexlet/assets/master/images/hexlet_logo128.png)](https://hexlet.io/?utm_source=github&utm_medium=link&utm_campaign=react-application)
-
-This repository is created and maintained by the team and the community of Hexlet, an educational project. [Read more about Hexlet](https://hexlet.io/?utm_source=github&utm_medium=link&utm_campaign=react-application).
-
-See most active contributors on [hexlet-friends](https://friends.hexlet.io/).
