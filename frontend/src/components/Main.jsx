@@ -1,9 +1,18 @@
+import React, {
+  useEffect, useMemo, useRef, useState,
+} from 'react';
+import { io } from 'socket.io-client';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchChannels } from '../slices/channels';
 import { actions as authActions } from '../slices/auth';
-import { fetchMessages, selectors as messagesSelectors } from '../slices/messages';
+import {
+  fetchMessages,
+  selectors as messagesSelectors,
+  actions as messagesActions,
+} from '../slices/messages';
+import { messages as messagesRoutes } from '../utils/routes';
 
 const Navbar = () => (
   <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
@@ -101,12 +110,29 @@ const ChannelsList = () => {
   );
 };
 
+const socket = io();
+
 const ChannelMessages = () => {
+  const listEl = useRef(null);
+  const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.ui.idSelectedChannel);
-  const messages = useSelector((state) => {
-    const allMessages = messagesSelectors.selectEntities(state);
-    return Object.values(allMessages).filter(({ channelId }) => channelId === currentChannelId);
+  const allMessages = useSelector((state) => messagesSelectors.selectEntities(state));
+
+  socket.on('newMessage', (payload) => {
+    if (payload) {
+      dispatch(messagesActions.addMessage(payload));
+      window.scrollTo(0, document.body.scrollHeight);
+    }
   });
+
+  useEffect(() => {
+    listEl.current.scrollTo(1, listEl.current.scrollHeight);
+  });
+
+  const messages = useMemo(
+    () => Object.values(allMessages).filter(({ channelId }) => channelId === currentChannelId),
+    [allMessages, currentChannelId],
+  );
   return (
     <>
       <div className="bg-light mb-4 p-3 shadow-sm small">
@@ -115,7 +141,7 @@ const ChannelMessages = () => {
           {`${messages.length} сообщений`}
         </span>
       </div>
-      <div id="messages-box" className="chat-messages overflow-auto px-5">
+      <div id="messages-box" className="chat-messages overflow-auto px-5" ref={listEl}>
         {messages.length > 0
           ? messages.map(({ body, username, id }) => (
             <div className="text-break mb-2" key={id}>
