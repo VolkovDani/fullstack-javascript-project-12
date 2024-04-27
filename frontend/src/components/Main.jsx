@@ -5,7 +5,7 @@ import { io } from 'socket.io-client';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchChannels } from '../slices/channels';
+import { fetchChannels, selectors as channelsSelector } from '../slices/channels';
 import { actions as authActions } from '../slices/auth';
 import { actions as uiActions } from '../slices/ui';
 import {
@@ -128,6 +128,9 @@ const ChannelMessages = () => {
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.ui.idSelectedChannel);
   const allMessages = useSelector((state) => messagesSelectors.selectEntities(state));
+  const currentChannel = useSelector(
+    (state) => channelsSelector.selectById(state, currentChannelId),
+  );
 
   socket.on('newMessage', (payload) => {
     if (payload) {
@@ -147,7 +150,11 @@ const ChannelMessages = () => {
   return (
     <>
       <div className="bg-light mb-4 p-3 shadow-sm small">
-        <p className="m-0"><b># general</b></p>
+        <p className="m-0">
+          <b>
+            {`# ${currentChannel.name}`}
+          </b>
+        </p>
         <span className="text-muted">
           {`${messages.length} сообщений`}
         </span>
