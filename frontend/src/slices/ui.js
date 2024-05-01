@@ -5,13 +5,15 @@ const uiAdapter = createEntityAdapter();
 
 const initialState = uiAdapter.getInitialState({
   idSelectedChannel: null,
+  nameSelectedChannel: 'general',
 });
 
 const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    setCurrentChannel: (state, { payload }) => Object.assign(state, { idSelectedChannel: payload }),
+    setCurrentChannel: (state, { payload }) => Object
+      .assign(state, { idSelectedChannel: payload.id, nameSelectedChannel: payload.name }),
   },
   extraReducers: (builder) => {
     builder.addCase(fetchChannels.fulfilled, (state, { payload }) => {
@@ -25,6 +27,6 @@ const uiSlice = createSlice({
   },
 });
 
-export const selectors = uiSlice;
+export const getCurrentChannelName = (state) => state.ui.nameSelectedChannel;
 export const { actions } = uiSlice;
 export default uiSlice.reducer;

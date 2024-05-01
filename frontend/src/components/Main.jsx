@@ -5,9 +5,9 @@ import { io } from 'socket.io-client';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchChannels, selectors as channelsSelector } from '../slices/channels';
+import { fetchChannels } from '../slices/channels';
 import { actions as authActions } from '../slices/auth';
-import { actions as uiActions } from '../slices/ui';
+import { actions as uiActions, getCurrentChannelName } from '../slices/ui';
 import {
   fetchMessages,
   selectors as messagesSelectors,
@@ -24,11 +24,12 @@ const Navbar = () => (
   </nav>
 );
 
-const Channel = ({ name, selected, channelId }) => {
+const Channel = ({ channelEntity, selected }) => {
+  const { name } = channelEntity;
   const dispatch = useDispatch();
   const handleChangeChannel = (e) => {
     e.preventDefault();
-    dispatch(uiActions.setCurrentChannel(channelId));
+    dispatch(uiActions.setCurrentChannel(channelEntity));
   };
   return (
     <li className="nav-item w-100">
@@ -111,11 +112,11 @@ const ChannelsList = () => {
   return (
     <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
       {channels ? Object.values(channels).map((entity) => {
-        const { name, id } = entity;
+        const { id } = entity;
         if (Number(id) === Number(currentChannel)) {
-          return <Channel name={name} key={id} channelId={id} selected />;
+          return <Channel channelEntity={entity} key={id} selected />;
         }
-        return <Channel name={name} key={id} channelId={id} />;
+        return <Channel channelEntity={entity} key={id} />;
       }) : null}
     </ul>
   );
@@ -128,9 +129,7 @@ const ChannelMessages = () => {
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.ui.idSelectedChannel);
   const allMessages = useSelector((state) => messagesSelectors.selectEntities(state));
-  const currentChannel = useSelector(
-    (state) => channelsSelector.selectById(state, currentChannelId),
-  );
+  const currentChannelName = useSelector((state) => getCurrentChannelName(state));
 
   socket.on('newMessage', (payload) => {
     if (payload) {
@@ -152,7 +151,7 @@ const ChannelMessages = () => {
       <div className="bg-light mb-4 p-3 shadow-sm small">
         <p className="m-0">
           <b>
-            {`# ${currentChannel.name}`}
+            {`# ${currentChannelName}`}
           </b>
         </p>
         <span className="text-muted">
