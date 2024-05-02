@@ -5,7 +5,7 @@ import { io } from 'socket.io-client';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchChannels, selectors as channelsSelectors } from '../slices/channels';
+import { fetchChannels, selectors as channelsSelectors, actions as channelsActions } from '../slices/channels';
 import { actions as authActions, getAuth } from '../slices/auth';
 import { actions as uiActions, getCurrentChannelName, getCurrentChannelId } from '../slices/ui';
 import {
@@ -15,6 +15,8 @@ import {
 } from '../slices/messages';
 import { messages as messagesRoutes } from '../utils/routes';
 import AddChannel from './modals/AddChannel';
+
+const socket = io();
 
 const Navbar = () => (
   <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
@@ -108,6 +110,10 @@ const InputMessage = () => {
 };
 
 const ChannelsList = () => {
+  const dispatch = useDispatch();
+  socket.on('newChannel', (payload) => {
+    dispatch(channelsActions.addChannel(payload));
+  });
   const currentChannel = useSelector(getCurrentChannelId);
   const channels = useSelector(channelsSelectors.selectEntities);
   return (
@@ -122,8 +128,6 @@ const ChannelsList = () => {
     </ul>
   );
 };
-
-const socket = io();
 
 const ChannelMessages = () => {
   const listEl = useRef(null);
