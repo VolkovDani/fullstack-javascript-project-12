@@ -1,24 +1,21 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-// import { useFormik } from 'formik';
-// import { channelsNamingSchema } from '../../validation/schema';
+import { useFormik } from 'formik';
+import { channelsNamingSchema } from '../../validation/schema';
 
 const AddChannel = ({ handleSetState, modalState }) => {
-  // const formik = useFormik({
-  //   initialValues: {
-  //     nameChannel: '',
-  //   },
-  //   validationSchema: channelsNamingSchema,
-  //   onSubmit: (values) => {
-  //     console.log(values);
-  //   },
-  // });
-  const handleClose = () => {
-    handleSetState(false);
-  };
+  const formik = useFormik({
+    initialValues: {
+      nameChannel: '',
+    },
+    validationSchema: channelsNamingSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+    validateOnChange: false,
+  });
 
-  const handleSendChanges = () => {
+  const handleClose = () => {
     handleSetState(false);
   };
 
@@ -27,14 +24,29 @@ const AddChannel = ({ handleSetState, modalState }) => {
       <Modal.Header closeButton>
         <Modal.Title>Добавить канал</Modal.Title>
       </Modal.Header>
-      <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+      <Modal.Body>
+        <form
+          onSubmit={formik.handleSubmit}
+        >
+          <input
+            onChange={formik.handleChange}
+            className="form-control"
+            name="nameChannel"
+            type="text"
+            required
+            value={formik.values.nameChannel}
+            placeholder="Твоё название канала"
+          />
+        </form>
+        {formik.errors.nameChannel ? (
+          <div>{formik.errors.nameChannel}</div>
+        ) : null}
+      </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <button type="button" className="btn btn-secondary" onClick={handleClose}>
           Отменить
-        </Button>
-        <Button variant="primary" onClick={handleSendChanges}>
-          Отправить
-        </Button>
+        </button>
+        <input type="submit" value="Отправить" className="btn btn-primary" onClick={formik.handleSubmit} />
       </Modal.Footer>
     </Modal>
   );

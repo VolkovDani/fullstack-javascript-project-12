@@ -13,8 +13,8 @@ export const loginSchema = yup.object().shape({
     .required('Обязательное поле'),
 });
 
-export const channelsNamingSchema = yup.object().shape({
-  channelName: yup
+export const channelsNamingSchema = yup.object({
+  nameChannel: yup
     .string()
     .min(3, 'Минимальное количество символов - 3')
     .max(20, 'Максимальное количество символов - 20')
