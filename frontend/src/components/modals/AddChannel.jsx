@@ -18,18 +18,22 @@ const AddChannel = ({ handleSetState, modalState }) => {
     handleSetState(false);
   };
 
+  const handleSendChanges = () => {
+    handleSetState(false);
+  };
+
   return (
     <Modal show={modalState} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Добавить канал</Modal.Title>
       </Modal.Header>
       <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Close
+          Отменить
         </Button>
-        <Button variant="primary" onClick={handleClose}>
-          Save Changes
+        <Button variant="primary" onClick={handleSendChanges}>
+          Отправить
         </Button>
       </Modal.Footer>
     </Modal>
