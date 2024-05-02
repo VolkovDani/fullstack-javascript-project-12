@@ -1,16 +1,34 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { postNewChannel, selectors } from '../../slices/channels';
 import { channelsNamingSchema } from '../../validation/schema';
+import { getAuth } from '../../slices/auth';
 
 const AddChannel = ({ handleSetState, modalState }) => {
+  const dispatch = useDispatch();
+  const { token } = useSelector(getAuth);
+  const allChannels = useSelector(selectors.selectEntities);
+
   const formik = useFormik({
     initialValues: {
-      nameChannel: '',
+      channelName: '',
     },
     validationSchema: channelsNamingSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: ({ channelName }) => {
+      if (!formik.errors.channelName) {
+        console.log(allChannels);
+        const channel = Object.values(allChannels).find(({ name }) => channelName === name);
+        if (!channel) {
+          dispatch(postNewChannel({ token, channelName }));
+          handleSetState(false);
+        } else {
+          formik.setErrors({
+            channelName: 'Такое название канала уже есть',
+          });
+        }
+      }
     },
     validateOnChange: false,
   });
@@ -31,15 +49,15 @@ const AddChannel = ({ handleSetState, modalState }) => {
           <input
             onChange={formik.handleChange}
             className="form-control"
-            name="nameChannel"
+            name="channelName"
             type="text"
             required
-            value={formik.values.nameChannel}
+            value={formik.values.channelName}
             placeholder="Твоё название канала"
           />
         </form>
-        {formik.errors.nameChannel ? (
-          <div>{formik.errors.nameChannel}</div>
+        {formik.errors.channelName ? (
+          <div>{formik.errors.channelName}</div>
         ) : null}
       </Modal.Body>
       <Modal.Footer>

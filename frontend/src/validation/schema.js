@@ -14,7 +14,7 @@ export const loginSchema = yup.object().shape({
 });
 
 export const channelsNamingSchema = yup.object({
-  nameChannel: yup
+  channelName: yup
     .string()
     .min(3, 'Минимальное количество символов - 3')
     .max(20, 'Максимальное количество символов - 20')
