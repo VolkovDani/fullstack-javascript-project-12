@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { users as usersRoutes } from '../utils/routes';
-import loginSchema from '../validation/scheme';
+import { loginSchema } from '../validation/schema';
 
 const UsernameInput = () => (
   <div className="form-floating mb-3">

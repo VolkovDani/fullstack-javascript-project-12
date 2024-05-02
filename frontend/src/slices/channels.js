@@ -24,6 +24,19 @@ export const fetchChannels = createAsyncThunk(
   },
 );
 
+export const postNewChannel = createAsyncThunk(
+  'channels/postNewChannel',
+  async ({ token, channelName }) => {
+    const response = await axios
+      .post(channelsRoute.post(), { name: channelName }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).catch(console.error);
+    return response.data;
+  },
+);
+
 const initialState = channelsAdapter.getInitialState();
 
 const channelsSlice = createSlice({
