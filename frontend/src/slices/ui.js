@@ -28,5 +28,7 @@ const uiSlice = createSlice({
 });
 
 export const getCurrentChannelName = (state) => state.ui.nameSelectedChannel;
+export const getCurrentChannelId = (state) => state.ui.idSelectedChannel;
+
 export const { actions } = uiSlice;
 export default uiSlice.reducer;

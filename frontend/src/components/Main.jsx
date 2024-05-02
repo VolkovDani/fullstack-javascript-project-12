@@ -5,9 +5,9 @@ import { io } from 'socket.io-client';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchChannels } from '../slices/channels';
-import { actions as authActions } from '../slices/auth';
-import { actions as uiActions, getCurrentChannelName } from '../slices/ui';
+import { fetchChannels, selectors as channelsSelectors } from '../slices/channels';
+import { actions as authActions, getAuth } from '../slices/auth';
+import { actions as uiActions, getCurrentChannelName, getCurrentChannelId } from '../slices/ui';
 import {
   fetchMessages,
   selectors as messagesSelectors,
@@ -54,8 +54,8 @@ const Channel = ({ channelEntity, selected }) => {
 
 const InputMessage = () => {
   const [value, setValue] = useState('');
-  const currentChannel = useSelector((state) => state.ui.idSelectedChannel);
-  const authData = useSelector((state) => state.auth);
+  const currentChannel = useSelector(getCurrentChannelId);
+  const authData = useSelector(getAuth);
   const sendMessage = (btnEvent) => {
     btnEvent.preventDefault();
     if (value === '') return;
@@ -108,8 +108,8 @@ const InputMessage = () => {
 };
 
 const ChannelsList = () => {
-  const currentChannel = useSelector((state) => state.ui.idSelectedChannel);
-  const channels = useSelector((state) => state.channels.entities);
+  const currentChannel = useSelector(getCurrentChannelId);
+  const channels = useSelector(channelsSelectors.selectEntities);
   return (
     <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
       {channels ? Object.values(channels).map((entity) => {
@@ -128,9 +128,9 @@ const socket = io();
 const ChannelMessages = () => {
   const listEl = useRef(null);
   const dispatch = useDispatch();
-  const currentChannelId = useSelector((state) => state.ui.idSelectedChannel);
-  const allMessages = useSelector((state) => messagesSelectors.selectEntities(state));
-  const currentChannelName = useSelector((state) => getCurrentChannelName(state));
+  const currentChannelId = useSelector(getCurrentChannelId);
+  const allMessages = useSelector(messagesSelectors.selectEntities);
+  const currentChannelName = useSelector(getCurrentChannelName);
 
   socket.on('newMessage', (payload) => {
     if (payload) {
