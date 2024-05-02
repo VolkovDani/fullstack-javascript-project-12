@@ -8,11 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchChannels, selectors as channelsSelectors, actions as channelsActions } from '../slices/channels';
 import { actions as authActions, getAuth } from '../slices/auth';
 import { actions as uiActions, getCurrentChannelName, getCurrentChannelId } from '../slices/ui';
-import {
-  fetchMessages,
-  selectors as messagesSelectors,
-  actions as messagesActions,
-} from '../slices/messages';
+import { fetchMessages, selectors as messagesSelectors, actions as messagesActions } from '../slices/messages';
 import { messages as messagesRoutes } from '../utils/routes';
 import AddChannel from './modals/AddChannel';
 
