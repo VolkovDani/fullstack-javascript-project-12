@@ -12,6 +12,8 @@ import { selectors as channelsSelectors, actions as channelsActions } from '../s
 
 const socket = io();
 
+const basicClassName = 'w-100 rounded-0 text-start text-truncate';
+
 const Channel = ({ channelEntity, selected }) => {
   const { name, removable } = channelEntity;
   const dispatch = useDispatch();
@@ -30,11 +32,7 @@ const Channel = ({ channelEntity, selected }) => {
             type="button"
             onClick={handleChangeChannel}
             variant={selected ? 'secondary' : 'light'}
-            className={
-            selected
-              ? 'rounded-0 text-start'
-              : 'rounded-0 text-start'
-          }
+            className={basicClassName}
           >
             <span className="me-1">#</span>
             {
@@ -58,12 +56,9 @@ const Channel = ({ channelEntity, selected }) => {
     <li className="nav-item w-100">
       <Button
         type="button"
+        variant={selected ? 'secondary' : 'light'}
         onClick={handleChangeChannel}
-        className={
-            selected
-              ? 'w-100 rounded-0 text-start btn btn-secondary'
-              : 'w-100 rounded-0 text-start btn btn-light'
-          }
+        className={basicClassName}
       >
         <span className="me-1">#</span>
         {
