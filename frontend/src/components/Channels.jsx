@@ -1,6 +1,10 @@
 import React, {
   useEffect, useMemo, useRef,
 } from 'react';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 import { useSelector, useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 import { actions as uiActions, getCurrentChannelName, getCurrentChannelId } from '../slices/ui';
@@ -10,28 +14,60 @@ import { selectors as channelsSelectors, actions as channelsActions } from '../s
 const socket = io();
 
 const Channel = ({ channelEntity, selected }) => {
-  const { name } = channelEntity;
+  const { name, removable } = channelEntity;
   const dispatch = useDispatch();
   const handleChangeChannel = (e) => {
     e.preventDefault();
     dispatch(uiActions.setCurrentChannel(channelEntity));
   };
+  if (removable) {
+    return (
+      <li className="nav-item w-100">
+        <ButtonGroup
+          className="w-100"
+        >
+          <Button
+            type="button"
+            onClick={handleChangeChannel}
+            className={
+            selected
+              ? 'rounded-0 text-start btn-secondary'
+              : 'rounded-0 text-start btn btn-light'
+          }
+          >
+            <span className="me-1">#</span>
+            {
+            name
+          }
+          </Button>
+          <DropdownButton
+            variant="light"
+            as={ButtonGroup}
+            title=""
+          >
+            <Dropdown.Item eventKey="1">Dropdown link</Dropdown.Item>
+            <Dropdown.Item eventKey="2">Dropdown link</Dropdown.Item>
+          </DropdownButton>
+        </ButtonGroup>
+      </li>
+    );
+  }
   return (
     <li className="nav-item w-100">
-      <button
+      <Button
         type="button"
         onClick={handleChangeChannel}
         className={
-          selected
-            ? 'w-100 rounded-0 text-start btn btn-secondary'
-            : 'w-100 rounded-0 text-start btn'
-        }
+            selected
+              ? 'w-100 rounded-0 text-start btn btn-secondary'
+              : 'w-100 rounded-0 text-start btn btn-light'
+          }
       >
         <span className="me-1">#</span>
         {
-          name
-        }
-      </button>
+            name
+          }
+      </Button>
     </li>
   );
 };
