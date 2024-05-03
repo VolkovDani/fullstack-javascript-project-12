@@ -6,7 +6,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useSelector, useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
-import { actions as uiActions, getCurrentChannelName, getCurrentChannelId } from '../slices/ui';
+import { actions as uiActions, getCurrentChannelId } from '../slices/ui';
 import { selectors as messagesSelectors, actions as messagesActions } from '../slices/messages';
 import { selectors as channelsSelectors, actions as channelsActions } from '../slices/channels';
 
@@ -19,7 +19,7 @@ const Channel = ({ channelEntity, selected, modalHandler }) => {
   const dispatch = useDispatch();
   const handleChangeChannel = (e) => {
     e.preventDefault();
-    dispatch(uiActions.setCurrentChannel(channelEntity));
+    dispatch(uiActions.setCurrentChannel(channelEntity.id));
   };
   if (removable) {
     return (
@@ -107,7 +107,8 @@ export const ChannelMessages = () => {
   const dispatch = useDispatch();
   const currentChannelId = useSelector(getCurrentChannelId);
   const allMessages = useSelector(messagesSelectors.selectEntities);
-  const currentChannelName = useSelector(getCurrentChannelName);
+  const { name: currentChannelName } = useSelector((state) => channelsSelectors
+    .selectById(state, currentChannelId));
 
   socket.on('newMessage', (payload) => {
     if (payload) {

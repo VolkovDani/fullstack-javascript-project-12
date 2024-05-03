@@ -36,7 +36,15 @@ export const postNewChannel = createAsyncThunk(
   },
 );
 
-const initialState = channelsAdapter.getInitialState();
+const initialState = channelsAdapter.getInitialState({
+  entities: {
+    1: {
+      id: '1',
+      name: 'general',
+      removable: false,
+    },
+  },
+});
 
 const channelsSlice = createSlice({
   name: 'channels',

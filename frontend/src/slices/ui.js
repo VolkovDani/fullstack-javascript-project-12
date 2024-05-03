@@ -4,8 +4,7 @@ import { fetchChannels, postNewChannel } from './channels';
 const uiAdapter = createEntityAdapter();
 
 const initialState = uiAdapter.getInitialState({
-  idSelectedChannel: null,
-  nameSelectedChannel: 'general',
+  idSelectedChannel: '1',
 });
 
 const uiSlice = createSlice({
@@ -13,7 +12,7 @@ const uiSlice = createSlice({
   initialState,
   reducers: {
     setCurrentChannel: (state, { payload }) => Object
-      .assign(state, { idSelectedChannel: payload.id, nameSelectedChannel: payload.name }),
+      .assign(state, { idSelectedChannel: payload }),
   },
   extraReducers: (builder) => {
     builder.addCase(fetchChannels.fulfilled, (state, { payload }) => {
