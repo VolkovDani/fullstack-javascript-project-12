@@ -1,5 +1,5 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import { fetchChannels } from './channels';
+import { fetchChannels, postNewChannel } from './channels';
 
 const uiAdapter = createEntityAdapter();
 
@@ -23,7 +23,10 @@ const uiSlice = createSlice({
         });
       }
       return state;
-    });
+    }).addCase(postNewChannel.fulfilled, (state, { payload }) => Object.assign(state, {
+      idSelectedChannel: payload.id,
+      nameSelectedChannel: payload.name,
+    }));
   },
 });
 
