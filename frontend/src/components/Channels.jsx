@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useSelector, useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
@@ -23,16 +22,18 @@ const Channel = ({ channelEntity, selected }) => {
   if (removable) {
     return (
       <li className="nav-item w-100">
-        <ButtonGroup
+        <Dropdown
+          as={ButtonGroup}
           className="w-100"
         >
           <Button
             type="button"
             onClick={handleChangeChannel}
+            variant={selected ? 'secondary' : 'light'}
             className={
             selected
-              ? 'rounded-0 text-start btn-secondary'
-              : 'rounded-0 text-start btn btn-light'
+              ? 'rounded-0 text-start'
+              : 'rounded-0 text-start'
           }
           >
             <span className="me-1">#</span>
@@ -40,15 +41,16 @@ const Channel = ({ channelEntity, selected }) => {
             name
           }
           </Button>
-          <DropdownButton
-            variant="light"
-            as={ButtonGroup}
+          <Dropdown.Toggle
+            variant={selected ? 'secondary' : 'light'}
             title=""
-          >
+            split
+          />
+          <Dropdown.Menu>
             <Dropdown.Item eventKey="1">Dropdown link</Dropdown.Item>
             <Dropdown.Item eventKey="2">Dropdown link</Dropdown.Item>
-          </DropdownButton>
-        </ButtonGroup>
+          </Dropdown.Menu>
+        </Dropdown>
       </li>
     );
   }
