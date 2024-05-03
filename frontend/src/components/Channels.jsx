@@ -107,9 +107,19 @@ export const ChannelMessages = () => {
   const dispatch = useDispatch();
   const currentChannelId = useSelector(getCurrentChannelId);
   const allMessages = useSelector(messagesSelectors.selectEntities);
-  const { name: currentChannelName } = useSelector((state) => channelsSelectors
+  const currentChannel = useSelector((state) => channelsSelectors
     .selectById(state, currentChannelId));
 
+  useEffect(() => {
+    if (currentChannel) listEl.current.scrollTo(1, listEl.current.scrollHeight);
+  }, [currentChannel, currentChannelId]);
+
+  const messages = useMemo(
+    () => Object.values(allMessages).filter(({ channelId }) => channelId === currentChannelId),
+    [allMessages, currentChannelId],
+  );
+
+  if (!currentChannel) return null;
   socket.on('newMessage', (payload) => {
     if (payload) {
       dispatch(messagesActions.addMessage(payload));
@@ -117,20 +127,12 @@ export const ChannelMessages = () => {
     }
   });
 
-  useEffect(() => {
-    listEl.current.scrollTo(1, listEl.current.scrollHeight);
-  });
-
-  const messages = useMemo(
-    () => Object.values(allMessages).filter(({ channelId }) => channelId === currentChannelId),
-    [allMessages, currentChannelId],
-  );
   return (
     <>
       <div className="bg-light mb-4 p-3 shadow-sm small">
         <p className="m-0">
           <b>
-            {`# ${currentChannelName}`}
+            {`# ${currentChannel.name}`}
           </b>
         </p>
         <span className="text-muted">

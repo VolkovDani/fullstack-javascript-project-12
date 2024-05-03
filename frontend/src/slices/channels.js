@@ -36,6 +36,19 @@ export const postNewChannel = createAsyncThunk(
   },
 );
 
+export const deleteChannel = createAsyncThunk(
+  'channels/deleteChannel',
+  async ({ token, channelId }) => {
+    const response = await axios
+      .delete(channelsRoute.delete(channelId), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    return response.data;
+  },
+);
+
 const initialState = channelsAdapter.getInitialState({
   entities: {
     1: {
@@ -57,7 +70,13 @@ const channelsSlice = createSlice({
     builder
       .addCase(fetchChannels.fulfilled, (state, { payload }) => channelsAdapter
         .setAll(state, payload))
+      .addCase(deleteChannel.fulfilled, (state, { payload }) => channelsAdapter
+        .removeOne(state, payload.id))
       .addCase(fetchChannels.rejected, (state, { error }) => Object
+        .assign(state, { errors: [error] }))
+      .addCase(postNewChannel.rejected, (state, { error }) => Object
+        .assign(state, { errors: [error] }))
+      .addCase(deleteChannel.rejected, (state, { error }) => Object
         .assign(state, { errors: [error] }));
   },
 });
