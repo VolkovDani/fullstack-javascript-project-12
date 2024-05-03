@@ -18,8 +18,7 @@ export const fetchMessages = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .catch(console.error);
+      });
     return response.data;
   },
 );

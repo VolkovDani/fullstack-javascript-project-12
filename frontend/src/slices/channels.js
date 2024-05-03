@@ -18,8 +18,7 @@ export const fetchChannels = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .catch(console.error);
+      });
     return response.data;
   },
 );
@@ -32,7 +31,7 @@ export const postNewChannel = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).catch(console.error);
+      });
     return response.data;
   },
 );
