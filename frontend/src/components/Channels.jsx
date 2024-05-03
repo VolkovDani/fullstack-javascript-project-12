@@ -14,7 +14,7 @@ const socket = io();
 
 const basicClassName = 'w-100 rounded-0 text-start text-truncate';
 
-const Channel = ({ channelEntity, selected }) => {
+const Channel = ({ channelEntity, selected, modalHandler }) => {
   const { name, removable } = channelEntity;
   const dispatch = useDispatch();
   const handleChangeChannel = (e) => {
@@ -36,8 +36,8 @@ const Channel = ({ channelEntity, selected }) => {
           >
             <span className="me-1">#</span>
             {
-            name
-          }
+              name
+            }
           </Button>
           <Dropdown.Toggle
             variant={selected ? 'secondary' : 'light'}
@@ -45,8 +45,14 @@ const Channel = ({ channelEntity, selected }) => {
             split
           />
           <Dropdown.Menu>
-            <Dropdown.Item eventKey="1">Dropdown link</Dropdown.Item>
-            <Dropdown.Item eventKey="2">Dropdown link</Dropdown.Item>
+            <Dropdown.Item>
+              Переименовать
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={modalHandler}
+            >
+              Удалить
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </li>
@@ -62,14 +68,14 @@ const Channel = ({ channelEntity, selected }) => {
       >
         <span className="me-1">#</span>
         {
-            name
-          }
+          name
+        }
       </Button>
     </li>
   );
 };
 
-export const ChannelsList = () => {
+export const ChannelsList = ({ modalHandler }) => {
   const dispatch = useDispatch();
   socket.on('newChannel', (payload) => {
     dispatch(channelsActions.addChannel(payload));
@@ -81,9 +87,16 @@ export const ChannelsList = () => {
       {channels ? Object.values(channels).map((entity) => {
         const { id } = entity;
         if (Number(id) === Number(currentChannel)) {
-          return <Channel channelEntity={entity} key={id} selected />;
+          return (
+            <Channel
+              channelEntity={entity}
+              key={id}
+              modalHandler={modalHandler(id)}
+              selected
+            />
+          );
         }
-        return <Channel channelEntity={entity} key={id} />;
+        return <Channel channelEntity={entity} key={id} modalHandler={modalHandler(id)} />;
       }) : null}
     </ul>
   );
