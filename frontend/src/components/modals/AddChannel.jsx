@@ -18,7 +18,6 @@ const AddChannel = ({ handleSetState, modalState }) => {
     validationSchema: channelsNamingSchema,
     onSubmit: ({ channelName }) => {
       if (!formik.errors.channelName) {
-        console.log(allChannels);
         const channel = Object.values(allChannels).find(({ name }) => channelName === name);
         if (!channel) {
           dispatch(postNewChannel({ token, channelName }));
