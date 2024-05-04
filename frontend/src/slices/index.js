@@ -12,6 +12,9 @@ export default configureStore({
     messages,
   },
   preloadedState: {
+    ui: {
+      idSelectedChannel: '1',
+    },
     channels: {
       entities: {
         1: {

@@ -7,9 +7,7 @@ import {
 
 const uiAdapter = createEntityAdapter();
 
-const initialState = uiAdapter.getInitialState({
-  idSelectedChannel: '1',
-});
+const initialState = uiAdapter.getInitialState();
 
 const uiSlice = createSlice({
   name: 'ui',
