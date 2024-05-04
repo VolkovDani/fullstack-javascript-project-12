@@ -14,7 +14,7 @@ const socket = io();
 
 const basicClassName = 'w-100 rounded-0 text-start text-truncate';
 
-const Channel = ({ channelEntity, selected, modalHandler }) => {
+const Channel = ({ channelEntity, selected, modalHandlers }) => {
   const { name, removable } = channelEntity;
   const dispatch = useDispatch();
   const handleChangeChannel = (e) => {
@@ -45,11 +45,13 @@ const Channel = ({ channelEntity, selected, modalHandler }) => {
             split
           />
           <Dropdown.Menu>
-            <Dropdown.Item>
+            <Dropdown.Item
+              onClick={modalHandlers.handleRenameChannel}
+            >
               Переименовать
             </Dropdown.Item>
             <Dropdown.Item
-              onClick={modalHandler}
+              onClick={modalHandlers.handleDeleteChannel}
             >
               Удалить
             </Dropdown.Item>
@@ -75,7 +77,7 @@ const Channel = ({ channelEntity, selected, modalHandler }) => {
   );
 };
 
-export const ChannelsList = ({ modalHandler }) => {
+export const ChannelsList = ({ channelsModals }) => {
   const dispatch = useDispatch();
   socket.on('newChannel', (payload) => {
     dispatch(channelsActions.addChannel(payload));
@@ -91,12 +93,12 @@ export const ChannelsList = ({ modalHandler }) => {
             <Channel
               channelEntity={entity}
               key={id}
-              modalHandler={modalHandler(id)}
+              modalHandlers={channelsModals(id)}
               selected
             />
           );
         }
-        return <Channel channelEntity={entity} key={id} modalHandler={modalHandler(id)} />;
+        return <Channel channelEntity={entity} key={id} modalHandlers={channelsModals(id)} />;
       }) : null}
     </ul>
   );

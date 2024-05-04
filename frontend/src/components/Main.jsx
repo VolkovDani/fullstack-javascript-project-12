@@ -12,6 +12,7 @@ import { messages as messagesRoutes } from '../utils/routes';
 import AddChannel from './modals/AddChannel';
 import { ChannelMessages, ChannelsList } from './Channels';
 import DeleteChannel from './modals/DeleteChannel';
+import RenameChannel from './modals/RenameChannel';
 
 const Navbar = () => (
   <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
@@ -84,6 +85,7 @@ const Chat = (props) => {
   const modals = {
     addChannel: AddChannel,
     deleteChannel: DeleteChannel,
+    renameChannel: RenameChannel,
   };
 
   const { authInfo } = props;
@@ -98,10 +100,16 @@ const Chat = (props) => {
     setShowModal('addChannel');
   };
 
-  const handleDeleteChannel = (id) => () => {
-    setShowModal('deleteChannel');
-    setIdModalChannel(id);
-  };
+  const channelsModals = (id) => ({
+    handleDeleteChannel: () => {
+      setIdModalChannel(id);
+      setShowModal('deleteChannel');
+    },
+    handleRenameChannel: () => {
+      setIdModalChannel(id);
+      setShowModal('renameChannel');
+    },
+  });
 
   const CurrentModal = modals[modalVariant];
 
@@ -126,7 +134,7 @@ const Chat = (props) => {
                   <span className="visually-hidden">+</span>
                 </button>
               </div>
-              <ChannelsList modalHandler={handleDeleteChannel} />
+              <ChannelsList channelsModals={channelsModals} />
             </div>
             <div className="col p-0 h-100">
               <div className="d-flex flex-column h-100">
