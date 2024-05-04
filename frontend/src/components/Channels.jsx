@@ -5,12 +5,9 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useSelector, useDispatch } from 'react-redux';
-import { io } from 'socket.io-client';
 import { uiActions, getCurrentChannelId } from '../slices/ui';
-import { messagesSelectors, messagesActions } from '../slices/messages';
-import { channelsSelectors, channelsActions } from '../slices/channels';
-
-const socket = io();
+import { messagesSelectors } from '../slices/messages';
+import { channelsSelectors } from '../slices/channels';
 
 const basicClassName = 'w-100 rounded-0 text-start text-truncate';
 
@@ -78,10 +75,6 @@ const Channel = ({ channelEntity, selected, modalHandlers }) => {
 };
 
 export const ChannelsList = ({ channelsModals }) => {
-  const dispatch = useDispatch();
-  socket.on('newChannel', (payload) => {
-    dispatch(channelsActions.addChannel(payload));
-  });
   const currentChannel = useSelector(getCurrentChannelId);
   const channels = useSelector(channelsSelectors.selectEntities);
   return (
@@ -106,7 +99,6 @@ export const ChannelsList = ({ channelsModals }) => {
 
 export const ChannelMessages = () => {
   const listEl = useRef(null);
-  const dispatch = useDispatch();
   const currentChannelId = useSelector(getCurrentChannelId);
   const allMessages = useSelector(messagesSelectors.selectEntities);
   const currentChannel = useSelector((state) => channelsSelectors
@@ -119,13 +111,6 @@ export const ChannelMessages = () => {
     .filter(({ channelId }) => channelId === currentChannelId);
 
   if (!currentChannel) return null;
-  socket.on('newMessage', (payload) => {
-    if (payload) {
-      dispatch(messagesActions.addMessage(payload));
-      window.scrollTo(0, document.body.scrollHeight);
-    }
-  });
-
   return (
     <>
       <div className="bg-light mb-4 p-3 shadow-sm small">
