@@ -21,16 +21,16 @@ const uiSlice = createSlice({
       .addCase(fetchChannels.fulfilled, (state, { payload }) => {
         if (state.idSelectedChannel === null) {
           return Object.assign(state, {
-            idSelectedChannel: payload.data[0].id,
+            idSelectedChannel: payload[0].id,
           });
         }
         return state;
       })
       .addCase(postNewChannel.fulfilled, (state, { payload }) => Object.assign(state, {
-        idSelectedChannel: payload.data.id,
+        idSelectedChannel: payload.id,
       }))
       .addCase(deleteChannel.fulfilled, (state, { payload }) => {
-        if (state.idSelectedChannel === payload.data.id) {
+        if (state.idSelectedChannel === payload.id) {
           return Object.assign(state, {
             idSelectedChannel: '1',
           });

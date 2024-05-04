@@ -41,7 +41,7 @@ const messagesSlice = createSlice({
         .assign(state, { errors: [error] }))
       .addCase(deleteChannel.fulfilled, (state, { payload }) => {
         const entitiesForDeleting = Object.entries(state.entities)
-          .filter(([, { channelId }]) => channelId === payload.data.id)
+          .filter(([, { channelId }]) => channelId === payload.id)
           .map(([key]) => key);
         messagesAdapter.removeMany(state, entitiesForDeleting);
       });
