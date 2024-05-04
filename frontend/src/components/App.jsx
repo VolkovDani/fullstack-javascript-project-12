@@ -19,7 +19,6 @@ socket
   .on('newMessage', (payload) => {
     if (payload) {
       store.dispatch(messagesActions.addMessage(payload));
-      window.scrollTo(0, document.body.scrollHeight);
     }
   });
 

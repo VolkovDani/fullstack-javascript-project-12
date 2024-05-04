@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useState,
+  useEffect, useRef, useState,
 } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +24,7 @@ const Navbar = () => (
 );
 
 const InputMessage = () => {
+  const inputContainerEl = useRef(null);
   const [value, setValue] = useState('');
   const currentChannel = useSelector(getCurrentChannelId);
   const authData = useSelector(getAuth);
@@ -44,11 +45,14 @@ const InputMessage = () => {
         },
       },
     ).then(() => {
+      const messagesContainerEl = inputContainerEl.current.previousSibling;
+      messagesContainerEl
+        .scrollTo(0, messagesContainerEl.scrollHeight);
       setValue('');
     });
   };
   return (
-    <div className="mt-auto px-5 py-3">
+    <div className="mt-auto px-5 py-3" ref={inputContainerEl}>
       <form
         className="py-1 border rounded-2"
         onSubmit={sendMessage}
