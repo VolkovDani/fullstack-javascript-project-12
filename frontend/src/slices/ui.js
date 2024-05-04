@@ -44,5 +44,5 @@ const uiSlice = createSlice({
 
 export const getCurrentChannelId = (state) => state.ui.idSelectedChannel;
 
-export const { actions } = uiSlice;
+export const uiActions = uiSlice.actions;
 export default uiSlice.reducer;

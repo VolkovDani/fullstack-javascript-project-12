@@ -6,9 +6,9 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useSelector, useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
-import { actions as uiActions, getCurrentChannelId } from '../slices/ui';
-import { selectors as messagesSelectors, actions as messagesActions } from '../slices/messages';
-import { selectors as channelsSelectors, actions as channelsActions } from '../slices/channels';
+import { uiActions, getCurrentChannelId } from '../slices/ui';
+import { messagesSelectors, messagesActions } from '../slices/messages';
+import { channelsSelectors, channelsActions } from '../slices/channels';
 
 const socket = io();
 

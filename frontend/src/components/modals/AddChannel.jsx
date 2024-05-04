@@ -2,14 +2,14 @@ import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { postNewChannel, selectors } from '../../slices/channels';
+import { postNewChannel, channelsSelectors } from '../../slices/channels';
 import { channelsNamingSchema } from '../../validation/schema';
 import { getAuth } from '../../slices/auth';
 
 const AddChannel = ({ handleSetState, modalState }) => {
   const dispatch = useDispatch();
   const { token } = useSelector(getAuth);
-  const allChannels = useSelector(selectors.selectEntities);
+  const allChannels = useSelector(channelsSelectors.selectEntities);
 
   const formik = useFormik({
     initialValues: {

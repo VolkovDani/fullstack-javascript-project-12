@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchChannels } from '../slices/channels';
-import { actions as authActions, getAuth } from '../slices/auth';
+import { authActions, getAuth } from '../slices/auth';
 import { getCurrentChannelId } from '../slices/ui';
 import { fetchMessages } from '../slices/messages';
 import { messages as messagesRoutes } from '../utils/routes';
