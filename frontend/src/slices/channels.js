@@ -49,15 +49,7 @@ export const deleteChannel = createAsyncThunk(
   },
 );
 
-const initialState = channelsAdapter.getInitialState({
-  entities: {
-    1: {
-      id: '1',
-      name: 'general',
-      removable: false,
-    },
-  },
-});
+const initialState = channelsAdapter.getInitialState();
 
 const channelsSlice = createSlice({
   name: 'channels',

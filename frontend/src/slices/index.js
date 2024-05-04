@@ -11,4 +11,15 @@ export default configureStore({
     ui,
     messages,
   },
+  preloadedState: {
+    channels: {
+      entities: {
+        1: {
+          id: '1',
+          name: 'general',
+          removable: false,
+        },
+      },
+    },
+  },
 });
