@@ -1,30 +1,34 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { useFormik } from 'formik';
-import { useSelector } from 'react-redux';
-import { channelsSelectors } from '../../slices/channels';
+import { useDispatch, useSelector } from 'react-redux';
+import { channelsSelectors, renameChannel } from '../../slices/channels';
 import { channelsNamingSchema } from '../../validation/schema';
+import { getAuth } from '../../slices/auth';
 
 const RenameChannel = ({ handleSetState, modalState, extraData }) => {
-  const idChannel = extraData;
+  const dispatch = useDispatch();
+  const channelId = extraData;
   const allChannels = useSelector(channelsSelectors.selectEntities);
+  const { token } = useSelector(getAuth);
   const { name: currentChannelName } = useSelector(
-    (state) => channelsSelectors.selectById(state, idChannel),
+    (state) => channelsSelectors.selectById(state, channelId),
   );
 
   const formik = useFormik({
     initialValues: {
-      newChannelName: currentChannelName,
+      channelName: currentChannelName,
     },
     validationSchema: channelsNamingSchema,
-    onSubmit: ({ newChannelName }) => {
-      if (!formik.errors.newChannelName) {
-        const channel = Object.values(allChannels).find(({ name }) => newChannelName === name);
+    onSubmit: ({ channelName }) => {
+      if (!formik.errors.channelName) {
+        const channel = Object.values(allChannels).find(({ name }) => channelName === name);
         if (!channel) {
+          dispatch(renameChannel({ token, channelName, channelId }));
           handleSetState(false);
         } else {
           formik.setErrors({
-            newChannelName: 'Новое имя совпадает с именем другого канала',
+            channelName: 'Новое имя совпадает с именем другого канала',
           });
         }
       }
@@ -48,15 +52,15 @@ const RenameChannel = ({ handleSetState, modalState, extraData }) => {
           <input
             onChange={formik.handleChange}
             className="form-control"
-            name="newChannelName"
+            name="channelName"
             type="text"
             required
-            value={formik.values.newChannelName}
+            value={formik.values.channelName}
             placeholder={`Новое название канала "${currentChannelName}"`}
           />
         </form>
-        {formik.errors.newChannelName ? (
-          <div>{formik.errors.newChannelName}</div>
+        {formik.errors.channelName ? (
+          <div>{formik.errors.channelName}</div>
         ) : null}
       </Modal.Body>
       <Modal.Footer>

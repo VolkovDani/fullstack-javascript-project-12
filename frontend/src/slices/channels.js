@@ -12,41 +12,42 @@ const channelsAdapter = createEntityAdapter({
 
 export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',
-  async (token) => {
-    const response = await axios
-      .get(channelsRoute.getAll(), {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    return response.data;
-  },
+  (token) => axios
+    .get(channelsRoute.getAll(), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
 );
 
 export const postNewChannel = createAsyncThunk(
   'channels/postNewChannel',
-  async ({ token, channelName }) => {
-    const response = await axios
-      .post(channelsRoute.post(), { name: channelName }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    return response.data;
-  },
+  ({ token, channelName }) => axios
+    .post(channelsRoute.post(), { name: channelName }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+);
+
+export const renameChannel = createAsyncThunk(
+  'channels/renameChannel',
+  ({ token, channelId, channelName }) => axios
+    .patch(channelsRoute.patch(channelId), { name: channelName }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
 );
 
 export const deleteChannel = createAsyncThunk(
   'channels/deleteChannel',
-  async ({ token, channelId }) => {
-    const response = await axios
-      .delete(channelsRoute.delete(channelId), {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    return response.data;
-  },
+  ({ token, channelId }) => axios
+    .delete(channelsRoute.delete(channelId), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
 );
 
 const initialState = channelsAdapter.getInitialState();
@@ -61,9 +62,9 @@ const channelsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchChannels.fulfilled, (state, { payload }) => channelsAdapter
-        .setAll(state, payload))
+        .setAll(state, payload.data))
       .addCase(deleteChannel.fulfilled, (state, { payload }) => channelsAdapter
-        .removeOne(state, payload.id))
+        .removeOne(state, payload.data.id))
       .addCase(fetchChannels.rejected, (state, { error }) => Object
         .assign(state, { errors: [error] }))
       .addCase(postNewChannel.rejected, (state, { error }) => Object
