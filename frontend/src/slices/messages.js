@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { messages as messagesRoute } from '../utils/routes';
+import { deleteChannel } from './channels';
 
 const messagesAdapter = createEntityAdapter({
   errors: [],
@@ -37,7 +38,13 @@ const messagesSlice = createSlice({
       .addCase(fetchMessages.fulfilled, (state, { payload }) => messagesAdapter
         .setAll(state, payload))
       .addCase(fetchMessages.rejected, (state, { error }) => Object
-        .assign(state, { errors: [error] }));
+        .assign(state, { errors: [error] }))
+      .addCase(deleteChannel.fulfilled, (state, { payload }) => {
+        const entitiesForDeleting = Object.entries(state.entities)
+          .filter(([, { channelId }]) => channelId === payload.id)
+          .map(([key]) => key);
+        messagesAdapter.removeMany(state, entitiesForDeleting);
+      });
   },
 });
 

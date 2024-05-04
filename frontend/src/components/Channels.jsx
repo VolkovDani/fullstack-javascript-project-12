@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useMemo, useRef,
+  useEffect, useRef,
 } from 'react';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -113,11 +113,8 @@ export const ChannelMessages = () => {
   useEffect(() => {
     if (currentChannel) listEl.current.scrollTo(1, listEl.current.scrollHeight);
   }, [currentChannel, currentChannelId]);
-
-  const messages = useMemo(
-    () => Object.values(allMessages).filter(({ channelId }) => channelId === currentChannelId),
-    [allMessages, currentChannelId],
-  );
+  const messages = Object.values(allMessages)
+    .filter(({ channelId }) => channelId === currentChannelId);
 
   if (!currentChannel) return null;
   socket.on('newMessage', (payload) => {
