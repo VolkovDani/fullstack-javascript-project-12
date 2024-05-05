@@ -68,7 +68,6 @@ const PasswordInput = () => (
 
 const LoginForm = () => {
   const [errorState, setError] = useState(null);
-  // setError('Kr9');
   const navigator = useNavigate();
   return (
     <Formik
@@ -86,7 +85,6 @@ const LoginForm = () => {
           const token = JSON.stringify(res.data);
           localStorage.setItem('user', token);
         }).then(() => {
-          // редирект на главную страницу
           navigator('/');
         })
           .catch(setError);
