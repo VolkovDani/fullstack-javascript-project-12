@@ -1,10 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { users as usersRoutes } from '../utils/routes';
 import { loginSchema } from '../validation/schema';
+import { loginRequest } from '../network/requests';
 
 const UsernameInput = () => (
   <div className="form-floating mb-3">
@@ -74,19 +73,10 @@ const LoginForm = () => {
       initialValues={{ username: '', password: '' }}
       validationSchema={loginSchema}
       onSubmit={(values) => {
-        axios({
-          method: 'post',
-          url: usersRoutes.login(),
-          data: {
-            username: values.username,
-            password: values.password,
-          },
-        }).then((res) => {
-          const token = JSON.stringify(res.data);
-          localStorage.setItem('user', token);
-        }).then(() => {
-          navigator('/');
-        })
+        loginRequest(values)
+          .then(() => {
+            navigator('/');
+          })
           .catch(setError);
       }}
     >
