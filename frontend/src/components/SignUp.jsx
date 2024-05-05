@@ -45,6 +45,7 @@ const SignUp = () => (
                   password: '',
                   confirmPassword: '',
                 }}
+                validateOnBlur
                 validationSchema={signUpSchema}
                 onSubmit={(values, actions) => {
                   console.log(values, actions);
@@ -67,12 +68,13 @@ const SignUp = () => (
                         className="mb-3 position-relative"
                       >
                         <Form.Control
+                          value={props.values.login}
+                          onBlur={props.handleBlur}
                           onChange={props.handleChange}
-                          isInvalid={props.touched && props.errors.login}
+                          isInvalid={props.touched.login && props.errors.login}
                           name="login"
                           type="text"
                           placeholder="Ваш ник"
-                          aria-hidden="false"
                           aria-label="Логин"
                           aria-invalid={props.errors.login}
                           aria-errormessage={props.errors.login}
@@ -89,7 +91,8 @@ const SignUp = () => (
                       >
                         <Form.Control
                           onChange={props.handleChange}
-                          isInvalid={props.touched && props.errors.password}
+                          onBlur={props.handleBlur}
+                          isInvalid={props.touched.password && props.errors.password}
                           name="password"
                           type="password"
                           placeholder="Пароль"
@@ -105,11 +108,12 @@ const SignUp = () => (
                         className="mb-3 position-relative"
                       >
                         <Form.Control
-                          isInvalid={props.touched && props.errors.confirmPassword}
+                          isInvalid={props.touched.confirmPassword && props.errors.confirmPassword}
+                          onBlur={props.handleBlur}
                           onChange={props.handleChange}
                           name="confirmPassword"
                           type="password"
-                          placeholder="Подтвердите пароль"
+                          placeholder="Повторите пароль"
                         />
                         <Form.Control.Feedback
                           tooltip
@@ -118,8 +122,18 @@ const SignUp = () => (
                           {props.errors.confirmPassword}
                         </Form.Control.Feedback>
                       </Form.Group>
-                      <Button>
-                        Зарегистрироваться
+                      <Button
+                        variant={
+                          props.isValid
+                            ? 'primary'
+                            : 'secondary'
+                        }
+                        disabled={!props.isValid}
+                        type="submit"
+                        className="w-100"
+                        onSubmit={props.handleSubmit}
+                      >
+                        Регистрация
                       </Button>
                     </Form>
                   )

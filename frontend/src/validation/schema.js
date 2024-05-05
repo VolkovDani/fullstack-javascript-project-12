@@ -25,12 +25,15 @@ export const signUpSchema = yup.object({
   login: yup
     .string()
     .min(3, 'От 3 до 20 символов')
-    .max(20, 'От 3 до 20 символов'),
+    .max(20, 'От 3 до 20 символов')
+    .required('Введите логин'),
   password: yup
     .string()
     .min(6, 'От 6 до 20 символов')
-    .max(20, 'От 6 до 20 символов'),
+    .max(20, 'От 6 до 20 символов')
+    .required('Введите пароль'),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('password'), null], 'Пароль должны совпадать'),
+    .oneOf([yup.ref('password'), null], 'Пароль должны совпадать')
+    .required('Это обязательное поле'),
 });
