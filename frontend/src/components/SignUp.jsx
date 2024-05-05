@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 import { Formik } from 'formik';
 import MainHeader from './MainHeader';
 import signUpAvatarImage from '../assets/avatar_1.jpg';
+import { signUpSchema } from '../validation/schema';
 
 const SignUp = () => (
   <div
@@ -41,7 +42,9 @@ const SignUp = () => (
                 initialValues={{
                   login: '',
                   password: '',
+                  confirmPassword: '',
                 }}
+                validationSchema={signUpSchema}
                 onSubmit={(values, actions) => {
                   console.log(values, actions);
                 }}
@@ -49,34 +52,71 @@ const SignUp = () => (
                 {
                   (props) => (
                     <Form
+                      noValidate
                       onSubmit={props.handleSubmit}
                       className="w-50"
                     >
-                      <Card.Title
-                        as="h1"
-                      >
-                        Регистрация
-                      </Card.Title>
-                      <Form.Group>
-                        <Form.Control
-                          className="mb-3"
-                          type="text"
-                          placeholder="Ваш ник"
-                        />
-                        <Form.Control
-                          className="mb-3"
-                          type="text"
-                          placeholder="Пароль"
-                        />
-                        <Form.Control
-                          className="mb-3"
-                          type="text"
-                          placeholder="Подтвердите пароль"
-                        />
+                      <Row>
+                        <Card.Title
+                          as="h1"
+                        >
+                          Регистрация
+                        </Card.Title>
+                        <Form.Group
+                          className="mb-3 position-relative"
+                        >
+                          <Form.Control
+                            onChange={props.handleChange}
+                            isInvalid={props.touched && props.errors.login}
+                            name="login"
+                            type="text"
+                            placeholder="Ваш ник"
+                          />
+                          <Form.Control.Feedback
+                            tooltip
+                            type="invalid"
+                          >
+                            {props.errors.login}
+                          </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group
+                          className="mb-3 position-relative"
+                        >
+                          <Form.Control
+                            onChange={props.handleChange}
+                            isInvalid={props.touched && props.errors.password}
+                            name="password"
+                            type="password"
+                            placeholder="Пароль"
+                          />
+                          <Form.Control.Feedback
+                            tooltip
+                            type="invalid"
+                          >
+                            {props.errors.password}
+                          </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group
+                          className="mb-3 position-relative"
+                        >
+                          <Form.Control
+                            isInvalid={props.touched && props.errors.confirmPassword}
+                            onChange={props.handleChange}
+                            name="confirmPassword"
+                            type="password"
+                            placeholder="Подтвердите пароль"
+                          />
+                          <Form.Control.Feedback
+                            tooltip
+                            type="invalid"
+                          >
+                            {props.errors.confirmPassword}
+                          </Form.Control.Feedback>
+                        </Form.Group>
                         <Button>
                           Зарегистрироваться
                         </Button>
-                      </Form.Group>
+                      </Row>
                     </Form>
                   )
                 }
