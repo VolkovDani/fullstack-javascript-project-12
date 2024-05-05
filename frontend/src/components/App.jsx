@@ -6,6 +6,7 @@ import NotFound from './NotFound.jsx';
 import Login from './Login.jsx';
 import Main from './Main.jsx';
 import store from '../slices/index';
+import '../network/socket.js';
 
 const App = () => (
   <Provider store={store}>

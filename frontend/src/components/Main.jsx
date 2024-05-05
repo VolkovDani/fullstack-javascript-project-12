@@ -1,18 +1,16 @@
 import React, {
-  useEffect, useMemo, useRef, useState,
+  useEffect, useRef, useState,
 } from 'react';
-import { io } from 'socket.io-client';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchChannels, selectors as channelsSelectors, actions as channelsActions } from '../slices/channels';
-import { actions as authActions, getAuth } from '../slices/auth';
-import { actions as uiActions, getCurrentChannelName, getCurrentChannelId } from '../slices/ui';
-import { fetchMessages, selectors as messagesSelectors, actions as messagesActions } from '../slices/messages';
-import { messages as messagesRoutes } from '../utils/routes';
+import { fetchChannels } from '../slices/channels';
+import { authActions, getAuth } from '../slices/auth';
+import { getCurrentChannelId } from '../slices/ui';
+import { fetchMessages, sendMessage } from '../slices/messages';
 import AddChannel from './modals/AddChannel';
-
-const socket = io();
+import { ChannelMessages, ChannelsList } from './Channels';
+import DeleteChannel from './modals/DeleteChannel';
+import RenameChannel from './modals/RenameChannel';
 
 const Navbar = () => (
   <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
@@ -23,38 +21,13 @@ const Navbar = () => (
   </nav>
 );
 
-const Channel = ({ channelEntity, selected }) => {
-  const { name } = channelEntity;
-  const dispatch = useDispatch();
-  const handleChangeChannel = (e) => {
-    e.preventDefault();
-    dispatch(uiActions.setCurrentChannel(channelEntity));
-  };
-  return (
-    <li className="nav-item w-100">
-      <button
-        type="button"
-        onClick={handleChangeChannel}
-        className={
-          selected
-            ? 'w-100 rounded-0 text-start btn btn-secondary'
-            : 'w-100 rounded-0 text-start btn'
-        }
-      >
-        <span className="me-1">#</span>
-        {
-          name
-        }
-      </button>
-    </li>
-  );
-};
-
 const InputMessage = () => {
+  const dispatch = useDispatch();
+  const inputContainerEl = useRef(null);
   const [value, setValue] = useState('');
   const currentChannel = useSelector(getCurrentChannelId);
   const authData = useSelector(getAuth);
-  const sendMessage = (btnEvent) => {
+  const handlerSendMessage = (btnEvent) => {
     btnEvent.preventDefault();
     if (value === '') return;
     const message = {
@@ -62,23 +35,20 @@ const InputMessage = () => {
       channelId: currentChannel,
       username: authData.username,
     };
-    axios.post(
-      messagesRoutes.post(),
-      message,
-      {
-        headers: {
-          Authorization: `Bearer ${authData.token}`,
-        },
-      },
-    ).then(() => {
-      setValue('');
-    });
+    dispatch(sendMessage({
+      token: authData.token,
+      messageObj: message,
+    }));
+    setValue('');
+    const messagesContainerEl = inputContainerEl.current.previousSibling;
+    messagesContainerEl
+      .scrollTo(0, messagesContainerEl.scrollHeight);
   };
   return (
-    <div className="mt-auto px-5 py-3">
+    <div className="mt-auto px-5 py-3" ref={inputContainerEl}>
       <form
         className="py-1 border rounded-2"
-        onSubmit={sendMessage}
+        onSubmit={handlerSendMessage}
       >
         <div className="input-group has-validation">
           <input
@@ -105,75 +75,16 @@ const InputMessage = () => {
   );
 };
 
-const ChannelsList = () => {
-  const dispatch = useDispatch();
-  socket.on('newChannel', (payload) => {
-    dispatch(channelsActions.addChannel(payload));
-  });
-  const currentChannel = useSelector(getCurrentChannelId);
-  const channels = useSelector(channelsSelectors.selectEntities);
-  return (
-    <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-      {channels ? Object.values(channels).map((entity) => {
-        const { id } = entity;
-        if (Number(id) === Number(currentChannel)) {
-          return <Channel channelEntity={entity} key={id} selected />;
-        }
-        return <Channel channelEntity={entity} key={id} />;
-      }) : null}
-    </ul>
-  );
-};
-
-const ChannelMessages = () => {
-  const listEl = useRef(null);
-  const dispatch = useDispatch();
-  const currentChannelId = useSelector(getCurrentChannelId);
-  const allMessages = useSelector(messagesSelectors.selectEntities);
-  const currentChannelName = useSelector(getCurrentChannelName);
-
-  socket.on('newMessage', (payload) => {
-    if (payload) {
-      dispatch(messagesActions.addMessage(payload));
-      window.scrollTo(0, document.body.scrollHeight);
-    }
-  });
-
-  useEffect(() => {
-    listEl.current.scrollTo(1, listEl.current.scrollHeight);
-  });
-
-  const messages = useMemo(
-    () => Object.values(allMessages).filter(({ channelId }) => channelId === currentChannelId),
-    [allMessages, currentChannelId],
-  );
-  return (
-    <>
-      <div className="bg-light mb-4 p-3 shadow-sm small">
-        <p className="m-0">
-          <b>
-            {`# ${currentChannelName}`}
-          </b>
-        </p>
-        <span className="text-muted">
-          {`${messages.length} сообщений`}
-        </span>
-      </div>
-      <div id="messages-box" className="chat-messages overflow-auto px-5" ref={listEl}>
-        {messages.length > 0
-          ? messages.map(({ body, username, id }) => (
-            <div className="text-break mb-2" key={id}>
-              <b>{username}</b>
-              {`: ${body}`}
-            </div>
-          )) : null}
-      </div>
-    </>
-  );
-};
-
 const Chat = (props) => {
-  const [isModal, setShowModal] = useState(false);
+  const [modalVariant, setShowModal] = useState(false);
+  const [idModalChannel, setIdModalChannel] = useState(null);
+
+  const modals = {
+    addChannel: AddChannel,
+    deleteChannel: DeleteChannel,
+    renameChannel: RenameChannel,
+  };
+
   const { authInfo } = props;
   const dispatch = useDispatch();
   useEffect(() => {
@@ -182,9 +93,22 @@ const Chat = (props) => {
     dispatch(fetchMessages(authInfo.token));
   }, [dispatch, authInfo]);
 
-  const handleShowModal = () => {
-    setShowModal(true);
+  const handleAddModal = () => {
+    setShowModal('addChannel');
   };
+
+  const channelsModals = (id) => ({
+    handleDeleteChannel: () => {
+      setIdModalChannel(id);
+      setShowModal('deleteChannel');
+    },
+    handleRenameChannel: () => {
+      setIdModalChannel(id);
+      setShowModal('renameChannel');
+    },
+  });
+
+  const CurrentModal = modals[modalVariant];
 
   return (
     <>
@@ -198,7 +122,7 @@ const Chat = (props) => {
                 <button
                   type="button"
                   className="p-0 text-primary btn btn-group-vertical"
-                  onClick={handleShowModal}
+                  onClick={handleAddModal}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
@@ -207,7 +131,7 @@ const Chat = (props) => {
                   <span className="visually-hidden">+</span>
                 </button>
               </div>
-              <ChannelsList />
+              <ChannelsList channelsModals={channelsModals} />
             </div>
             <div className="col p-0 h-100">
               <div className="d-flex flex-column h-100">
@@ -219,7 +143,15 @@ const Chat = (props) => {
         </div>
       </div>
       {
-        isModal ? <AddChannel handleSetState={setShowModal} modalState={isModal} /> : null
+        modalVariant
+          ? (
+            <CurrentModal
+              handleSetState={setShowModal}
+              modalState={modalVariant}
+              extraData={idModalChannel}
+            />
+          )
+          : null
       }
     </>
   );

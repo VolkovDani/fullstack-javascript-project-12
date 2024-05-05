@@ -18,8 +18,7 @@ export const fetchChannels = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .catch(console.error);
+      });
     return response.data;
   },
 );
@@ -32,7 +31,33 @@ export const postNewChannel = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).catch(console.error);
+      });
+    return response.data;
+  },
+);
+
+export const renameChannel = createAsyncThunk(
+  'channels/renameChannel',
+  async ({ token, channelId, channelName }) => {
+    const response = await axios
+      .patch(channelsRoute.patch(channelId), { name: channelName }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    return response.data;
+  },
+);
+
+export const deleteChannel = createAsyncThunk(
+  'channels/deleteChannel',
+  async ({ token, channelId }) => {
+    const response = await axios
+      .delete(channelsRoute.delete(channelId), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     return response.data;
   },
 );
@@ -45,18 +70,30 @@ const channelsSlice = createSlice({
   reducers: {
     addChannel: channelsAdapter.addOne,
     setChannels: channelsAdapter.setAll,
+    setNewNameChannel: (state, { payload }) => {
+      channelsAdapter.updateOne(state, {
+        id: payload.id,
+        changes: payload,
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchChannels.fulfilled, (state, { payload }) => channelsAdapter
         .setAll(state, payload))
+      .addCase(deleteChannel.fulfilled, (state, { payload }) => channelsAdapter
+        .removeOne(state, payload.id))
       .addCase(fetchChannels.rejected, (state, { error }) => Object
+        .assign(state, { errors: [error] }))
+      .addCase(postNewChannel.rejected, (state, { error }) => Object
+        .assign(state, { errors: [error] }))
+      .addCase(deleteChannel.rejected, (state, { error }) => Object
         .assign(state, { errors: [error] }));
   },
 });
 
-export const selectors = channelsAdapter.getSelectors(
+export const channelsSelectors = channelsAdapter.getSelectors(
   (state) => state.channels,
 );
-export const { actions } = channelsSlice;
+export const channelsActions = channelsSlice.actions;
 export default channelsSlice.reducer;

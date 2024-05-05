@@ -5,10 +5,27 @@ import {
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { messages as messagesRoute } from '../utils/routes';
+import { deleteChannel } from './channels';
 
 const messagesAdapter = createEntityAdapter({
   errors: [],
 });
+
+export const sendMessage = createAsyncThunk(
+  'messages/sendMessage',
+  async ({ token, messageObj }) => {
+    const response = await axios.post(
+      messagesRoute.post(),
+      messageObj,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response.data;
+  },
+);
 
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
@@ -18,8 +35,7 @@ export const fetchMessages = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .catch(console.error);
+      });
     return response.data;
   },
 );
@@ -38,12 +54,18 @@ const messagesSlice = createSlice({
       .addCase(fetchMessages.fulfilled, (state, { payload }) => messagesAdapter
         .setAll(state, payload))
       .addCase(fetchMessages.rejected, (state, { error }) => Object
-        .assign(state, { errors: [error] }));
+        .assign(state, { errors: [error] }))
+      .addCase(deleteChannel.fulfilled, (state, { payload }) => {
+        const entitiesForDeleting = Object.entries(state.entities)
+          .filter(([, { channelId }]) => channelId === payload.id)
+          .map(([key]) => key);
+        messagesAdapter.removeMany(state, entitiesForDeleting);
+      });
   },
 });
 
-export const selectors = messagesAdapter.getSelectors(
+export const messagesSelectors = messagesAdapter.getSelectors(
   (state) => state.messages,
 );
-export const { actions } = messagesSlice;
+export const messagesActions = messagesSlice.actions;
 export default messagesSlice.reducer;
