@@ -6,6 +6,7 @@ import NotFound from './NotFound.jsx';
 import Login from './Login.jsx';
 import Main from './Main.jsx';
 import store from '../slices/index';
+import SignUp from './SignUp.jsx';
 import '../network/socket.js';
 
 const App = () => (
@@ -14,6 +15,7 @@ const App = () => (
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="/" element={<Main />} />
+        <Route path="signup" element={<SignUp />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
