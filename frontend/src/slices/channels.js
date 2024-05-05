@@ -70,6 +70,12 @@ const channelsSlice = createSlice({
   reducers: {
     addChannel: channelsAdapter.addOne,
     setChannels: channelsAdapter.setAll,
+    setNewNameChannel: (state, { payload }) => {
+      channelsAdapter.updateOne(state, {
+        id: payload.id,
+        changes: payload,
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
