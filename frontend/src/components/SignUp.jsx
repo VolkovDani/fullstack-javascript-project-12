@@ -25,11 +25,12 @@ const SignUp = () => (
         <Col
           className="col-12"
           md="8"
+          xl="6"
           xxl="6"
         >
           <Card className="shadow-sm">
             <Card.Body
-              className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5"
+              className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-2 p-md-5"
             >
               <div>
                 <img
@@ -56,67 +57,70 @@ const SignUp = () => (
                       onSubmit={props.handleSubmit}
                       className="w-50"
                     >
-                      <Row>
-                        <Card.Title
-                          as="h1"
+                      <Card.Title
+                        as="h1"
+                        className="text-center"
+                      >
+                        Регистрация
+                      </Card.Title>
+                      <Form.Group
+                        className="mb-3 position-relative"
+                      >
+                        <Form.Control
+                          onChange={props.handleChange}
+                          isInvalid={props.touched && props.errors.login}
+                          name="login"
+                          type="text"
+                          placeholder="Ваш ник"
+                          aria-hidden="false"
+                          aria-label="Логин"
+                          aria-invalid={props.errors.login}
+                          aria-errormessage={props.errors.login}
+                        />
+                        <Form.Control.Feedback
+                          tooltip
+                          type="invalid"
                         >
-                          Регистрация
-                        </Card.Title>
-                        <Form.Group
-                          className="mb-3 position-relative"
+                          {props.errors.login}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <Form.Group
+                        className="mb-3 position-relative"
+                      >
+                        <Form.Control
+                          onChange={props.handleChange}
+                          isInvalid={props.touched && props.errors.password}
+                          name="password"
+                          type="password"
+                          placeholder="Пароль"
+                        />
+                        <Form.Control.Feedback
+                          tooltip
+                          type="invalid"
                         >
-                          <Form.Control
-                            onChange={props.handleChange}
-                            isInvalid={props.touched && props.errors.login}
-                            name="login"
-                            type="text"
-                            placeholder="Ваш ник"
-                          />
-                          <Form.Control.Feedback
-                            tooltip
-                            type="invalid"
-                          >
-                            {props.errors.login}
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group
-                          className="mb-3 position-relative"
+                          {props.errors.password}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <Form.Group
+                        className="mb-3 position-relative"
+                      >
+                        <Form.Control
+                          isInvalid={props.touched && props.errors.confirmPassword}
+                          onChange={props.handleChange}
+                          name="confirmPassword"
+                          type="password"
+                          placeholder="Подтвердите пароль"
+                        />
+                        <Form.Control.Feedback
+                          tooltip
+                          type="invalid"
                         >
-                          <Form.Control
-                            onChange={props.handleChange}
-                            isInvalid={props.touched && props.errors.password}
-                            name="password"
-                            type="password"
-                            placeholder="Пароль"
-                          />
-                          <Form.Control.Feedback
-                            tooltip
-                            type="invalid"
-                          >
-                            {props.errors.password}
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group
-                          className="mb-3 position-relative"
-                        >
-                          <Form.Control
-                            isInvalid={props.touched && props.errors.confirmPassword}
-                            onChange={props.handleChange}
-                            name="confirmPassword"
-                            type="password"
-                            placeholder="Подтвердите пароль"
-                          />
-                          <Form.Control.Feedback
-                            tooltip
-                            type="invalid"
-                          >
-                            {props.errors.confirmPassword}
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                        <Button>
-                          Зарегистрироваться
-                        </Button>
-                      </Row>
+                          {props.errors.confirmPassword}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <Button>
+                        Зарегистрироваться
+                      </Button>
                     </Form>
                   )
                 }
