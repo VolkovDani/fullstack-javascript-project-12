@@ -11,6 +11,22 @@ const messagesAdapter = createEntityAdapter({
   errors: [],
 });
 
+export const sendMessage = createAsyncThunk(
+  'messages/sendMessage',
+  async ({ token, messageObj }) => {
+    const response = await axios.post(
+      messagesRoute.post(),
+      messageObj,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response.data;
+  },
+);
+
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
   async (token) => {

@@ -1,14 +1,12 @@
 import React, {
   useEffect, useRef, useState,
 } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchChannels } from '../slices/channels';
 import { authActions, getAuth } from '../slices/auth';
 import { getCurrentChannelId } from '../slices/ui';
-import { fetchMessages } from '../slices/messages';
-import { messages as messagesRoutes } from '../utils/routes';
+import { fetchMessages, sendMessage } from '../slices/messages';
 import AddChannel from './modals/AddChannel';
 import { ChannelMessages, ChannelsList } from './Channels';
 import DeleteChannel from './modals/DeleteChannel';
@@ -24,11 +22,12 @@ const Navbar = () => (
 );
 
 const InputMessage = () => {
+  const dispatch = useDispatch();
   const inputContainerEl = useRef(null);
   const [value, setValue] = useState('');
   const currentChannel = useSelector(getCurrentChannelId);
   const authData = useSelector(getAuth);
-  const sendMessage = (btnEvent) => {
+  const handlerSendMessage = (btnEvent) => {
     btnEvent.preventDefault();
     if (value === '') return;
     const message = {
@@ -36,26 +35,20 @@ const InputMessage = () => {
       channelId: currentChannel,
       username: authData.username,
     };
-    axios.post(
-      messagesRoutes.post(),
-      message,
-      {
-        headers: {
-          Authorization: `Bearer ${authData.token}`,
-        },
-      },
-    ).then(() => {
-      const messagesContainerEl = inputContainerEl.current.previousSibling;
-      messagesContainerEl
-        .scrollTo(0, messagesContainerEl.scrollHeight);
-      setValue('');
-    });
+    dispatch(sendMessage({
+      token: authData.token,
+      messageObj: message,
+    }));
+    setValue('');
+    const messagesContainerEl = inputContainerEl.current.previousSibling;
+    messagesContainerEl
+      .scrollTo(0, messagesContainerEl.scrollHeight);
   };
   return (
     <div className="mt-auto px-5 py-3" ref={inputContainerEl}>
       <form
         className="py-1 border rounded-2"
-        onSubmit={sendMessage}
+        onSubmit={handlerSendMessage}
       >
         <div className="input-group has-validation">
           <input
