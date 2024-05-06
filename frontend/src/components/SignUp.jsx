@@ -1,20 +1,18 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { Formik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useNavigate } from 'react-router-dom';
-
+import { Formik } from 'formik';
 import MainHeader from './MainHeader';
-import loginAvatarImage from '../assets/avatar.jpg';
-import { loginSchema } from '../validation/schema';
-import { loginRequest } from '../network/requests';
+import signUpAvatarImage from '../assets/avatar_1.jpg';
+import { signUpSchema } from '../validation/schema';
+import { signUpRequest } from '../network/requests';
 
-const Login = () => {
+const SignUp = () => {
   const navigate = useNavigate();
   return (
     <div
@@ -41,18 +39,31 @@ const Login = () => {
                 <div>
                   <img
                     className="rounded-circle"
-                    src={loginAvatarImage}
+                    src={signUpAvatarImage}
                     alt="Аватар"
                   />
                 </div>
                 <Formik
-                  initialValues={{ login: '', password: '' }}
+                  initialValues={{
+                    login: '',
+                    password: '',
+                    confirmPassword: '',
+                  }}
                   validateOnBlur
-                  validationSchema={loginSchema}
-                  onSubmit={(values) => {
-                    loginRequest(values)
+                  validationSchema={signUpSchema}
+                  onSubmit={(values, actions) => {
+                    signUpRequest(values)
+                      .then((res) => {
+                        console.log(res);
+                        const token = JSON.stringify(res.data);
+                        localStorage.setItem('user', token);
+                      })
                       .then(() => {
                         navigate('/');
+                      })
+                      .catch((err) => {
+                        if (err.response.status === 409) actions.setFieldError('login', 'Это имя уже занято');
+                        else throw new Error(err);
                       });
                   }}
                 >
@@ -67,7 +78,7 @@ const Login = () => {
                           as="h1"
                           className="text-center"
                         >
-                          Войти
+                          Регистрация
                         </Card.Title>
                         <Form.Group
                           className="mb-3 position-relative"
@@ -108,6 +119,27 @@ const Login = () => {
                             {props.errors.password}
                           </Form.Control.Feedback>
                         </Form.Group>
+                        <Form.Group
+                          className="mb-3 position-relative"
+                        >
+                          <Form.Control
+                            isInvalid={
+                              props.touched.confirmPassword && props.errors.confirmPassword
+                            }
+                            onBlur={props.handleBlur}
+                            onChange={props.handleChange}
+                            name="confirmPassword"
+                            type="password"
+                            placeholder="Повторите пароль"
+                            aria-label="Повторите пароль"
+                          />
+                          <Form.Control.Feedback
+                            tooltip
+                            type="invalid"
+                          >
+                            {props.errors.confirmPassword}
+                          </Form.Control.Feedback>
+                        </Form.Group>
                         <Button
                           variant={
                             props.isValid
@@ -119,32 +151,13 @@ const Login = () => {
                           className="w-100"
                           onSubmit={props.handleSubmit}
                         >
-                          Войти
+                          Регистрация
                         </Button>
                       </Form>
                     )
                   }
                 </Formik>
               </Card.Body>
-              <Card.Footer
-                className="text-center p-3"
-              >
-                <span
-                  className="m-1"
-                >
-                  Нет аккаунта?
-                </span>
-                <Card.Link
-                  href="/signup"
-                  aria-label="Перейти к регистрации"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate('/signup');
-                  }}
-                >
-                  Регистрация
-                </Card.Link>
-              </Card.Footer>
             </Card>
           </Col>
         </Row>
@@ -153,4 +166,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

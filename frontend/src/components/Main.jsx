@@ -11,15 +11,7 @@ import AddChannel from './modals/AddChannel';
 import { ChannelMessages, ChannelsList } from './Channels';
 import DeleteChannel from './modals/DeleteChannel';
 import RenameChannel from './modals/RenameChannel';
-
-const Navbar = () => (
-  <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
-    <div className="container">
-      <a className="navbar-brand" href="/">Studying Chat</a>
-      <button type="button" className="btn btn-primary">Выйти</button>
-    </div>
-  </nav>
-);
+import MainHeader from './MainHeader';
 
 const InputMessage = () => {
   const dispatch = useDispatch();
@@ -113,7 +105,7 @@ const Chat = (props) => {
   return (
     <>
       <div className="d-flex flex-column h-100">
-        <Navbar />
+        <MainHeader />
         <div className="container h-100 my-4 overflow-hidden rounded shadow">
           <div className="row h-100 bg-white flex-md-row">
             <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
