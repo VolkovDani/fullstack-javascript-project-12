@@ -158,6 +158,25 @@ const SignUp = () => {
                   }
                 </Formik>
               </Card.Body>
+              <Card.Footer
+                className="text-center p-3"
+              >
+                <span
+                  className="m-1"
+                >
+                  Уже есть аккаунт?
+                </span>
+                <Card.Link
+                  href="/login"
+                  aria-label="Перейти к регистрации"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate('/login');
+                  }}
+                >
+                  Войти
+                </Card.Link>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>
