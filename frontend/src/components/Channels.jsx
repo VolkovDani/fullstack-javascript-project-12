@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+
 import { uiActions, getCurrentChannelId } from '../slices/ui';
 import { messagesSelectors } from '../slices/messages';
 import { channelsSelectors } from '../slices/channels';
@@ -12,6 +14,7 @@ import { channelsSelectors } from '../slices/channels';
 const basicClassName = 'w-100 rounded-0 text-start text-truncate';
 
 const Channel = ({ channelEntity, selected, modalHandlers }) => {
+  const { t } = useTranslation('Components', { keyPrefix: 'Channels' });
   const { name, removable } = channelEntity;
   const dispatch = useDispatch();
   const handleChangeChannel = (e) => {
@@ -45,12 +48,16 @@ const Channel = ({ channelEntity, selected, modalHandlers }) => {
             <Dropdown.Item
               onClick={modalHandlers.handleRenameChannel}
             >
-              Переименовать
+              {
+                t('Dropdown.rename')
+              }
             </Dropdown.Item>
             <Dropdown.Item
               onClick={modalHandlers.handleDeleteChannel}
             >
-              Удалить
+              {
+                t('Dropdown.delete')
+              }
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
@@ -98,6 +105,8 @@ export const ChannelsList = ({ channelsModals }) => {
 };
 
 export const ChannelMessages = () => {
+  const { t } = useTranslation('Components', { keyPrefix: 'ChannelMessages' });
+
   const listEl = useRef(null);
   const currentChannelId = useSelector(getCurrentChannelId);
   const allMessages = useSelector(messagesSelectors.selectEntities);
@@ -120,7 +129,7 @@ export const ChannelMessages = () => {
           </b>
         </p>
         <span className="text-muted">
-          {`${messages.length} сообщений`}
+          {`${messages.length} ${t('Header.messagesCount.messages', { count: messages.length })}`}
         </span>
       </div>
       <div id="messages-box" className="chat-messages overflow-auto px-5" ref={listEl}>

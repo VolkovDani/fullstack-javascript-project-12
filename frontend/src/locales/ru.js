@@ -9,5 +9,21 @@ export default {
         linkRegisterAccount: 'Перейти к регистрации',
       },
     },
+    Channels: {
+      Dropdown: {
+        rename: 'Переименовать',
+        delete: 'Удалить',
+      },
+    },
+    ChannelMessages: {
+      Header: {
+        messagesCount: {
+          messages_zero: 'сообщений',
+          messages_one: 'сообщение',
+          messages_few: 'сообщения',
+          messages_many: 'сообщений',
+        },
+      },
+    },
   },
 };
