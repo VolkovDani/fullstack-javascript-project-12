@@ -38,6 +38,7 @@ export default {
           login: 'Логин',
           password: 'Пароль',
           linkRegisterAccount: 'Перейти к регистрации',
+          username: 'Ваш ник',
         },
       },
     },
