@@ -127,7 +127,7 @@ const Login = () => {
                 </Formik>
               </Card.Body>
               <Card.Footer
-                className="text-center "
+                className="text-center p-3"
               >
                 <span
                   className="m-1"
@@ -153,39 +153,4 @@ const Login = () => {
   );
 };
 
-// const LoginForm = () => {
-//   const [errorState, setError] = useState(null);
-//   const navigator = useNavigate();
-//   return (
-//     <Formik
-//       initialValues={{ username: '', password: '' }}
-//       validationSchema={loginSchema}
-//       onSubmit={(values) => {
-//         loginRequest(values)
-//           .then(() => {
-//             navigator('/');
-//           })
-//           .catch(setError);
-//       }}
-//     >
-//       {() => (
-//         <div className="col-12 col-md-8 col-xxl-6">
-//           <div className="card shadow-sm">
-//             <div className="card-body row p-5 ">
-//               <Form>
-//                 <h1>Войти</h1>
-//                 <UsernameInput />
-//                 <PasswordInput />
-//                 {errorState
-//                   ? <div className="error">{errorState.message}</div>
-//                   : null}
-//                 <button type="submit">Оправить</button>
-//               </Form>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </Formik>
-//   );
-// };
 export default Login;
