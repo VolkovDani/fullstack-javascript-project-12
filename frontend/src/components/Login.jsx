@@ -144,7 +144,7 @@ const Login = () => {
                 </span>
                 <Card.Link
                   href="/signup"
-                  aria-label="Перейти к регистрации"
+                  aria-label={t('Form.aria.linkRegisterAccount')}
                   onClick={(e) => {
                     e.preventDefault();
                     navigate('/signup');

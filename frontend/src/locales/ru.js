@@ -37,6 +37,7 @@ export default {
         aria: {
           login: 'Логин',
           password: 'Пароль',
+          linkRegisterAccount: 'Перейти к регистрации',
         },
       },
     },
