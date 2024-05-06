@@ -57,5 +57,13 @@ export default {
         },
       },
     },
+    MainHeader: {
+      brandName: 'Hexlet Chat',
+      leave: 'Выйти',
+      aria: {
+        toMainPage: 'Перейти на главную страницу',
+        leave: 'Выйти',
+      },
+    },
   },
 };
