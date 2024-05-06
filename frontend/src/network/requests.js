@@ -5,7 +5,7 @@ export const loginRequest = (values) => axios({
   method: 'post',
   url: usersRoutes.login(),
   data: {
-    username: values.username,
+    username: values.login,
     password: values.password,
   },
 }).then((res) => {

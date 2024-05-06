@@ -1,15 +1,15 @@
 import * as yup from 'yup';
 
 export const loginSchema = yup.object().shape({
-  username: yup
+  login: yup
     .string()
-    .min(3, 'Минимальное количество символов - 3')
-    .max(30, 'Максимальное количество символов - 30')
+    .min(3, 'От 3 до 20 символов')
+    .max(20, 'От 3 до 20 символов')
     .required('Обязательное поле'),
   password: yup
     .string()
-    .min(5, 'Минимальное количество символов - 5')
-    .max(30, 'Максимальное количество символов - 30')
+    .min(6, 'От 6 до 20 символов')
+    .max(30, 'От 6 до 30 символов')
     .required('Обязательное поле'),
 });
 
@@ -30,7 +30,7 @@ export const signUpSchema = yup.object({
   password: yup
     .string()
     .min(6, 'От 6 до 20 символов')
-    .max(20, 'От 6 до 20 символов')
+    .max(30, 'От 6 до 30 символов')
     .required('Введите пароль'),
   confirmPassword: yup
     .string()
