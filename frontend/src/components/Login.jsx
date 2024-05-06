@@ -129,8 +129,21 @@ const Login = () => {
               <Card.Footer
                 className="text-center "
               >
-                <span>Нет аккаунта?</span>
-                <a>Регистрация</a>
+                <span
+                  className="m-1"
+                >
+                  Нет аккаунта?
+                </span>
+                <Card.Link
+                  href="/signup"
+                  aria-label="Перейти к регистрации"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate('/signup');
+                  }}
+                >
+                  Регистрация
+                </Card.Link>
               </Card.Footer>
             </Card>
           </Col>
