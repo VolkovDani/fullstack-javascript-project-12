@@ -42,5 +42,20 @@ export default {
         },
       },
     },
+    Main: {
+      InputMessage: {
+        enterMessage: 'Введите сообщение...',
+        sendButton: 'Отправить',
+        aria: {
+          enterMessage: 'Введите сообщение',
+        },
+      },
+      Chat: {
+        channels: 'Каналы',
+        aria: {
+          addChannel: 'Добавить канал',
+        },
+      },
+    },
   },
 };
