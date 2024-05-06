@@ -3,6 +3,9 @@ import Button from 'react-bootstrap/Button';
 
 const MainHeader = () => {
   const userData = localStorage.getItem('user');
+  const handleAccountExit = () => {
+    localStorage.removeItem('user');
+  };
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
@@ -13,6 +16,7 @@ const MainHeader = () => {
               <Button
                 variant="primary"
                 href="/login"
+                onClick={handleAccountExit}
               >
                 Выйти
               </Button>
