@@ -45,7 +45,7 @@ const SignUp = () => {
                 </div>
                 <Formik
                   initialValues={{
-                    login: '',
+                    username: '',
                     password: '',
                     confirmPassword: '',
                   }}
@@ -62,7 +62,7 @@ const SignUp = () => {
                         navigate('/');
                       })
                       .catch((err) => {
-                        if (err.response.status === 409) actions.setFieldError('login', 'Это имя уже занято');
+                        if (err.response.status === 409) actions.setFieldError('username', 'Это имя уже занято');
                         else throw new Error(err);
                       });
                   }}
@@ -84,11 +84,11 @@ const SignUp = () => {
                           className="mb-3 position-relative"
                         >
                           <Form.Control
-                            value={props.values.login}
+                            value={props.values.username}
                             onBlur={props.handleBlur}
                             onChange={props.handleChange}
-                            isInvalid={props.touched.login && props.errors.login}
-                            name="login"
+                            isInvalid={props.touched.username && props.errors.username}
+                            name="username"
                             type="text"
                             placeholder="Ваш ник"
                             aria-label="Логин"
@@ -97,7 +97,7 @@ const SignUp = () => {
                             tooltip
                             type="invalid"
                           >
-                            {props.errors.login}
+                            {props.errors.username}
                           </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group
