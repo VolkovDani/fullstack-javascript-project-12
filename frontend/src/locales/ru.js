@@ -25,5 +25,20 @@ export default {
         },
       },
     },
+    Login: {
+      avatarImage: 'Аватар',
+      Form: {
+        title: 'Войти',
+        username: 'Ваш ник',
+        password: 'Пароль',
+        login: 'Войти',
+        noAccount: 'Нет аккаунта?',
+        registerAccount: 'Регистрация',
+        aria: {
+          login: 'Логин',
+          password: 'Пароль',
+        },
+      },
+    },
   },
 };
