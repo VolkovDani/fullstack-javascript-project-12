@@ -91,6 +91,7 @@ export default {
     AddChannel: {
       errors: {
         channelExists: 'Такое название канала уже есть',
+        profanity: 'Содержит запрещённые слова',
       },
       title: 'Добавить канал',
       inputPlaceholder: 'Твоё название канала',
@@ -103,7 +104,10 @@ export default {
       delete: 'Удалить',
     },
     RenameChannel: {
-      errorChannelExists: 'Новое имя совпадает с именем другого канала',
+      errors: {
+        profanity: 'Содержит запрещённые слова',
+        channelExists: 'Новое имя совпадает с именем другого канала',
+      },
       title: 'Переименовать канал',
       placeholder: 'Новое название канала',
       cancel: 'Отменить',

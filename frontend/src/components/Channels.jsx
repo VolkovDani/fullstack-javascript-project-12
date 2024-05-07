@@ -6,6 +6,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import leo from 'leo-profanity';
 
 import { uiActions, getCurrentChannelId } from '../slices/ui';
 import { messagesSelectors } from '../slices/messages';
@@ -137,7 +138,7 @@ export const ChannelMessages = () => {
           ? messages.map(({ body, username, id }) => (
             <div className="text-break mb-2" key={id}>
               <b>{username}</b>
-              {`: ${body}`}
+              {`: ${leo.clean(body)}`}
             </div>
           )) : null}
       </div>

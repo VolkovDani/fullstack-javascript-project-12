@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
+import leo from 'leo-profanity';
 
 import { channelsSelectors, renameChannel } from '../../slices/channels';
 import { channelsNamingSchema } from '../../validation/schema';
@@ -28,11 +29,17 @@ const RenameChannel = ({ handleSetState, modalState, extraData }) => {
       if (!formik.errors.channelName) {
         const channel = Object.values(allChannels).find(({ name }) => channelName === name);
         if (!channel) {
-          dispatch(renameChannel({ token, channelName, channelId }));
-          handleSetState(false);
+          if (leo.check(channelName)) {
+            formik.setErrors({
+              channelName: t('errors.profanity'),
+            });
+          } else {
+            dispatch(renameChannel({ token, channelName, channelId }));
+            handleSetState(false);
+          }
         } else {
           formik.setErrors({
-            channelName: t('errorChannelExists'),
+            channelName: t('error.channelExists'),
           });
         }
       }
