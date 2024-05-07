@@ -9,7 +9,7 @@ export const loginSchema = yup.object().shape({
   password: yup
     .string()
     .min(6, 'От 6 до 20 символов')
-    .max(30, 'От 6 до 30 символов')
+    .max(20, 'От 6 до 20 символов')
     .required('Обязательное поле'),
 });
 
@@ -30,7 +30,7 @@ export const signUpSchema = yup.object({
   password: yup
     .string()
     .min(6, 'От 6 до 20 символов')
-    .max(30, 'От 6 до 30 символов')
+    .max(20, 'От 6 до 20 символов')
     .required('Введите пароль'),
   confirmPassword: yup
     .string()
