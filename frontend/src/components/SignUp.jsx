@@ -6,13 +6,16 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
+
 import MainHeader from './MainHeader';
 import signUpAvatarImage from '../assets/avatar_1.jpg';
 import { signUpSchema } from '../validation/schema';
 import { signUpRequest } from '../network/requests';
 
 const SignUp = () => {
+  const { t } = useTranslation('Components', { keyPrefix: 'SignUp' });
   const navigate = useNavigate();
   return (
     <div
@@ -40,7 +43,7 @@ const SignUp = () => {
                   <img
                     className="rounded-circle"
                     src={signUpAvatarImage}
-                    alt="Аватар"
+                    alt={t('alt.avatar')}
                   />
                 </div>
                 <Formik
@@ -62,7 +65,7 @@ const SignUp = () => {
                         navigate('/');
                       })
                       .catch((err) => {
-                        if (err.response.status === 409) actions.setFieldError('username', 'Это имя уже занято');
+                        if (err.response.status === 409) actions.setFieldError('username', t('errors.userExists'));
                         else throw new Error(err);
                       });
                   }}
@@ -78,7 +81,9 @@ const SignUp = () => {
                           as="h1"
                           className="text-center"
                         >
-                          Регистрация
+                          {
+                            t('Form.title')
+                          }
                         </Card.Title>
                         <Form.Group
                           className="mb-3 position-relative"
@@ -90,8 +95,7 @@ const SignUp = () => {
                             isInvalid={props.touched.username && props.errors.username}
                             name="username"
                             type="text"
-                            placeholder="Ваш ник"
-                            aria-label="Логин"
+                            placeholder={t('Form.username')}
                           />
                           <Form.Control.Feedback
                             tooltip
@@ -109,8 +113,7 @@ const SignUp = () => {
                             isInvalid={props.touched.password && props.errors.password}
                             name="password"
                             type="password"
-                            placeholder="Пароль"
-                            aria-label="Пароль"
+                            placeholder={t('Form.password')}
                           />
                           <Form.Control.Feedback
                             tooltip
@@ -130,8 +133,7 @@ const SignUp = () => {
                             onChange={props.handleChange}
                             name="confirmPassword"
                             type="password"
-                            placeholder="Повторите пароль"
-                            aria-label="Повторите пароль"
+                            placeholder={t('Form.confirmPassword')}
                           />
                           <Form.Control.Feedback
                             tooltip
@@ -146,12 +148,13 @@ const SignUp = () => {
                               ? 'primary'
                               : 'secondary'
                           }
-                          disabled={!props.isValid}
                           type="submit"
                           className="w-100"
                           onSubmit={props.handleSubmit}
                         >
-                          Регистрация
+                          {
+                            t('Form.confirmRegister')
+                          }
                         </Button>
                       </Form>
                     )
@@ -164,17 +167,21 @@ const SignUp = () => {
                 <span
                   className="m-1"
                 >
-                  Уже есть аккаунт?
+                  {
+                    t('Form.alreadyHaveAccount')
+                  }
                 </span>
                 <Card.Link
                   href="/login"
-                  aria-label="Перейти к регистрации"
+                  aria-label={t('Form.aria.backToLogin')}
                   onClick={(e) => {
                     e.preventDefault();
                     navigate('/login');
                   }}
                 >
-                  Войти
+                  {
+                    t('Form.backToLogin')
+                  }
                 </Card.Link>
               </Card.Footer>
             </Card>
