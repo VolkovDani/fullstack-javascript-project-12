@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import Button from 'react-bootstrap/Button';
 
 import { postNewChannel, channelsSelectors } from '../../slices/channels';
 import { channelsNamingSchema } from '../../validation/schema';
@@ -67,10 +68,20 @@ const AddChannel = ({ handleSetState, modalState }) => {
         ) : null}
       </Modal.Body>
       <Modal.Footer>
-        <button type="button" className="btn btn-secondary" onClick={handleClose}>
+        <Button
+          variant="secondary"
+          onClick={handleClose}
+        >
           Отменить
-        </button>
-        <input type="submit" value={t('sendButton')} className="btn btn-primary" onClick={formik.handleSubmit} />
+        </Button>
+        <Button
+          variant="primary"
+          onClick={formik.handleSubmit}
+        >
+          {
+            t('sendButton')
+          }
+        </Button>
       </Modal.Footer>
     </Modal>
   );

@@ -37,11 +37,14 @@ const DeleteChannel = ({ handleSetState, modalState, extraData }) => {
         }
       </Modal.Body>
       <Modal.Footer>
-        <button type="button" className="btn btn-secondary" onClick={handleClose}>
+        <Button
+          variant="secondary"
+          onClick={handleClose}
+        >
           {
             t('cancel')
           }
-        </button>
+        </Button>
         <Button
           variant="danger"
           onClick={handleDelete}
