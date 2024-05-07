@@ -87,5 +87,13 @@ export default {
         },
       },
     },
+    AddChannel: {
+      errors: {
+        channelExists: 'Такое название канала уже есть',
+      },
+      title: 'Добавить канал',
+      inputPlaceholder: 'Твоё название канала',
+      sendButton: 'Отправить',
+    },
   },
 };

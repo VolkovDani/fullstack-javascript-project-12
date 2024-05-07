@@ -1,12 +1,15 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { postNewChannel, channelsSelectors } from '../../slices/channels';
 import { channelsNamingSchema } from '../../validation/schema';
 import { getAuth } from '../../slices/auth';
 
 const AddChannel = ({ handleSetState, modalState }) => {
+  const { t } = useTranslation('Components', { keyPrefix: 'AddChannel' });
   const dispatch = useDispatch();
   const { token } = useSelector(getAuth);
   const allChannels = useSelector(channelsSelectors.selectEntities);
@@ -24,7 +27,7 @@ const AddChannel = ({ handleSetState, modalState }) => {
           handleSetState(false);
         } else {
           formik.setErrors({
-            channelName: 'Такое название канала уже есть',
+            channelName: t('errors.channelExists'),
           });
         }
       }
@@ -39,7 +42,11 @@ const AddChannel = ({ handleSetState, modalState }) => {
   return (
     <Modal show={modalState} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>
+          {
+            t('title')
+          }
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form
@@ -52,7 +59,7 @@ const AddChannel = ({ handleSetState, modalState }) => {
             type="text"
             required
             value={formik.values.channelName}
-            placeholder="Твоё название канала"
+            placeholder={t('inputPlaceholder')}
           />
         </form>
         {formik.errors.channelName ? (
@@ -63,7 +70,7 @@ const AddChannel = ({ handleSetState, modalState }) => {
         <button type="button" className="btn btn-secondary" onClick={handleClose}>
           Отменить
         </button>
-        <input type="submit" value="Отправить" className="btn btn-primary" onClick={formik.handleSubmit} />
+        <input type="submit" value={t('sendButton')} className="btn btn-primary" onClick={formik.handleSubmit} />
       </Modal.Footer>
     </Modal>
   );
