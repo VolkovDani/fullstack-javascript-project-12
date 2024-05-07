@@ -96,5 +96,11 @@ export default {
       inputPlaceholder: 'Твоё название канала',
       sendButton: 'Отправить',
     },
+    DeleteChannel: {
+      title: 'Удалить канал',
+      confirm: 'Уверены?',
+      cancel: 'Отменить',
+      delete: 'Удалить',
+    },
   },
 };
