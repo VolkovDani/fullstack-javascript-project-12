@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
-import { errorsSelectors } from '../slices/errors';
+import { toastSelectors } from '../slices/toast';
 
 const MainHeader = () => {
   const { t, i18n } = useTranslation('Components', { keyPrefix: 'MainHeader' });
@@ -11,9 +11,13 @@ const MainHeader = () => {
   const handleAccountExit = () => {
     localStorage.removeItem('user');
   };
+  const infoData = useSelector((state) => toastSelectors.selectById(state, 0));
+  const errorsData = useSelector((state) => toastSelectors.selectById(state, 1));
 
-  const errorsData = useSelector((state) => errorsSelectors.selectById(state, 0));
-  if (errorsData) toast.error(i18n.t(errorsData.code, { ns: 'toast' }));
+  useMemo(() => {
+    if (infoData) toast.success(i18n.t(infoData.code, { ns: 'toast' }));
+    if (errorsData) toast.error(i18n.t(errorsData.code, { ns: 'toast' }));
+  }, [infoData, i18n, errorsData]);
 
   return (
     <>

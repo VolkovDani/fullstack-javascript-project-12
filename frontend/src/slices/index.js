@@ -3,7 +3,7 @@ import auth from './auth';
 import channels from './channels';
 import ui from './ui';
 import messages from './messages';
-import errors from './errors';
+import toast from './toast';
 
 export default configureStore({
   reducer: {
@@ -11,7 +11,7 @@ export default configureStore({
     channels,
     ui,
     messages,
-    errors,
+    toast,
   },
   preloadedState: {
     ui: {

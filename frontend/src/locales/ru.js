@@ -113,5 +113,8 @@ export default {
   toast: {
     ERR_NETWORK: 'Ошибка соединения',
     ERR_BAD_REQUEST: 'Ошибка авторизации',
+    CHANNEL_CREATED: 'Канал успешно создан',
+    CHANNEL_RENAMED: 'Канал успешно переименован',
+    CHANNEL_DELETED: 'Канал успешно удалён',
   },
 };
