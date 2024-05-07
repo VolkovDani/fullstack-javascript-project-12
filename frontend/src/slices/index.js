@@ -3,6 +3,7 @@ import auth from './auth';
 import channels from './channels';
 import ui from './ui';
 import messages from './messages';
+import errors from './errors';
 
 export default configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export default configureStore({
     channels,
     ui,
     messages,
+    errors,
   },
   preloadedState: {
     ui: {

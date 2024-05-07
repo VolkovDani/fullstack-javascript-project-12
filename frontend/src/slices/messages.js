@@ -53,8 +53,6 @@ const messagesSlice = createSlice({
     builder
       .addCase(fetchMessages.fulfilled, (state, { payload }) => messagesAdapter
         .setAll(state, payload))
-      .addCase(fetchMessages.rejected, (state, { error }) => Object
-        .assign(state, { errors: [error] }))
       .addCase(deleteChannel.fulfilled, (state, { payload }) => {
         const entitiesForDeleting = Object.entries(state.entities)
           .filter(([, { channelId }]) => channelId === payload.id)

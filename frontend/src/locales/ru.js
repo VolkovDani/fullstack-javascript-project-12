@@ -110,4 +110,8 @@ export default {
       send: 'Отправить',
     },
   },
+  toast: {
+    ERR_NETWORK: 'Ошибка соединения',
+    ERR_BAD_REQUEST: 'Ошибка авторизации',
+  },
 };
