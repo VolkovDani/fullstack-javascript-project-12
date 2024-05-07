@@ -2,11 +2,15 @@ import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import Button from 'react-bootstrap/Button';
+
 import { channelsSelectors, renameChannel } from '../../slices/channels';
 import { channelsNamingSchema } from '../../validation/schema';
 import { getAuth } from '../../slices/auth';
 
 const RenameChannel = ({ handleSetState, modalState, extraData }) => {
+  const { t } = useTranslation('Components', { keyPrefix: 'RenameChannel' });
   const dispatch = useDispatch();
   const channelId = extraData;
   const allChannels = useSelector(channelsSelectors.selectEntities);
@@ -28,7 +32,7 @@ const RenameChannel = ({ handleSetState, modalState, extraData }) => {
           handleSetState(false);
         } else {
           formik.setErrors({
-            channelName: 'Новое имя совпадает с именем другого канала',
+            channelName: t('errorChannelExists'),
           });
         }
       }
@@ -43,7 +47,11 @@ const RenameChannel = ({ handleSetState, modalState, extraData }) => {
   return (
     <Modal show={modalState} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>
+          {
+            t('title')
+          }
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form
@@ -56,7 +64,7 @@ const RenameChannel = ({ handleSetState, modalState, extraData }) => {
             type="text"
             required
             value={formik.values.channelName}
-            placeholder={`Новое название канала "${currentChannelName}"`}
+            placeholder={`${t('placeholder')} "${currentChannelName}"`}
           />
         </form>
         {formik.errors.channelName ? (
@@ -64,10 +72,22 @@ const RenameChannel = ({ handleSetState, modalState, extraData }) => {
         ) : null}
       </Modal.Body>
       <Modal.Footer>
-        <button type="button" className="btn btn-secondary" onClick={handleClose}>
-          Отменить
-        </button>
-        <input type="submit" value="Отправить" className="btn btn-primary" onClick={formik.handleSubmit} />
+        <Button
+          variant="secondary"
+          onClick={handleClose}
+        >
+          {
+            t('cancel')
+          }
+        </Button>
+        <Button
+          variant="primary"
+          onClick={formik.handleSubmit}
+        >
+          {
+            t('send')
+          }
+        </Button>
       </Modal.Footer>
     </Modal>
   );

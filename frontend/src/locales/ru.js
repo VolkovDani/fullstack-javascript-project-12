@@ -102,5 +102,12 @@ export default {
       cancel: 'Отменить',
       delete: 'Удалить',
     },
+    RenameChannel: {
+      errorChannelExists: 'Новое имя совпадает с именем другого канала',
+      title: 'Переименовать канал',
+      placeholder: 'Новое название канала',
+      cancel: 'Отменить',
+      send: 'Отправить',
+    },
   },
 };
