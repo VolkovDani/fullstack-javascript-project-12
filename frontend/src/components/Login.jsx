@@ -51,10 +51,15 @@ const Login = () => {
                   initialValues={{ username: '', password: '' }}
                   validateOnBlur
                   validationSchema={loginSchema}
-                  onSubmit={(values) => {
+                  onSubmit={(values, actions) => {
                     loginRequest(values)
                       .then(() => {
                         navigate('/');
+                      })
+                      .catch((e) => {
+                        console.log(e);
+                        actions.setStatus(401);
+                        actions.setErrors({ password: t('Form.errorWrongUser') });
                       });
                   }}
                 >

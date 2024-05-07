@@ -25,6 +25,7 @@ export default {
         login: 'Войти',
         noAccount: 'Нет аккаунта?',
         registerAccount: 'Регистрация',
+        errorWrongUser: 'Неверные имя пользователя или пароль',
         aria: {
           login: 'Логин',
           password: 'Пароль',
