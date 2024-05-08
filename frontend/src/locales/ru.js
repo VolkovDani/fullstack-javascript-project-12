@@ -17,6 +17,14 @@ export default {
       },
     },
     Login: {
+      password: {
+        minLength: 'Не менее 6 символов',
+        wrongUser: 'Неверные имя пользователя или пароль',
+      },
+      username: {
+        minLength: 'От 3 до 20 символов',
+        maxLength: 'От 3 до 20 символов',
+      },
       avatarImage: 'Аватар',
       Form: {
         title: 'Войти',
@@ -76,10 +84,10 @@ export default {
       },
       Form: {
         title: 'Регистрация',
-        username: 'Ваш ник',
-        password: 'Ваш пароль',
-        confirmPassword: 'Повторите пароль',
-        confirmRegister: 'Регистрация',
+        username: 'Имя пользователя',
+        password: 'Пароль',
+        confirmPassword: 'Подтвердите пароль',
+        confirmRegister: 'Зарегистрироваться',
         alreadyHaveAccount: 'Уже есть аккаунт?',
         backToLogin: 'Войти',
         aria: {
@@ -120,5 +128,11 @@ export default {
     CHANNEL_CREATED: 'Канал успешно создан',
     CHANNEL_RENAMED: 'Канал успешно переименован',
     CHANNEL_DELETED: 'Канал успешно удалён',
+  },
+  yup: {
+    min3max20: 'От 3 до 20 символов',
+    min6: 'Не менее 6 символов',
+    wrongUser: 'Неверные имя пользователя или пароль',
+    requiredField: 'Обязательное поле',
   },
 };

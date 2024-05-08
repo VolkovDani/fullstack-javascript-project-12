@@ -59,7 +59,7 @@ const Login = () => {
                       .catch((e) => {
                         console.log(e);
                         actions.setStatus(401);
-                        actions.setErrors({ password: t('Form.errorWrongUser') });
+                        actions.setErrors({ password: 'wrongUser' });
                       });
                   }}
                 >
@@ -82,6 +82,7 @@ const Login = () => {
                           className="mb-3 position-relative"
                         >
                           <Form.Control
+                            required
                             value={props.values.username}
                             onBlur={props.handleBlur}
                             onChange={props.handleChange}
@@ -95,13 +96,18 @@ const Login = () => {
                             tooltip
                             type="invalid"
                           >
-                            {props.errors.username}
+                            {
+                              props.errors.username
+                                ? t(`username.${props.errors.username}`)
+                                : null
+                            }
                           </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group
                           className="mb-3 position-relative"
                         >
                           <Form.Control
+                            required
                             onChange={props.handleChange}
                             onBlur={props.handleBlur}
                             isInvalid={props.touched.password && props.errors.password}
@@ -114,7 +120,11 @@ const Login = () => {
                             tooltip
                             type="invalid"
                           >
-                            {props.errors.password}
+                            {
+                              props.errors.password
+                                ? t(`password.${props.errors.password}`)
+                                : null
+                            }
                           </Form.Control.Feedback>
                         </Form.Group>
                         <Button
@@ -123,7 +133,7 @@ const Login = () => {
                               ? 'primary'
                               : 'secondary'
                           }
-                          disabled={!props.isValid}
+                          disabled={!props.values.password || !props.values.username}
                           type="submit"
                           className="w-100"
                           onSubmit={props.handleSubmit}

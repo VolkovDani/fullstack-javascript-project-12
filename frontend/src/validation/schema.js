@@ -1,39 +1,45 @@
 import * as yup from 'yup';
 
+export default yup.setLocale({
+  mixed: {
+    required: 'requiredField',
+  },
+  string: {
+    min: 'minLength',
+    max: 'maxLength',
+  },
+});
+
 export const loginSchema = yup.object().shape({
   username: yup
     .string()
-    .min(3, 'От 3 до 20 символов')
-    .max(20, 'От 3 до 20 символов')
-    .required('Обязательное поле'),
+    .min(3)
+    .max(20),
   password: yup
     .string()
-    .min(6, 'От 6 до 20 символов')
-    .max(20, 'От 6 до 20 символов')
-    .required('Обязательное поле'),
+    .min(6),
 });
 
 export const channelsNamingSchema = yup.object({
   channelName: yup
     .string()
-    .min(3, 'Минимальное количество символов - 3')
-    .max(20, 'Максимальное количество символов - 20')
+    .min(3)
+    .max(20)
     .required('Имя не должно быть пустым'),
 });
 
 export const signUpSchema = yup.object({
   username: yup
     .string()
-    .min(3, 'От 3 до 20 символов')
-    .max(20, 'От 3 до 20 символов')
-    .required('Введите никнейм'),
+    .min(3)
+    .max(20)
+    .required(),
   password: yup
     .string()
-    .min(6, 'От 6 до 20 символов')
-    .max(20, 'От 6 до 20 символов')
-    .required('Введите пароль'),
+    .min(6)
+    .required(),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('password'), null], 'Пароль должны совпадать')
-    .required('Это обязательное поле'),
+    .oneOf([yup.ref('password'), null], 'Пароли должны совпадать')
+    .required(),
 });
