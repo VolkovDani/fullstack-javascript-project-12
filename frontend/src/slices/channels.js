@@ -82,13 +82,7 @@ const channelsSlice = createSlice({
       .addCase(fetchChannels.fulfilled, (state, { payload }) => channelsAdapter
         .setAll(state, payload))
       .addCase(deleteChannel.fulfilled, (state, { payload }) => channelsAdapter
-        .removeOne(state, payload.id))
-      .addCase(fetchChannels.rejected, (state, { error }) => Object
-        .assign(state, { errors: [error] }))
-      .addCase(postNewChannel.rejected, (state, { error }) => Object
-        .assign(state, { errors: [error] }))
-      .addCase(deleteChannel.rejected, (state, { error }) => Object
-        .assign(state, { errors: [error] }));
+        .removeOne(state, payload.id));
   },
 });
 

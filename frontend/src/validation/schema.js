@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 export const loginSchema = yup.object().shape({
-  login: yup
+  username: yup
     .string()
     .min(3, 'От 3 до 20 символов')
     .max(20, 'От 3 до 20 символов')
@@ -9,7 +9,7 @@ export const loginSchema = yup.object().shape({
   password: yup
     .string()
     .min(6, 'От 6 до 20 символов')
-    .max(30, 'От 6 до 30 символов')
+    .max(20, 'От 6 до 20 символов')
     .required('Обязательное поле'),
 });
 
@@ -22,15 +22,15 @@ export const channelsNamingSchema = yup.object({
 });
 
 export const signUpSchema = yup.object({
-  login: yup
+  username: yup
     .string()
     .min(3, 'От 3 до 20 символов')
     .max(20, 'От 3 до 20 символов')
-    .required('Введите логин'),
+    .required('Введите никнейм'),
   password: yup
     .string()
     .min(6, 'От 6 до 20 символов')
-    .max(30, 'От 6 до 30 символов')
+    .max(20, 'От 6 до 20 символов')
     .required('Введите пароль'),
   confirmPassword: yup
     .string()

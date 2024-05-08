@@ -1,10 +1,14 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import Button from 'react-bootstrap/Button';
+
 import { getAuth } from '../../slices/auth';
 import { deleteChannel } from '../../slices/channels';
 
 const DeleteChannel = ({ handleSetState, modalState, extraData }) => {
+  const { t } = useTranslation('Components', { keyPrefix: 'DeleteChannel' });
   const dispatch = useDispatch();
   const { token } = useSelector(getAuth);
   const idModalChannel = extraData;
@@ -21,21 +25,34 @@ const DeleteChannel = ({ handleSetState, modalState, extraData }) => {
   return (
     <Modal show={modalState} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>
+          {
+            t('title')
+          }
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        Уверены?
+        {
+          t('confirm')
+        }
       </Modal.Body>
       <Modal.Footer>
-        <button type="button" className="btn btn-secondary" onClick={handleClose}>
-          Отменить
-        </button>
-        <input
-          type="button"
-          className="btn btn-danger"
+        <Button
+          variant="secondary"
+          onClick={handleClose}
+        >
+          {
+            t('cancel')
+          }
+        </Button>
+        <Button
+          variant="danger"
           onClick={handleDelete}
-          value="Удалить"
-        />
+        >
+          {
+            t('delete')
+          }
+        </Button>
       </Modal.Footer>
     </Modal>
   );

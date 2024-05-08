@@ -8,6 +8,7 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import MainHeader from './MainHeader';
 import loginAvatarImage from '../assets/avatar.jpg';
@@ -15,6 +16,7 @@ import { loginSchema } from '../validation/schema';
 import { loginRequest } from '../network/requests';
 
 const Login = () => {
+  const { t } = useTranslation('Components', { keyPrefix: 'Login' });
   const navigate = useNavigate();
   return (
     <div
@@ -42,17 +44,22 @@ const Login = () => {
                   <img
                     className="rounded-circle"
                     src={loginAvatarImage}
-                    alt="Аватар"
+                    alt={t('avatarImage')}
                   />
                 </div>
                 <Formik
-                  initialValues={{ login: '', password: '' }}
+                  initialValues={{ username: '', password: '' }}
                   validateOnBlur
                   validationSchema={loginSchema}
-                  onSubmit={(values) => {
+                  onSubmit={(values, actions) => {
                     loginRequest(values)
                       .then(() => {
                         navigate('/');
+                      })
+                      .catch((e) => {
+                        console.log(e);
+                        actions.setStatus(401);
+                        actions.setErrors({ password: t('Form.errorWrongUser') });
                       });
                   }}
                 >
@@ -67,26 +74,28 @@ const Login = () => {
                           as="h1"
                           className="text-center"
                         >
-                          Войти
+                          {
+                            t('Form.title')
+                          }
                         </Card.Title>
                         <Form.Group
                           className="mb-3 position-relative"
                         >
                           <Form.Control
-                            value={props.values.login}
+                            value={props.values.username}
                             onBlur={props.handleBlur}
                             onChange={props.handleChange}
-                            isInvalid={props.touched.login && props.errors.login}
-                            name="login"
+                            isInvalid={props.touched.username && props.errors.username}
+                            name="username"
                             type="text"
-                            placeholder="Ваш ник"
-                            aria-label="Логин"
+                            placeholder={t('Form.username')}
+                            aria-label={t('Form.aria.username')}
                           />
                           <Form.Control.Feedback
                             tooltip
                             type="invalid"
                           >
-                            {props.errors.login}
+                            {props.errors.username}
                           </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group
@@ -98,8 +107,8 @@ const Login = () => {
                             isInvalid={props.touched.password && props.errors.password}
                             name="password"
                             type="password"
-                            placeholder="Пароль"
-                            aria-label="Пароль"
+                            placeholder={t('Form.password')}
+                            aria-label={t('Form.aria.password')}
                           />
                           <Form.Control.Feedback
                             tooltip
@@ -119,7 +128,9 @@ const Login = () => {
                           className="w-100"
                           onSubmit={props.handleSubmit}
                         >
-                          Войти
+                          {
+                            t('Form.login')
+                          }
                         </Button>
                       </Form>
                     )
@@ -132,17 +143,21 @@ const Login = () => {
                 <span
                   className="m-1"
                 >
-                  Нет аккаунта?
+                  {
+                    t('Form.noAccount')
+                  }
                 </span>
                 <Card.Link
                   href="/signup"
-                  aria-label="Перейти к регистрации"
+                  aria-label={t('Form.aria.linkRegisterAccount')}
                   onClick={(e) => {
                     e.preventDefault();
                     navigate('/signup');
                   }}
                 >
-                  Регистрация
+                  {
+                    t('Form.registerAccount')
+                  }
                 </Card.Link>
               </Card.Footer>
             </Card>

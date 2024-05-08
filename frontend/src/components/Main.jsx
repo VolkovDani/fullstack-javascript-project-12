@@ -2,6 +2,7 @@ import React, {
   useEffect, useRef, useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchChannels } from '../slices/channels';
 import { authActions, getAuth } from '../slices/auth';
@@ -14,6 +15,7 @@ import RenameChannel from './modals/RenameChannel';
 import MainHeader from './MainHeader';
 
 const InputMessage = () => {
+  const { t } = useTranslation('Components', { keyPrefix: 'Main' });
   const dispatch = useDispatch();
   const inputContainerEl = useRef(null);
   const [value, setValue] = useState('');
@@ -45,21 +47,23 @@ const InputMessage = () => {
         <div className="input-group has-validation">
           <input
             name="body"
-            aria-label="Новое сообщение"
-            placeholder="Введите сообщение..."
+            placeholder={t('InputMessage.enterMessage')}
             className="border-0 p-0 ps-2 form-control"
             value={value}
             onChange={(e) => {
               e.preventDefault();
               setValue(e.target.value);
             }}
+            aria-label={t('InputMessage.aria.enterMessage')}
           />
           <button
             type="submit"
             disabled=""
             className="btn btn-group-vertical"
           >
-            <span className={value ? null : 'visually-hidden'}>Отправить</span>
+            <span className={value ? null : 'visually-hidden'}>
+              {t('InputMessage.sendButton')}
+            </span>
           </button>
         </div>
       </form>
@@ -68,6 +72,7 @@ const InputMessage = () => {
 };
 
 const Chat = (props) => {
+  const { t } = useTranslation('Components', { keyPrefix: 'Main.Chat' });
   const [modalVariant, setShowModal] = useState(false);
   const [idModalChannel, setIdModalChannel] = useState(null);
 
@@ -113,8 +118,9 @@ const Chat = (props) => {
                 <b>Каналы</b>
                 <button
                   type="button"
-                  className="p-0 text-primary btn btn-group-vertical"
+                  className="p-0 text-primary btn btn-group-vertical channel-button"
                   onClick={handleAddModal}
+                  aria-label={t('aria.addChannel')}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />

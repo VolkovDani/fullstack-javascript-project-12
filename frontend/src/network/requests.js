@@ -5,7 +5,7 @@ export const loginRequest = (values) => axios({
   method: 'post',
   url: usersRoutes.login(),
   data: {
-    username: values.login,
+    username: values.username,
     password: values.password,
   },
 }).then((res) => {
@@ -17,7 +17,7 @@ export const signUpRequest = (values) => axios({
   method: 'post',
   url: usersRoutes.signup(),
   data: {
-    username: values.login,
+    username: values.username,
     password: values.password,
   },
 });
