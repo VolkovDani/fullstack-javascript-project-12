@@ -76,6 +76,19 @@ export default {
       },
     },
     SignUp: {
+      username: {
+        minLength: 'От 3 до 20 символов',
+        requiredField: 'Обязательное поле',
+        userExists: 'Такое имя занято',
+      },
+      password: {
+        requiredField: 'Обязательное поле',
+        minLength: 'Не менее 6 символов',
+      },
+      confirmPassword: {
+        requiredField: 'Обязательное поле',
+        oneOf: 'Пароли должны совпадать',
+      },
       alt: {
         avatar: 'Аватар радостного пользователя',
       },
@@ -128,11 +141,5 @@ export default {
     CHANNEL_CREATED: 'Канал успешно создан',
     CHANNEL_RENAMED: 'Канал успешно переименован',
     CHANNEL_DELETED: 'Канал успешно удалён',
-  },
-  yup: {
-    min3max20: 'От 3 до 20 символов',
-    min6: 'Не менее 6 символов',
-    wrongUser: 'Неверные имя пользователя или пароль',
-    requiredField: 'Обязательное поле',
   },
 };

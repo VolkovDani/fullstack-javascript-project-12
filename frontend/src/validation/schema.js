@@ -3,6 +3,7 @@ import * as yup from 'yup';
 export default yup.setLocale({
   mixed: {
     required: 'requiredField',
+    oneOf: 'oneOf',
   },
   string: {
     min: 'minLength',
@@ -40,6 +41,6 @@ export const signUpSchema = yup.object({
     .required(),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('password'), null], 'Пароли должны совпадать')
+    .oneOf([yup.ref('password'), null])
     .required(),
 });

@@ -57,7 +57,6 @@ const SignUp = () => {
                   onSubmit={(values, actions) => {
                     signUpRequest(values)
                       .then((res) => {
-                        console.log(res);
                         const token = JSON.stringify(res.data);
                         localStorage.setItem('user', token);
                       })
@@ -65,7 +64,7 @@ const SignUp = () => {
                         navigate('/');
                       })
                       .catch((err) => {
-                        if (err.response.status === 409) actions.setFieldError('username', t('errors.userExists'));
+                        if (err.response.status === 409) actions.setFieldError('username', 'userExists');
                         else throw new Error(err);
                       });
                   }}
@@ -101,7 +100,11 @@ const SignUp = () => {
                             tooltip
                             type="invalid"
                           >
-                            {props.errors.username}
+                            {
+                             props.errors.username
+                               ? t(`username.${props.errors.username}`)
+                               : null
+                            }
                           </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group
@@ -119,7 +122,11 @@ const SignUp = () => {
                             tooltip
                             type="invalid"
                           >
-                            {props.errors.password}
+                            {
+                             props.errors.password
+                               ? t(`password.${props.errors.password}`)
+                               : null
+                            }
                           </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group
@@ -139,7 +146,11 @@ const SignUp = () => {
                             tooltip
                             type="invalid"
                           >
-                            {props.errors.confirmPassword}
+                            {
+                             props.errors.confirmPassword
+                               ? t(`confirmPassword.${props.errors.confirmPassword}`)
+                               : null
+                            }
                           </Form.Control.Feedback>
                         </Form.Group>
                         <Button
