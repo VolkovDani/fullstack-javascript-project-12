@@ -16,6 +16,11 @@ import { loginSchema } from '../validation/schema';
 import { loginRequest } from '../network/requests';
 
 const Login = () => {
+  const Hello = () => {
+    const a = null;
+    return a.hello;
+  };
+
   const { t } = useTranslation('Components', { keyPrefix: 'Login' });
   const navigate = useNavigate();
   return (
@@ -23,6 +28,7 @@ const Login = () => {
       className="d-flex flex-column h-100"
     >
       <MainHeader />
+      <Hello />
       <Container
         fluid
         className="h-100"
