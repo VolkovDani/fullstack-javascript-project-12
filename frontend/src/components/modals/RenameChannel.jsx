@@ -75,7 +75,11 @@ const RenameChannel = ({ handleSetState, modalState, extraData }) => {
           />
         </form>
         {formik.errors.channelName ? (
-          <div>{formik.errors.channelName}</div>
+          <div>
+            {
+              t('formik.errors.channelName')
+            }
+          </div>
         ) : null}
       </Modal.Body>
       <Modal.Footer>
