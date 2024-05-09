@@ -7,20 +7,11 @@ install:
 start-frontend:
 	make -C frontend start
 
-start-backend:
-	npx start-server
-
 deploy:
 	git push heroku main
-
-start-frontend:
-	make -C frontend start
 
 start-backend:
 	npm start
-
-deploy:
-	git push heroku main
 
 start:
 	make start-backend
