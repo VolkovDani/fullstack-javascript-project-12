@@ -71,7 +71,7 @@ const AddChannel = ({ handleSetState, modalState }) => {
           />
         </form>
         {formik.errors.channelName ? (
-          <div>{formik.errors.channelName}</div>
+          <div>{t(formik.errors.channelName)}</div>
         ) : null}
       </Modal.Body>
       <Modal.Footer>
@@ -79,7 +79,9 @@ const AddChannel = ({ handleSetState, modalState }) => {
           variant="secondary"
           onClick={handleClose}
         >
-          Отменить
+          {
+            t('cancel')
+          }
         </Button>
         <Button
           variant="primary"

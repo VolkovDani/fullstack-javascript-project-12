@@ -13,6 +13,7 @@ const init = async () => {
     .use(initReactI18next)
     .init({
       resources,
+      debug: true,
       fallbackLng: 'ru',
       interpolation: {
         escapeValue: false,

@@ -2,6 +2,7 @@ export default {
   Components: {
     Channels: {
       Dropdown: {
+        channelSettings: 'Управление каналом',
         rename: 'Переименовать',
         delete: 'Удалить',
       },
@@ -52,6 +53,7 @@ export default {
       },
       Chat: {
         channels: 'Каналы',
+        addButton: '+',
         aria: {
           addChannel: 'Добавить канал',
         },
@@ -104,7 +106,7 @@ export default {
         alreadyHaveAccount: 'Уже есть аккаунт?',
         backToLogin: 'Войти',
         aria: {
-          username: 'Введите ваш ник',
+          username: 'Ваш ник',
           backToLogin: 'Вернуться в окно входа',
         },
       },
@@ -117,6 +119,11 @@ export default {
       title: 'Добавить канал',
       inputPlaceholder: 'Твоё название канала',
       sendButton: 'Отправить',
+      cancel: 'Отменить',
+      requiredField: 'Обязательное поле',
+      minLength: 'От 3 до 20 символов',
+      maxLength: 'От 3 до 20 символов',
+
     },
     DeleteChannel: {
       title: 'Удалить канал',

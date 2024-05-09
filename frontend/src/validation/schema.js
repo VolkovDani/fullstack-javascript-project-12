@@ -26,7 +26,7 @@ export const channelsNamingSchema = yup.object({
     .string()
     .min(3)
     .max(20)
-    .required('Имя не должно быть пустым'),
+    .required(),
 });
 
 export const signUpSchema = yup.object({

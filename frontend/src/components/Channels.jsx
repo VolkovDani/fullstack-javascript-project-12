@@ -40,7 +40,13 @@ const Channel = ({ channelEntity, selected, modalHandlers }) => {
             variant={selected ? 'secondary' : 'light'}
             title=""
             split
-          />
+          >
+            <span className="visually-hidden">
+              {
+                t('Dropdown.channelSettings')
+              }
+            </span>
+          </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item
               onClick={modalHandlers.handleRenameChannel}
