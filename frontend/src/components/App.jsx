@@ -8,16 +8,22 @@ import Main from './Main.jsx';
 import store from '../slices/index';
 import SignUp from './SignUp.jsx';
 import '../network/socket.js';
+import MainHeader from './MainHeader.jsx';
 
 const App = () => (
   <Provider store={store}>
     <BrowserRouter>
-      <Routes>
-        <Route path="login" element={<Login />} />
-        <Route path="/" element={<Main />} />
-        <Route path="signup" element={<SignUp />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <div
+        className="d-flex flex-column h-100"
+      >
+        <MainHeader />
+        <Routes>
+          <Route path="login" element={<Login />} />
+          <Route path="/" element={<Main />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   </Provider>
 );
