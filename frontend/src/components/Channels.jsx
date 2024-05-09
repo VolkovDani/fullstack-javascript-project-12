@@ -1,15 +1,11 @@
-import React, {
-  useEffect, useRef,
-} from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import leo from 'leo-profanity';
 
 import { uiActions, getCurrentChannelId } from '../slices/ui';
-import { messagesSelectors } from '../slices/messages';
 import { channelsSelectors } from '../slices/channels';
 
 const basicClassName = 'w-100 rounded-0 text-start text-truncate';
@@ -82,7 +78,7 @@ const Channel = ({ channelEntity, selected, modalHandlers }) => {
   );
 };
 
-export const ChannelsList = ({ channelsModals }) => {
+const ChannelsList = ({ channelsModals }) => {
   const currentChannel = useSelector(getCurrentChannelId);
   const channels = useSelector(channelsSelectors.selectEntities);
   return (
@@ -105,43 +101,4 @@ export const ChannelsList = ({ channelsModals }) => {
   );
 };
 
-export const ChannelMessages = () => {
-  const { t } = useTranslation('Components', { keyPrefix: 'ChannelMessages' });
-
-  const listEl = useRef(null);
-  const currentChannelId = useSelector(getCurrentChannelId);
-  const allMessages = useSelector(messagesSelectors.selectEntities);
-  const currentChannel = useSelector((state) => channelsSelectors
-    .selectById(state, currentChannelId));
-
-  useEffect(() => {
-    if (currentChannel) listEl.current.scrollTo(1, listEl.current.scrollHeight);
-  }, [currentChannel, currentChannelId]);
-  const messages = Object.values(allMessages)
-    .filter(({ channelId }) => channelId === currentChannelId);
-
-  if (!currentChannel) return null;
-  return (
-    <>
-      <div className="bg-light mb-4 p-3 shadow-sm small">
-        <p className="m-0">
-          <b>
-            {`# ${currentChannel.name}`}
-          </b>
-        </p>
-        <span className="text-muted">
-          {`${messages.length} ${t('Header.messagesCount.messages', { count: messages.length })}`}
-        </span>
-      </div>
-      <div id="messages-box" className="chat-messages overflow-auto px-5" ref={listEl}>
-        {messages.length > 0
-          ? messages.map(({ body, username, id }) => (
-            <div className="text-break mb-2" key={id}>
-              <b>{username}</b>
-              {`: ${leo.clean(body)}`}
-            </div>
-          )) : null}
-      </div>
-    </>
-  );
-};
+export default ChannelsList;
