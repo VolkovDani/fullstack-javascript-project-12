@@ -74,7 +74,7 @@ const Login = () => {
                         }
                       </Card.Title>
                       <Form.Group
-                        className="mb-3 position-relative"
+                        className="mb-3 form-floating"
                       >
                         <Form.Control
                           required
@@ -83,10 +83,18 @@ const Login = () => {
                           onChange={props.handleChange}
                           isInvalid={props.touched.username && props.errors.username}
                           name="username"
+                          id="username"
                           type="text"
                           placeholder={t('Form.username')}
                           aria-label={t('Form.aria.username')}
                         />
+                        <Form.Label
+                          htmlFor="username"
+                        >
+                          {
+                            t('Form.username')
+                          }
+                        </Form.Label>
                         <Form.Control.Feedback
                           tooltip
                           type="invalid"
@@ -99,7 +107,7 @@ const Login = () => {
                         </Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group
-                        className="mb-3 position-relative"
+                        className="mb-3 form-floating"
                       >
                         <Form.Control
                           required
@@ -108,9 +116,17 @@ const Login = () => {
                           isInvalid={props.touched.password && props.errors.password}
                           name="password"
                           type="password"
+                          id="password"
                           placeholder={t('Form.password')}
                           aria-label={t('Form.aria.password')}
                         />
+                        <Form.Label
+                          htmlFor="password"
+                        >
+                          {
+                            t('Form.password')
+                          }
+                        </Form.Label>
                         <Form.Control.Feedback
                           tooltip
                           type="invalid"
