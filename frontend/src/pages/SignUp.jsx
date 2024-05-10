@@ -9,14 +9,17 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
+import { useDispatch } from 'react-redux';
 
 import signUpAvatarImage from '../assets/avatar_1.jpg';
 import { signUpSchema } from '../validation/schema';
 import { signUpRequest } from '../network/requests';
+import { authActions } from '../slices/auth';
 
 const SignUp = () => {
   const { t } = useTranslation('Components', { keyPrefix: 'SignUp' });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <Container
       fluid
@@ -53,6 +56,7 @@ const SignUp = () => {
                     .then((res) => {
                       const token = JSON.stringify(res.data);
                       localStorage.setItem('user', token);
+                      dispatch(authActions.setAuth(res.data));
                     })
                     .then(() => {
                       navigate('/');
