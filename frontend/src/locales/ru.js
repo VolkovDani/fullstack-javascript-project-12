@@ -117,7 +117,7 @@ export default {
         profanity: 'Содержит запрещённые слова',
       },
       title: 'Добавить канал',
-      inputPlaceholder: 'Твоё название канала',
+      inputPlaceholder: 'Имя канала',
       sendButton: 'Отправить',
       cancel: 'Отменить',
       requiredField: 'Обязательное поле',

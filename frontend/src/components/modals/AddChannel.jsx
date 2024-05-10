@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import leo from 'leo-profanity';
+import Form from 'react-bootstrap/Form';
 
 import { postNewChannel, channelsSelectors } from '../../slices/channels';
 import { channelsNamingSchema } from '../../validation/schema';
@@ -48,7 +49,7 @@ const AddChannel = ({ handleSetState, modalState }) => {
   };
 
   return (
-    <Modal show={modalState} onHide={handleClose}>
+    <Modal show={modalState} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>
           {
@@ -57,22 +58,39 @@ const AddChannel = ({ handleSetState, modalState }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <form
+        <Form.Group
           onSubmit={formik.handleSubmit}
         >
-          <input
-            onChange={formik.handleChange}
-            className="form-control"
-            name="channelName"
-            type="text"
-            required
+          <Form.Control
             value={formik.values.channelName}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            required
+            className="form-control mb-2"
+            name="channelName"
             placeholder={t('inputPlaceholder')}
+            type="text"
+            id="channelName"
+            isInvalid={!formik.isValid}
           />
-        </form>
-        {formik.errors.channelName ? (
-          <div>{t(formik.errors.channelName)}</div>
-        ) : null}
+          <Form.Label
+            htmlFor="channelName"
+            className="visually-hidden"
+          >
+            {
+              t('inputPlaceholder')
+            }
+          </Form.Label>
+          <Form.Control.Feedback
+            type="invalid"
+          >
+            {
+              formik.errors.channelName
+                ? t(formik.errors.channelName)
+                : null
+            }
+          </Form.Control.Feedback>
+        </Form.Group>
       </Modal.Body>
       <Modal.Footer>
         <Button
