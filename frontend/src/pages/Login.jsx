@@ -87,7 +87,6 @@ const Login = () => {
                             onChange={props.handleChange}
                             isInvalid={props.touched.username && props.errors.username}
                             name="username"
-                            id="username"
                             type="text"
                             placeholder={t('Form.username')}
                             aria-label={t('Form.aria.username')}
@@ -118,7 +117,6 @@ const Login = () => {
                             isInvalid={props.touched.password && props.errors.password}
                             name="password"
                             type="password"
-                            id="password"
                             placeholder={t('Form.password')}
                             aria-label={t('Form.aria.password')}
                           />

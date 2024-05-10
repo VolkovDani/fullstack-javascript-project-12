@@ -96,7 +96,6 @@ const SignUp = () => {
                             isInvalid={props.touched.username && props.errors.username}
                             name="username"
                             type="text"
-                            id="username"
                             placeholder={t('Form.username')}
                           />
                           <Form.Control.Feedback
@@ -124,7 +123,6 @@ const SignUp = () => {
                             isInvalid={props.touched.password && props.errors.password}
                             name="password"
                             type="password"
-                            id="password"
                             placeholder={t('Form.password')}
                           />
                           <Form.Control.Feedback
@@ -154,7 +152,6 @@ const SignUp = () => {
                             onChange={props.handleChange}
                             name="confirmPassword"
                             type="password"
-                            id="confirmPassword"
                             placeholder={t('Form.confirmPassword')}
                           />
                           <Form.Control.Feedback
