@@ -81,7 +81,7 @@ export default {
       username: {
         minLength: 'От 3 до 20 символов',
         requiredField: 'Обязательное поле',
-        userExists: 'Такое имя занято',
+        userExists: 'Такой пользователь уже существует',
       },
       password: {
         requiredField: 'Обязательное поле',
