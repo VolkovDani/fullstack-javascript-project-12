@@ -48,7 +48,7 @@ export default {
         enterMessage: 'Введите сообщение...',
         sendButton: 'Отправить',
         aria: {
-          enterMessage: 'Введите сообщение',
+          enterMessage: 'Новое сообщение',
         },
       },
       Chat: {
