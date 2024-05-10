@@ -86,7 +86,7 @@ const SignUp = () => {
                         className="mb-3"
                       >
                         <Form.FloatingLabel
-                          htmlFor="username"
+                          controlId="username"
                           label={t('Form.username')}
                         >
                           <Form.Control
@@ -115,7 +115,7 @@ const SignUp = () => {
                         className="mb-3"
                       >
                         <Form.FloatingLabel
-                          htmlFor="password"
+                          controlId="password"
                           label={t('Form.password')}
                         >
                           <Form.Control
@@ -143,7 +143,7 @@ const SignUp = () => {
                         className="mb-3"
                       >
                         <Form.FloatingLabel
-                          htmlFor="confirmPassword"
+                          controlId="confirmPassword"
                           label={t('Form.confirmPassword')}
                         >
                           <Form.Control

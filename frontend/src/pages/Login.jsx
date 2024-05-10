@@ -77,7 +77,7 @@ const Login = () => {
                         className="mb-3"
                       >
                         <Form.FloatingLabel
-                          htmlFor="username"
+                          controlId="username"
                           label={t('Form.username')}
                         >
                           <Form.Control
@@ -108,7 +108,7 @@ const Login = () => {
                         className="mb-3"
                       >
                         <Form.FloatingLabel
-                          htmlFor="password"
+                          controlId="password"
                           label={t('Form.password')}
                         >
                           <Form.Control
