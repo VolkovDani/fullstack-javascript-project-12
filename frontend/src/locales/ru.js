@@ -146,7 +146,7 @@ export default {
     ERR_NETWORK: 'Ошибка соединения',
     ERR_BAD_REQUEST: 'Ошибка авторизации',
     CHANNEL_CREATED: 'Канал создан',
-    CHANNEL_RENAMED: 'Канал успешно переименован',
-    CHANNEL_DELETED: 'Канал успешно удалён',
+    CHANNEL_RENAMED: 'Канал переименован',
+    CHANNEL_DELETED: 'Канал удалён',
   },
 };
