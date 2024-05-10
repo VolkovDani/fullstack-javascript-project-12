@@ -51,10 +51,11 @@ const Login = () => {
                     .then(() => {
                       navigate('/');
                     })
-                    .catch((e) => {
-                      console.log(e);
-                      actions.setStatus(401);
-                      actions.setErrors({ password: 'wrongUser' });
+                    .catch((err) => {
+                      if (err.response.status === 401) {
+                        actions.setStatus(401);
+                        actions.setErrors({ password: 'wrongUser' });
+                      } else throw new Error(err);
                     });
                 }}
               >

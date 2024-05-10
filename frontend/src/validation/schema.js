@@ -17,8 +17,7 @@ export const loginSchema = yup.object().shape({
     .min(3)
     .max(20),
   password: yup
-    .string()
-    .min(6),
+    .string(),
 });
 
 export const channelsNamingSchema = yup.object({
