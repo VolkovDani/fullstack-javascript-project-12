@@ -58,39 +58,41 @@ const AddChannel = ({ handleSetState, modalState }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form.Group
+        <Form
           onSubmit={formik.handleSubmit}
         >
-          <Form.Control
-            value={formik.values.channelName}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            required
-            className="form-control mb-2"
-            name="channelName"
-            placeholder={t('inputPlaceholder')}
-            type="text"
-            id="channelName"
-            isInvalid={!formik.isValid}
-          />
-          <Form.Label
-            htmlFor="channelName"
-            className="visually-hidden"
-          >
-            {
-              t('inputPlaceholder')
-            }
-          </Form.Label>
-          <Form.Control.Feedback
-            type="invalid"
-          >
-            {
-              formik.errors.channelName
-                ? t(formik.errors.channelName)
-                : null
-            }
-          </Form.Control.Feedback>
-        </Form.Group>
+          <Form.Group>
+            <Form.Control
+              value={formik.values.channelName}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              required
+              className="mb-2"
+              name="channelName"
+              placeholder={t('inputPlaceholder')}
+              type="text"
+              id="channelName"
+              isInvalid={!formik.isValid}
+            />
+            <Form.Label
+              htmlFor="channelName"
+              className="visually-hidden"
+            >
+              {
+                t('inputPlaceholder')
+              }
+            </Form.Label>
+            <Form.Control.Feedback
+              type="invalid"
+            >
+              {
+                formik.errors.channelName
+                  ? t(formik.errors.channelName)
+                  : null
+              }
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Form>
       </Modal.Body>
       <Modal.Footer>
         <Button
