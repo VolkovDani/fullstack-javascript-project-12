@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Image from 'react-bootstrap/Image';
 import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
 
@@ -34,13 +35,11 @@ const SignUp = () => {
             <Card.Body
               className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-2 p-md-5"
             >
-              <div>
-                <img
-                  className="rounded-circle"
-                  src={signUpAvatarImage}
-                  alt={t('alt.avatar')}
-                />
-              </div>
+              <Image
+                src={signUpAvatarImage}
+                alt={t('alt.avatar')}
+                roundedCircle
+              />
               <Formik
                 initialValues={{
                   username: '',
@@ -80,97 +79,91 @@ const SignUp = () => {
                         }
                       </Card.Title>
                       <Form.Group
-                        className="mb-3 form-floating"
+                        className="mb-3"
                       >
-                        <Form.Control
-                          value={props.values.username}
-                          onBlur={props.handleBlur}
-                          onChange={props.handleChange}
-                          isInvalid={props.touched.username && props.errors.username}
-                          name="username"
-                          type="text"
-                          id="username"
-                          placeholder={t('Form.username')}
-                        />
-                        <Form.Label
+                        <Form.FloatingLabel
                           htmlFor="username"
+                          label={t('Form.username')}
                         >
-                          {
-                            t('Form.username')
-                          }
-                        </Form.Label>
-                        <Form.Control.Feedback
-                          tooltip
-                          type="invalid"
-                        >
-                          {
-                            props.errors.username
-                              ? t(`username.${props.errors.username}`)
-                              : null
-                          }
-                        </Form.Control.Feedback>
+                          <Form.Control
+                            value={props.values.username}
+                            onBlur={props.handleBlur}
+                            onChange={props.handleChange}
+                            isInvalid={props.touched.username && props.errors.username}
+                            name="username"
+                            type="text"
+                            id="username"
+                            placeholder={t('Form.username')}
+                          />
+                          <Form.Control.Feedback
+                            tooltip
+                            type="invalid"
+                          >
+                            {
+                              props.errors.username
+                                ? t(`username.${props.errors.username}`)
+                                : null
+                            }
+                          </Form.Control.Feedback>
+                        </Form.FloatingLabel>
                       </Form.Group>
                       <Form.Group
-                        className="mb-3 form-floating"
+                        className="mb-3"
                       >
-                        <Form.Control
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
-                          isInvalid={props.touched.password && props.errors.password}
-                          name="password"
-                          type="password"
-                          id="password"
-                          placeholder={t('Form.password')}
-                        />
-                        <Form.Label
+                        <Form.FloatingLabel
                           htmlFor="password"
+                          label={t('Form.password')}
                         >
-                          {
-                            t('Form.password')
-                          }
-                        </Form.Label>
-                        <Form.Control.Feedback
-                          tooltip
-                          type="invalid"
-                        >
-                          {
-                            props.errors.password
-                              ? t(`password.${props.errors.password}`)
-                              : null
-                          }
-                        </Form.Control.Feedback>
+                          <Form.Control
+                            onChange={props.handleChange}
+                            onBlur={props.handleBlur}
+                            isInvalid={props.touched.password && props.errors.password}
+                            name="password"
+                            type="password"
+                            id="password"
+                            placeholder={t('Form.password')}
+                          />
+                          <Form.Control.Feedback
+                            tooltip
+                            type="invalid"
+                          >
+                            {
+                              props.errors.password
+                                ? t(`password.${props.errors.password}`)
+                                : null
+                            }
+                          </Form.Control.Feedback>
+                        </Form.FloatingLabel>
                       </Form.Group>
                       <Form.Group
-                        className="mb-3 form-floating"
+                        className="mb-3"
                       >
-                        <Form.Control
-                          isInvalid={
-                            props.touched.confirmPassword && props.errors.confirmPassword
-                          }
-                          onBlur={props.handleBlur}
-                          onChange={props.handleChange}
-                          name="confirmPassword"
-                          type="password"
-                          id="confirmPassword"
-                          placeholder={t('Form.confirmPassword')}
-                        />
-                        <Form.Label
+                        <Form.FloatingLabel
                           htmlFor="confirmPassword"
+                          label={t('Form.confirmPassword')}
                         >
-                          {
-                            t('Form.confirmPassword')
-                          }
-                        </Form.Label>
-                        <Form.Control.Feedback
-                          tooltip
-                          type="invalid"
-                        >
-                          {
-                            props.errors.confirmPassword
-                              ? t(`confirmPassword.${props.errors.confirmPassword}`)
-                              : null
-                          }
-                        </Form.Control.Feedback>
+                          <Form.Control
+                            isInvalid={
+                              props.touched.confirmPassword && props.errors.confirmPassword
+                            }
+                            onBlur={props.handleBlur}
+                            onChange={props.handleChange}
+                            name="confirmPassword"
+                            type="password"
+                            id="confirmPassword"
+                            placeholder={t('Form.confirmPassword')}
+                          />
+                          <Form.Control.Feedback
+                            tooltip
+                            type="invalid"
+                          >
+                            {
+                              props.errors.confirmPassword
+                                ? t(`confirmPassword.${props.errors.confirmPassword}`)
+                                : null
+                            }
+                          </Form.Control.Feedback>
+                        </Form.FloatingLabel>
                       </Form.Group>
                       <Button
                         variant={
