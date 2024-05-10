@@ -3,10 +3,10 @@ import React, {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchChannels } from '../slices/channels';
-import { authActions } from '../slices/auth';
+import { authActions, getAuth } from '../slices/auth';
 import { fetchMessages } from '../slices/messages';
 import AddChannel from '../components/modals/AddChannel';
 import DeleteChannel from '../components/modals/DeleteChannel';
@@ -17,15 +17,23 @@ import Channels from '../components/Channels';
 const Main = () => {
   const navigator = useNavigate();
   const userAuthInfo = JSON.parse(localStorage.getItem('user'));
+  const sliceAuthInfo = useSelector(getAuth);
   const dispatch = useDispatch();
   useEffect(() => {
     if (!userAuthInfo) navigator('/login');
     else {
-      dispatch(authActions.setAuth(userAuthInfo));
-      dispatch(fetchChannels(userAuthInfo.token));
-      dispatch(fetchMessages(userAuthInfo.token));
+      dispatch(fetchChannels(userAuthInfo.token))
+        .then((res) => {
+          if (!res.error) {
+            dispatch(fetchMessages(userAuthInfo.token));
+            dispatch(authActions.setAuth(userAuthInfo));
+          } else if (res.error.code === 'ERR_BAD_REQUEST') {
+            localStorage.removeItem('user');
+            dispatch(authActions.removeAuth());
+          }
+        });
     }
-  });
+  }, [dispatch, navigator, sliceAuthInfo, userAuthInfo]);
   const { t } = useTranslation('Components', { keyPrefix: 'Main.Chat' });
   const [modalVariant, setShowModal] = useState(false);
   const [idModalChannel, setIdModalChannel] = useState(null);

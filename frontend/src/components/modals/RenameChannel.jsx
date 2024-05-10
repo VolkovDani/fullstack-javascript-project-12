@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import leo from 'leo-profanity';
 
 import { channelsSelectors, renameChannel } from '../../slices/channels';
@@ -52,7 +53,7 @@ const RenameChannel = ({ handleSetState, modalState, extraData }) => {
   };
 
   return (
-    <Modal show={modalState} onHide={handleClose}>
+    <Modal show={modalState} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>
           {
@@ -61,26 +62,39 @@ const RenameChannel = ({ handleSetState, modalState, extraData }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <form
+        <Form
           onSubmit={formik.handleSubmit}
         >
-          <input
-            onChange={formik.handleChange}
-            className="form-control"
-            name="channelName"
-            type="text"
-            required
-            value={formik.values.channelName}
-            placeholder={`${t('placeholder')} "${currentChannelName}"`}
-          />
-        </form>
-        {formik.errors.channelName ? (
-          <div>
-            {
-              t('formik.errors.channelName')
-            }
-          </div>
-        ) : null}
+          <Form.Group>
+            <Form.Control
+              onChange={formik.handleChange}
+              className="form-control"
+              name="channelName"
+              type="text"
+              required
+              id="channelName"
+              value={formik.values.channelName}
+              placeholder={t('placeholder')}
+            />
+            <Form.Label
+              htmlFor="channelName"
+              className="visually-hidden"
+            >
+              {
+                t('placeholder')
+              }
+            </Form.Label>
+            <Form.Control.Feedback
+              type="invalid"
+            >
+              {
+                formik.errors.channelName
+                  ? t(formik.errors.channelName)
+                  : null
+              }
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Form>
       </Modal.Body>
       <Modal.Footer>
         <Button

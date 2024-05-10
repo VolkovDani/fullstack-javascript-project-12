@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchChannels } from './channels';
 
 const authSlice = createSlice({
   name: 'auth',
@@ -13,6 +14,15 @@ const authSlice = createSlice({
       token: null,
     }),
   },
+  extraReducers: (builder) => builder
+    .addCase(fetchChannels.rejected, (state, payload) => {
+      if (payload.error) {
+        if (payload.error.code === 'ERR_BAD_REQUEST') {
+          authSlice.actions.removeAuth();
+          localStorage.removeItem('user');
+        }
+      }
+    }),
 });
 
 export const getAuth = (state) => state.auth;
