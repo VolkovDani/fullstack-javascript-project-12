@@ -138,7 +138,7 @@ export default {
       },
       minLength: 'От 3 до 20 символов',
       title: 'Переименовать канал',
-      placeholder: 'Новое название канала',
+      placeholder: 'Имя канала',
       cancel: 'Отменить',
       send: 'Отправить',
     },

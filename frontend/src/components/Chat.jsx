@@ -32,7 +32,7 @@ export const ChannelMessages = () => {
       <div className="bg-light mb-4 p-3 shadow-sm small">
         <p className="m-0">
           <b>
-            {`# ${currentChannel.name}`}
+            {`# ${leo.clean(currentChannel.name)}`}
           </b>
         </p>
         <span className="text-muted">
