@@ -80,7 +80,7 @@ const SignUp = () => {
                         }
                       </Card.Title>
                       <Form.Group
-                        className="mb-3 position-relative"
+                        className="mb-3 form-floating"
                       >
                         <Form.Control
                           value={props.values.username}
@@ -89,8 +89,16 @@ const SignUp = () => {
                           isInvalid={props.touched.username && props.errors.username}
                           name="username"
                           type="text"
+                          id="username"
                           placeholder={t('Form.username')}
                         />
+                        <Form.Label
+                          htmlFor="username"
+                        >
+                          {
+                            t('Form.username')
+                          }
+                        </Form.Label>
                         <Form.Control.Feedback
                           tooltip
                           type="invalid"
@@ -103,7 +111,7 @@ const SignUp = () => {
                         </Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group
-                        className="mb-3 position-relative"
+                        className="mb-3 form-floating"
                       >
                         <Form.Control
                           onChange={props.handleChange}
@@ -111,8 +119,16 @@ const SignUp = () => {
                           isInvalid={props.touched.password && props.errors.password}
                           name="password"
                           type="password"
+                          id="password"
                           placeholder={t('Form.password')}
                         />
+                        <Form.Label
+                          htmlFor="password"
+                        >
+                          {
+                            t('Form.password')
+                          }
+                        </Form.Label>
                         <Form.Control.Feedback
                           tooltip
                           type="invalid"
@@ -125,7 +141,7 @@ const SignUp = () => {
                         </Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group
-                        className="mb-3 position-relative"
+                        className="mb-3 form-floating"
                       >
                         <Form.Control
                           isInvalid={
@@ -135,8 +151,16 @@ const SignUp = () => {
                           onChange={props.handleChange}
                           name="confirmPassword"
                           type="password"
+                          id="confirmPassword"
                           placeholder={t('Form.confirmPassword')}
                         />
+                        <Form.Label
+                          htmlFor="confirmPassword"
+                        >
+                          {
+                            t('Form.confirmPassword')
+                          }
+                        </Form.Label>
                         <Form.Control.Feedback
                           tooltip
                           type="invalid"
