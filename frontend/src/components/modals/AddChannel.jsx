@@ -4,7 +4,6 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-import leo from 'leo-profanity';
 import Form from 'react-bootstrap/Form';
 
 import { postNewChannel, channelsSelectors } from '../../slices/channels';
@@ -26,14 +25,8 @@ const AddChannel = ({ handleSetState, modalState }) => {
       if (!formik.errors.channelName) {
         const channel = Object.values(allChannels).find(({ name }) => channelName === name);
         if (!channel) {
-          if (leo.check(channelName)) {
-            formik.setErrors({
-              channelName: t('errors.profanity'),
-            });
-          } else {
-            dispatch(postNewChannel({ token, channelName }));
-            handleSetState(false);
-          }
+          dispatch(postNewChannel({ token, channelName }));
+          handleSetState(false);
         } else {
           formik.setErrors({
             channelName: t('errors.channelExists'),

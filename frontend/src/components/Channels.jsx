@@ -4,6 +4,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import leo from 'leo-profanity';
 
 import { uiActions, getCurrentChannelId } from '../slices/ui';
 import { channelsSelectors } from '../slices/channels';
@@ -33,7 +34,7 @@ const Channel = ({ channelEntity, selected, modalHandlers }) => {
           >
             <span className="me-1">#</span>
             {
-              name
+              leo.clean(name)
             }
           </Button>
           <Dropdown.Toggle
@@ -77,7 +78,7 @@ const Channel = ({ channelEntity, selected, modalHandlers }) => {
       >
         <span className="me-1">#</span>
         {
-          name
+          leo.clean(name)
         }
       </Button>
     </li>
