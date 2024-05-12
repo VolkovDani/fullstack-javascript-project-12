@@ -2,6 +2,7 @@ export default {
   Components: {
     Channels: {
       Dropdown: {
+        channelSettings: 'Управление каналом',
         rename: 'Переименовать',
         delete: 'Удалить',
       },
@@ -17,6 +18,14 @@ export default {
       },
     },
     Login: {
+      password: {
+        minLength: 'Не менее 6 символов',
+        wrongUser: 'Неверные имя пользователя или пароль',
+      },
+      username: {
+        minLength: 'От 3 до 20 символов',
+        maxLength: 'От 3 до 20 символов',
+      },
       avatarImage: 'Аватар',
       Form: {
         title: 'Войти',
@@ -39,11 +48,12 @@ export default {
         enterMessage: 'Введите сообщение...',
         sendButton: 'Отправить',
         aria: {
-          enterMessage: 'Введите сообщение',
+          enterMessage: 'Новое сообщение',
         },
       },
       Chat: {
         channels: 'Каналы',
+        addButton: '+',
         aria: {
           addChannel: 'Добавить канал',
         },
@@ -68,6 +78,19 @@ export default {
       },
     },
     SignUp: {
+      username: {
+        minLength: 'От 3 до 20 символов',
+        requiredField: 'Обязательное поле',
+        userExists: 'Такой пользователь уже существует',
+      },
+      password: {
+        requiredField: 'Обязательное поле',
+        minLength: 'Не менее 6 символов',
+      },
+      confirmPassword: {
+        requiredField: 'Обязательное поле',
+        oneOf: 'Пароли должны совпадать',
+      },
       alt: {
         avatar: 'Аватар радостного пользователя',
       },
@@ -76,14 +99,14 @@ export default {
       },
       Form: {
         title: 'Регистрация',
-        username: 'Ваш ник',
-        password: 'Ваш пароль',
-        confirmPassword: 'Повторите пароль',
-        confirmRegister: 'Регистрация',
+        username: 'Имя пользователя',
+        password: 'Пароль',
+        confirmPassword: 'Подтвердите пароль',
+        confirmRegister: 'Зарегистрироваться',
         alreadyHaveAccount: 'Уже есть аккаунт?',
         backToLogin: 'Войти',
         aria: {
-          username: 'Введите ваш ник',
+          username: 'Ваш ник',
           backToLogin: 'Вернуться в окно входа',
         },
       },
@@ -94,8 +117,13 @@ export default {
         profanity: 'Содержит запрещённые слова',
       },
       title: 'Добавить канал',
-      inputPlaceholder: 'Твоё название канала',
+      inputPlaceholder: 'Имя канала',
       sendButton: 'Отправить',
+      cancel: 'Отменить',
+      requiredField: 'Обязательное поле',
+      minLength: 'От 3 до 20 символов',
+      maxLength: 'От 3 до 20 символов',
+
     },
     DeleteChannel: {
       title: 'Удалить канал',
@@ -108,8 +136,9 @@ export default {
         profanity: 'Содержит запрещённые слова',
         channelExists: 'Новое имя совпадает с именем другого канала',
       },
+      minLength: 'От 3 до 20 символов',
       title: 'Переименовать канал',
-      placeholder: 'Новое название канала',
+      placeholder: 'Имя канала',
       cancel: 'Отменить',
       send: 'Отправить',
     },
@@ -117,8 +146,8 @@ export default {
   toast: {
     ERR_NETWORK: 'Ошибка соединения',
     ERR_BAD_REQUEST: 'Ошибка авторизации',
-    CHANNEL_CREATED: 'Канал успешно создан',
-    CHANNEL_RENAMED: 'Канал успешно переименован',
-    CHANNEL_DELETED: 'Канал успешно удалён',
+    CHANNEL_CREATED: 'Канал создан',
+    CHANNEL_RENAMED: 'Канал переименован',
+    CHANNEL_DELETED: 'Канал удалён',
   },
 };

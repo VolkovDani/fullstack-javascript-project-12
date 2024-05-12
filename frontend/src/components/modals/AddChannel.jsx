@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-import leo from 'leo-profanity';
+import Form from 'react-bootstrap/Form';
 
 import { postNewChannel, channelsSelectors } from '../../slices/channels';
 import { channelsNamingSchema } from '../../validation/schema';
@@ -25,14 +25,8 @@ const AddChannel = ({ handleSetState, modalState }) => {
       if (!formik.errors.channelName) {
         const channel = Object.values(allChannels).find(({ name }) => channelName === name);
         if (!channel) {
-          if (leo.check(channelName)) {
-            formik.setErrors({
-              channelName: t('errors.profanity'),
-            });
-          } else {
-            dispatch(postNewChannel({ token, channelName }));
-            handleSetState(false);
-          }
+          dispatch(postNewChannel({ token, channelName }));
+          handleSetState(false);
         } else {
           formik.setErrors({
             channelName: t('errors.channelExists'),
@@ -48,7 +42,7 @@ const AddChannel = ({ handleSetState, modalState }) => {
   };
 
   return (
-    <Modal show={modalState} onHide={handleClose}>
+    <Modal show={modalState} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>
           {
@@ -57,29 +51,50 @@ const AddChannel = ({ handleSetState, modalState }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <form
+        <Form
           onSubmit={formik.handleSubmit}
         >
-          <input
-            onChange={formik.handleChange}
-            className="form-control"
-            name="channelName"
-            type="text"
-            required
-            value={formik.values.channelName}
-            placeholder={t('inputPlaceholder')}
-          />
-        </form>
-        {formik.errors.channelName ? (
-          <div>{formik.errors.channelName}</div>
-        ) : null}
+          <Form.Group>
+            <Form.Control
+              value={formik.values.channelName}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              required
+              className="mb-2"
+              name="channelName"
+              placeholder={t('inputPlaceholder')}
+              type="text"
+              id="channelName"
+              isInvalid={!formik.isValid}
+            />
+            <Form.Label
+              htmlFor="channelName"
+              className="visually-hidden"
+            >
+              {
+                t('inputPlaceholder')
+              }
+            </Form.Label>
+            <Form.Control.Feedback
+              type="invalid"
+            >
+              {
+                formik.errors.channelName
+                  ? t(formik.errors.channelName)
+                  : null
+              }
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Form>
       </Modal.Body>
       <Modal.Footer>
         <Button
           variant="secondary"
           onClick={handleClose}
         >
-          Отменить
+          {
+            t('cancel')
+          }
         </Button>
         <Button
           variant="primary"
