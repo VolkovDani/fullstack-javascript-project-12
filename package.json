@@ -2,6 +2,7 @@
   "name": "@hexlet/code",
   "version": "0.0.1",
   "description": "",
+  "main": "index.js",
   "scripts": {
     "build": "npm run build --prefix frontend",
     "start": "start-server -s ./frontend/build",
