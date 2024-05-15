@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 
 import { getCurrentChannelId } from '../slices/ui';
-import { messagesSelectors, sendMessage } from '../slices/messages';
+import { getMessagesByChannelId, sendMessage } from '../slices/messages';
 import { channelsSelectors } from '../slices/channels';
 import { getAuth } from '../slices/auth';
 
@@ -16,15 +16,13 @@ export const ChannelMessages = () => {
 
   const listEl = useRef(null);
   const currentChannelId = useSelector(getCurrentChannelId);
-  const allMessages = useSelector(messagesSelectors.selectEntities);
   const currentChannel = useSelector((state) => channelsSelectors
     .selectById(state, currentChannelId));
 
+  const messages = useSelector((state) => getMessagesByChannelId(state))(currentChannelId);
   useEffect(() => {
     if (currentChannel) listEl.current.scrollTo(1, listEl.current.scrollHeight);
   }, [currentChannel, currentChannelId]);
-  const messages = Object.values(allMessages)
-    .filter(({ channelId }) => channelId === currentChannelId);
 
   if (!currentChannel) return null;
   return (
