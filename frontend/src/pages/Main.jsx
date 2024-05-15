@@ -13,6 +13,7 @@ import DeleteChannel from '../components/modals/DeleteChannel';
 import RenameChannel from '../components/modals/RenameChannel';
 import { ChannelMessages, InputMessage } from '../components/Chat';
 import Channels from '../components/Channels';
+import { pages as pagesRoutes } from '../utils/routes';
 
 const Main = () => {
   const navigator = useNavigate();
@@ -20,7 +21,7 @@ const Main = () => {
   const sliceAuthInfo = useSelector(getAuth);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!userAuthInfo) navigator('/login');
+    if (!userAuthInfo) navigator(pagesRoutes.login());
     else {
       dispatch(fetchChannels(userAuthInfo.token))
         .then((res) => {

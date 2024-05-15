@@ -197,7 +197,7 @@ const SignUp = () => {
                 }
               </span>
               <Card.Link
-                href="/login"
+                href={pagesRoutes.login()}
                 aria-label={t('Form.aria.backToLogin')}
                 onClick={(e) => {
                   e.preventDefault();
