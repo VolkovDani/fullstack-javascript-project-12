@@ -5,7 +5,7 @@ start:
 	npm start
 
 build-project:
-	npm build
+	npm build-project
 
 lint:
 	npx eslint --ext js,jsx --no-eslintrc --config .eslintrc.yml .
