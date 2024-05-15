@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { toastSelectors } from '../slices/toast';
 import { getAuth } from '../slices/auth';
+import { pages as pagesRoutes } from '../utils/routes';
 
 const MainHeader = () => {
   const { t, i18n } = useTranslation('Components', { keyPrefix: 'MainHeader' });
@@ -33,7 +34,7 @@ const MainHeader = () => {
         <div className="container">
           <a
             className="navbar-brand"
-            href="/"
+            href={pagesRoutes.root()}
             aria-label={t('aria.toMainPage')}
           >
             {
@@ -45,7 +46,7 @@ const MainHeader = () => {
               ? (
                 <Button
                   variant="primary"
-                  href="/login"
+                  href={pagesRoutes.login()}
                   onClick={handleAccountExit}
                   aria-label={t('aria.leave')}
                 >

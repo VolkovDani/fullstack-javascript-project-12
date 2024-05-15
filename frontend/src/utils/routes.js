@@ -1,3 +1,9 @@
+export const pages = {
+  signup: () => '/signup',
+  login: () => '/login',
+  root: () => '/',
+};
+
 export const users = {
   login: () => '/api/v1/login',
   signup: () => '/api/v1/signup',

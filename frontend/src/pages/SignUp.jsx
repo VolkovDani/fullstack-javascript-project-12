@@ -15,6 +15,7 @@ import signUpAvatarImage from '../assets/avatar_1.jpg';
 import { signUpSchema } from '../validation/schema';
 import { signUpRequest } from '../network/requests';
 import { authActions } from '../slices/auth';
+import { pages as pagesRoutes } from '../utils/routes';
 
 const SignUp = () => {
   const { t } = useTranslation('Components', { keyPrefix: 'SignUp' });
@@ -59,7 +60,7 @@ const SignUp = () => {
                       dispatch(authActions.setAuth(res.data));
                     })
                     .then(() => {
-                      navigate('/');
+                      navigate(pagesRoutes.root());
                     })
                     .catch((err) => {
                       if (err.response.status === 409) actions.setFieldError('username', 'userExists');
@@ -196,11 +197,11 @@ const SignUp = () => {
                 }
               </span>
               <Card.Link
-                href="/login"
+                href={pagesRoutes.login()}
                 aria-label={t('Form.aria.backToLogin')}
                 onClick={(e) => {
                   e.preventDefault();
-                  navigate('/login');
+                  navigate(pagesRoutes.login());
                 }}
               >
                 {

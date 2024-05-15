@@ -2,6 +2,7 @@ import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk,
+  createSelector,
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { messages as messagesRoute } from '../utils/routes';
@@ -65,5 +66,16 @@ const messagesSlice = createSlice({
 export const messagesSelectors = messagesAdapter.getSelectors(
   (state) => state.messages,
 );
+
+export const getMessagesByChannelId = createSelector(
+  [(state) => state.messages],
+  ({ entities }) => (currentChannelId) => {
+    const neededMessages = Object.values(entities)
+      .filter(({ channelId }) => channelId === currentChannelId);
+
+    return neededMessages;
+  },
+);
+
 export const messagesActions = messagesSlice.actions;
 export default messagesSlice.reducer;

@@ -3,37 +3,38 @@ import React, {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { fetchChannels } from '../slices/channels';
-import { authActions, getAuth } from '../slices/auth';
+import { authActions } from '../slices/auth';
 import { fetchMessages } from '../slices/messages';
 import AddChannel from '../components/modals/AddChannel';
 import DeleteChannel from '../components/modals/DeleteChannel';
 import RenameChannel from '../components/modals/RenameChannel';
 import { ChannelMessages, InputMessage } from '../components/Chat';
 import Channels from '../components/Channels';
+import { pages as pagesRoutes } from '../utils/routes';
 
 const Main = () => {
   const navigator = useNavigate();
   const userAuthInfo = JSON.parse(localStorage.getItem('user'));
-  const sliceAuthInfo = useSelector(getAuth);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!userAuthInfo) navigator('/login');
+    if (!userAuthInfo) navigator(pagesRoutes.login());
     else {
       dispatch(fetchChannels(userAuthInfo.token))
         .then((res) => {
           if (!res.error) {
-            dispatch(fetchMessages(userAuthInfo.token));
             dispatch(authActions.setAuth(userAuthInfo));
+            dispatch(fetchMessages(userAuthInfo.token));
           } else if (res.error.code === 'ERR_BAD_REQUEST') {
+            navigator(pagesRoutes.login());
             localStorage.removeItem('user');
             dispatch(authActions.removeAuth());
           }
         });
     }
-  }, [dispatch, navigator, sliceAuthInfo, userAuthInfo]);
+  }, [dispatch, navigator, userAuthInfo]);
   const { t } = useTranslation('Components', { keyPrefix: 'Main.Chat' });
   const [modalVariant, setShowModal] = useState(false);
   const [idModalChannel, setIdModalChannel] = useState(null);
