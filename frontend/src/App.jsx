@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import './network/socket.js';
+import { pages } from './utils/routes.js';
 import MainHeader from './components/MainHeader.jsx';
 import store from './slices/index';
 import NotFound from './pages/NotFound.jsx';
@@ -19,9 +20,9 @@ const App = () => (
       >
         <MainHeader />
         <Routes>
-          <Route path="signup" element={<SignUp />} />
-          <Route path="login" element={<Login />} />
-          <Route path="/" element={<Main />} />
+          <Route path={pages.signup()} element={<SignUp />} />
+          <Route path={pages.login()} element={<Login />} />
+          <Route path={pages.root()} element={<Main />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import loginAvatarImage from '../assets/avatar.jpg';
 import { loginSchema } from '../validation/schema';
 import { loginRequest } from '../network/requests';
+import { pages as pagesRoutes } from '../utils/routes';
 
 const Login = () => {
   const { t } = useTranslation('Components', { keyPrefix: 'Login' });
@@ -48,7 +49,7 @@ const Login = () => {
                 onSubmit={(values, actions) => {
                   loginRequest(values)
                     .then(() => {
-                      navigate('/');
+                      navigate(pagesRoutes.root());
                     })
                     .catch((err) => {
                       if (err.response.status === 401) {
@@ -167,7 +168,7 @@ const Login = () => {
                 aria-label={t('Form.aria.linkRegisterAccount')}
                 onClick={(e) => {
                   e.preventDefault();
-                  navigate('/signup');
+                  navigate(pagesRoutes.signup());
                 }}
               >
                 {
