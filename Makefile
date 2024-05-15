@@ -21,4 +21,4 @@ develop:
 
 build-project:
 	rm -rf frontend/build
-	npm run build-project
+	npm run build
