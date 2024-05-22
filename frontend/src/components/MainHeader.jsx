@@ -1,29 +1,25 @@
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
-import { toastSelectors } from '../slices/toast';
-import { getAuth } from '../slices/auth';
+import { selectToastMessage } from '../slices/toast';
 import { pages as pagesRoutes } from '../utils/routes';
 
 const MainHeader = () => {
   const { t, i18n } = useTranslation('Components', { keyPrefix: 'MainHeader' });
   const userData = localStorage.getItem('user');
-  const authInfo = useSelector(getAuth);
   const handleAccountExit = () => {
     localStorage.removeItem('user');
   };
-  const infoData = useSelector((state) => toastSelectors.selectById(state, 0));
-  const errorsData = useSelector((state) => toastSelectors.selectById(state, 1));
+  const toastMessage = useSelector(selectToastMessage);
 
-  useEffect(() => {
-  }, [authInfo]);
+  const generatorMessages = {
+    0: () => toast.success(i18n.t(toastMessage.code, { ns: 'toast' })),
+    1: () => toast.error(i18n.t(toastMessage.code, { ns: 'toast' })),
+  };
 
-  useMemo(() => {
-    if (infoData) toast.success(i18n.t(infoData.code, { ns: 'toast' }));
-    if (errorsData) toast.error(i18n.t(errorsData.code, { ns: 'toast' }));
-  }, [infoData, i18n, errorsData]);
+  if (toastMessage) generatorMessages[toastMessage.id]();
 
   return (
     <>

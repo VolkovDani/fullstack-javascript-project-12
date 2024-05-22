@@ -8,12 +8,12 @@ import Form from 'react-bootstrap/Form';
 
 import { postNewChannel, channelsSelectors } from '../../slices/channels';
 import { channelsNamingSchema } from '../../validation/schema';
-import { getAuth } from '../../slices/auth';
+import { selectAuth } from '../../slices/auth';
 
 const AddChannel = ({ handleSetState, modalState }) => {
   const { t } = useTranslation('Components', { keyPrefix: 'AddChannel' });
   const dispatch = useDispatch();
-  const { token } = useSelector(getAuth);
+  const { token } = useSelector(selectAuth);
   const allChannels = useSelector(channelsSelectors.selectEntities);
 
   const formik = useFormik({

@@ -9,7 +9,7 @@ import leo from 'leo-profanity';
 
 import { channelsSelectors, renameChannel, selectChannelById } from '../../slices/channels';
 import { channelsNamingSchema } from '../../validation/schema';
-import { getAuth } from '../../slices/auth';
+import { selectAuth } from '../../slices/auth';
 
 const RenameChannel = ({ handleSetState, modalState, extraData }) => {
   const { t } = useTranslation('Components', { keyPrefix: 'RenameChannel' });
