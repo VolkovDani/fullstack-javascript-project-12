@@ -22,7 +22,7 @@ const Main = () => {
   useEffect(() => {
     if (!authSliceInfo.token) {
       const userAuthInfo = JSON.parse(localStorage.getItem('user'));
-      if (!userAuthInfo.token) navigator(pagesRoutes.login());
+      if (!userAuthInfo) navigator(pagesRoutes.login());
       else {
         dispatch(fetchChannels(userAuthInfo.token))
           .then((res) => {
