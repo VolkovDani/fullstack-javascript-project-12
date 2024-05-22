@@ -5,6 +5,7 @@ import React from 'react';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import leo from 'leo-profanity';
 
 import './assets/application.scss';
 import resources from './locales/index.js';
@@ -34,6 +35,10 @@ const init = async () => {
         escapeValue: false,
       },
     });
+
+  leo.clearList();
+  leo.add(leo.getDictionary('en'));
+  leo.add(leo.getDictionary('ru'));
 
   const rollbarConfig = {
     accessToken: process.env.ROLLBACK_API_KEY,
