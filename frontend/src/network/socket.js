@@ -14,4 +14,7 @@ export default socket
   })
   .on('renameChannel', (payload) => {
     store.dispatch(channelsActions.setNewNameChannel(payload));
+  })
+  .on('removeChannel', (payload) => {
+    store.dispatch(channelsActions.removeChannelById(payload));
   });

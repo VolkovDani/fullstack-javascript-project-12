@@ -76,6 +76,7 @@ const channelsSlice = createSlice({
         changes: payload,
       });
     },
+    removeChannelById: channelsAdapter.removeOne,
   },
   extraReducers: (builder) => {
     builder
