@@ -3,10 +3,10 @@ import React, {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchChannels } from '../slices/channels';
-import { authActions } from '../slices/auth';
+import { authActions, selectAuth } from '../slices/auth';
 import { fetchMessages } from '../slices/messages';
 import AddChannel from '../components/modals/AddChannel';
 import DeleteChannel from '../components/modals/DeleteChannel';
@@ -17,11 +17,12 @@ import { pages as pagesRoutes } from '../utils/routes';
 
 const Main = () => {
   const navigator = useNavigate();
-  const userAuthInfo = JSON.parse(localStorage.getItem('user'));
+  const authSliceInfo = useSelector(selectAuth);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!userAuthInfo) navigator(pagesRoutes.login());
-    else {
+    if (!authSliceInfo.token) {
+      const userAuthInfo = JSON.parse(localStorage.getItem('user'));
+      if (!userAuthInfo) navigator(pagesRoutes.login());
       dispatch(fetchChannels(userAuthInfo.token))
         .then((res) => {
           if (!res.error) {
@@ -34,7 +35,7 @@ const Main = () => {
           }
         });
     }
-  }, [dispatch, navigator, userAuthInfo]);
+  }, [dispatch, navigator, authSliceInfo]);
   const { t } = useTranslation('Components', { keyPrefix: 'Main.Chat' });
   const [modalVariant, setShowModal] = useState(false);
   const [idModalChannel, setIdModalChannel] = useState(null);
@@ -62,7 +63,7 @@ const Main = () => {
 
   const CurrentModal = modals[modalVariant];
 
-  if (userAuthInfo) {
+  if (authSliceInfo) {
     return (
       <>
         <div className="container h-100 my-4 overflow-hidden rounded shadow">
