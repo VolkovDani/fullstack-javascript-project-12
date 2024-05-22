@@ -9,7 +9,6 @@ import leo from 'leo-profanity';
 
 import './assets/application.scss';
 import resources from './locales/index.js';
-import './locales/profanityList.js';
 import './network/socket.js';
 import { pages } from './utils/routes.js';
 import MainHeader from './components/MainHeader.jsx';
