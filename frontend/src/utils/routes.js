@@ -4,7 +4,7 @@ export const pages = {
   root: () => '/',
 };
 
-const verApi = '/api/v1';
+const verApi = process.env.API_VER || '/api/v1';
 
 export const users = {
   login: () => `${verApi}/login`,

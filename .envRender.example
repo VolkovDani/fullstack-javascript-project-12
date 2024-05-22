@@ -1,3 +1,0 @@
-NODE_ENV='development' || 'production'
-ROLLBACK_API_KEY
-ROLLBACK_API_ENV_NAME
