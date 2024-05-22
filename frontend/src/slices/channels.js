@@ -6,9 +6,7 @@ import {
 import axios from 'axios';
 import { channels as channelsRoute } from '../utils/routes';
 
-const channelsAdapter = createEntityAdapter({
-  errors: [],
-});
+const channelsAdapter = createEntityAdapter();
 
 export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',
@@ -68,6 +66,8 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
+    setCurrentChannel: (state, { payload }) => Object
+      .assign(state, { idSelectedChannel: payload }),
     addChannel: channelsAdapter.addOne,
     setChannels: channelsAdapter.setAll,
     setNewNameChannel: (state, { payload }) => {
@@ -79,15 +79,43 @@ const channelsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchChannels.fulfilled, (state, { payload }) => channelsAdapter
-        .setAll(state, payload))
-      .addCase(deleteChannel.fulfilled, (state, { payload }) => channelsAdapter
-        .removeOne(state, payload.id));
+      .addCase(fetchChannels.fulfilled, (state, { payload }) => {
+        channelsAdapter.setAll(state, payload);
+        if (state.idSelectedChannel === null) {
+          return Object.assign(state, {
+            idSelectedChannel: payload[0].id,
+          });
+        }
+        return state;
+      })
+      .addCase(deleteChannel.fulfilled, (state, { payload }) => {
+        channelsAdapter.removeOne(state, payload.id);
+        if (state.idSelectedChannel === payload.id) {
+          return Object.assign(state, {
+            idSelectedChannel: '1',
+          });
+        }
+        return state;
+      })
+      .addCase(postNewChannel.fulfilled, (state, { payload }) => Object.assign(state, {
+        idSelectedChannel: payload.id,
+      }));
   },
 });
+
+export const selectCurrentChannelId = (state) => state.channels.idSelectedChannel;
 
 export const channelsSelectors = channelsAdapter.getSelectors(
   (state) => state.channels,
 );
+
+export const selectCurrentChannel = (state) => {
+  const id = state.channels.idSelectedChannel;
+  return channelsSelectors.selectById(state, id);
+};
+
+export const selectChannelById = (id) => (state) => channelsSelectors
+  .selectById(state, id);
+
 export const channelsActions = channelsSlice.actions;
 export default channelsSlice.reducer;

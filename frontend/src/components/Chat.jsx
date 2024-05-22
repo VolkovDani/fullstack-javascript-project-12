@@ -6,23 +6,19 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-import { getCurrentChannelId } from '../slices/ui';
-import { getMessagesByChannelId, sendMessage } from '../slices/messages';
-import { channelsSelectors } from '../slices/channels';
-import { getAuth } from '../slices/auth';
+import { selectMessagesByChannelId, sendMessage } from '../slices/messages';
+import { selectCurrentChannel, selectCurrentChannelId } from '../slices/channels';
+import { selectAuth } from '../slices/auth';
 
 export const ChannelMessages = () => {
   const { t } = useTranslation('Components', { keyPrefix: 'ChannelMessages' });
 
   const listEl = useRef(null);
-  const currentChannelId = useSelector(getCurrentChannelId);
-  const currentChannel = useSelector((state) => channelsSelectors
-    .selectById(state, currentChannelId));
-
-  const messages = useSelector((state) => getMessagesByChannelId(state))(currentChannelId);
+  const currentChannel = useSelector(selectCurrentChannel);
+  const messages = useSelector(selectMessagesByChannelId);
   useEffect(() => {
     if (currentChannel) listEl.current.scrollTo(1, listEl.current.scrollHeight);
-  }, [currentChannel, currentChannelId]);
+  }, [currentChannel]);
 
   if (!currentChannel) return null;
   return (
@@ -55,14 +51,14 @@ export const InputMessage = () => {
   const dispatch = useDispatch();
   const inputContainerEl = useRef(null);
   const [value, setValue] = useState('');
-  const currentChannel = useSelector(getCurrentChannelId);
-  const authData = useSelector(getAuth);
+  const currentChannelId = useSelector(selectCurrentChannelId);
+  const authData = useSelector(selectAuth);
   const handlerSendMessage = (btnEvent) => {
     btnEvent.preventDefault();
     if (value === '') return;
     const message = {
       body: value,
-      channelId: currentChannel,
+      channelId: currentChannelId,
       username: authData.username,
     };
     dispatch(sendMessage({

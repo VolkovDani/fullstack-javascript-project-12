@@ -6,11 +6,9 @@ import {
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { messages as messagesRoute } from '../utils/routes';
-import { deleteChannel } from './channels';
+import { deleteChannel, channelsActions } from './channels';
 
-const messagesAdapter = createEntityAdapter({
-  errors: [],
-});
+const messagesAdapter = createEntityAdapter();
 
 export const sendMessage = createAsyncThunk(
   'messages/sendMessage',
@@ -41,12 +39,16 @@ export const fetchMessages = createAsyncThunk(
   },
 );
 
-const initialState = messagesAdapter.getInitialState();
+const initialState = messagesAdapter.getInitialState({
+  idSelectedChannel: '1',
+});
 
 const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
+    setCurrentChannelId: (state, { payload }) => Object
+      .assign(state, { idSelectedChannel: payload }),
     setMessages: messagesAdapter.setAll,
     addMessage: messagesAdapter.addOne,
   },
@@ -59,7 +61,9 @@ const messagesSlice = createSlice({
           .filter(([, { channelId }]) => channelId === payload.id)
           .map(([key]) => key);
         messagesAdapter.removeMany(state, entitiesForDeleting);
-      });
+      })
+      .addCase(channelsActions.setCurrentChannel, (state, { payload }) => Object
+        .assign(state, { idSelectedChannel: payload }));
   },
 });
 
@@ -67,11 +71,11 @@ export const messagesSelectors = messagesAdapter.getSelectors(
   (state) => state.messages,
 );
 
-export const getMessagesByChannelId = createSelector(
-  [(state) => state.messages],
-  ({ entities }) => (currentChannelId) => {
+export const selectMessagesByChannelId = createSelector(
+  (state) => state.messages,
+  ({ entities, idSelectedChannel }) => {
     const neededMessages = Object.values(entities)
-      .filter(({ channelId }) => channelId === currentChannelId);
+      .filter(({ channelId }) => channelId === idSelectedChannel);
 
     return neededMessages;
   },

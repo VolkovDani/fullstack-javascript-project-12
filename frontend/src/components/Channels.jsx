@@ -6,8 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import leo from 'leo-profanity';
 
-import { uiActions, getCurrentChannelId } from '../slices/ui';
-import { channelsSelectors } from '../slices/channels';
+import { channelsSelectors, channelsActions, selectCurrentChannelId } from '../slices/channels';
 
 const basicClassName = 'w-100 rounded-0 text-start text-truncate';
 
@@ -17,7 +16,7 @@ const Channel = ({ channelEntity, selected, modalHandlers }) => {
   const dispatch = useDispatch();
   const handleChangeChannel = (e) => {
     e.preventDefault();
-    dispatch(uiActions.setCurrentChannel(channelEntity.id));
+    dispatch(channelsActions.setCurrentChannel(channelEntity.id));
   };
   if (removable) {
     return (
@@ -86,13 +85,13 @@ const Channel = ({ channelEntity, selected, modalHandlers }) => {
 };
 
 const ChannelsList = ({ channelsModals }) => {
-  const currentChannel = useSelector(getCurrentChannelId);
+  const currentChannelId = useSelector(selectCurrentChannelId);
   const channels = useSelector(channelsSelectors.selectEntities);
   return (
     <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
       {channels ? Object.values(channels).map((entity) => {
         const { id } = entity;
-        if (Number(id) === Number(currentChannel)) {
+        if (Number(id) === Number(currentChannelId)) {
           return (
             <Channel
               channelEntity={entity}

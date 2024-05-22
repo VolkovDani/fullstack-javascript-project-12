@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import leo from 'leo-profanity';
 
-import { channelsSelectors, renameChannel } from '../../slices/channels';
+import { channelsSelectors, renameChannel, selectChannelById } from '../../slices/channels';
 import { channelsNamingSchema } from '../../validation/schema';
 import { getAuth } from '../../slices/auth';
 
@@ -16,10 +16,8 @@ const RenameChannel = ({ handleSetState, modalState, extraData }) => {
   const dispatch = useDispatch();
   const channelId = extraData;
   const allChannels = useSelector(channelsSelectors.selectEntities);
-  const { token } = useSelector(getAuth);
-  const { name: currentChannelName } = useSelector(
-    (state) => channelsSelectors.selectById(state, channelId),
-  );
+  const { token } = useSelector(selectAuth);
+  const { name: currentChannelName } = useSelector(selectChannelById(channelId));
 
   const formik = useFormik({
     initialValues: {
