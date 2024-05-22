@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-import { selectMessagesByChannelId, sendMessage } from '../slices/messages';
+import { selectMessages, sendMessage } from '../slices/messages';
 import { selectCurrentChannel, selectCurrentChannelId } from '../slices/channels';
 import { selectAuth } from '../slices/auth';
 
@@ -15,7 +15,7 @@ export const ChannelMessages = () => {
 
   const listEl = useRef(null);
   const currentChannel = useSelector(selectCurrentChannel);
-  const messages = useSelector(selectMessagesByChannelId);
+  const messages = useSelector(selectMessages);
   useEffect(() => {
     if (currentChannel) listEl.current.scrollTo(1, listEl.current.scrollHeight);
   }, [currentChannel]);
