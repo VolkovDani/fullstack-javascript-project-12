@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { selectToastMessage } from '../slices/toast';
 import { pages as pagesRoutes } from '../utils/routes';
+import { selectAuth } from '../slices/auth';
 
 const MainHeader = () => {
   const { t, i18n } = useTranslation('Components', { keyPrefix: 'MainHeader' });
-  const userData = localStorage.getItem('user');
+  const authInfo = useSelector(selectAuth);
   const handleAccountExit = () => {
     localStorage.removeItem('user');
   };
   const toastMessage = useSelector(selectToastMessage);
+  useEffect(() => {
+  }, [authInfo]);
 
   const generatorMessages = {
     0: () => toast.success(i18n.t(toastMessage.code, { ns: 'toast' })),
@@ -38,7 +41,7 @@ const MainHeader = () => {
             }
           </a>
           {
-            userData
+            authInfo.token
               ? (
                 <Button
                   variant="primary"
